@@ -1,0 +1,68 @@
+@import "/src/assets/scss/variables";
+.pin {
+    position: absolute;
+    top: -35px;
+    left: 8px;
+    z-index: 1;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 0;
+    &.navigation {
+        width: 215px;
+        position: relative;
+        background: $application-base-color;
+        margin-top: 45px !important;
+        app-svg-icon {
+            margin-left: 10px;
+            display: inline-block;
+            color: $navigation-colour;
+            font-size: 20px;
+            margin-right: 15px;
+            svg {
+              fill: $whight-colour !important;
+            }
+        }
+        a {
+            color: $navigation-colour;
+            text-transform: uppercase;
+            text-decoration: none;
+            display: inline-block;
+            vertical-align: super;
+            font-size: 16px;
+            cursor: pointer;
+            span {
+                -webkit-transition: width 1.5s ease-out;
+                -moz-transition: width 1.5s ease-out;
+                -o-transition: width 1.5s ease-out;
+                transition: width 1.5s ease-out;
+                transform: scale(1);
+                display: inline-block;
+            }
+            &:hover,
+            &.active {
+                color: $whight-colour;
+                cursor: pointer;
+                app-svg-icon {
+                    color: $whight-colour;
+                }
+            }
+            &:hover {
+                span {
+                    transform: scale(1.03);
+                }
+            }
+        }
+    }
+    &.sub-nav {
+        li {
+            padding-left: 63px;
+            a {
+              &::before {
+                content: "- ";
+              }
+            }
+        }
+    }
+}

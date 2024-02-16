@@ -1,0 +1,254 @@
+<div class="head-image">
+  <!--<img src="../../../assets/images/white-logo.png" alt="logo" class="p-3 d-inline-block centered-logos" />-->
+  <h3 class="d-inline-block">CLR</h3>
+</div>
+<div class="white-bg-box  min-max-width-550 min-height-200 login-center full-border" >
+  <ng-container *ngIf="showLoginSignupScreen">
+    <mat-tab-group animationDuration="0ms" [selectedIndex]="selectedTabIndex" (selectedTabChange)="selectedTabChange($event)">
+
+      <!--<mat-tab label="{{'signup' | translate}}">
+          <form [formGroup]="registerForm" (ngSubmit)="onSubmitRegForm()" class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                  <label for="FirstName" class="required">{{'common.first-name' | translate}}</label>
+                  <input placeholder="John" type="text" appCharactorOnly formControlName="FirstName" class="form-control" [ngClass]="{ 'is-invalid': submittedReg && signup['FirstName'].errors }" />
+                  <div class="invalid-feedback">
+                      <div *ngIf="registerForm.get('FirstName')?.hasError('required') && registerForm.get('FirstName')?.touched || submittedReg && signup['FirstName'].errors">{{'first_name_is_required' | translate}}</div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label for="LastName" class="required">{{'common.last-name' | translate}}</label>
+                  <input type="text" placeholder="Done" appCharactorOnly formControlName="LastName" class="form-control" [ngClass]="{ 'is-invalid': submittedReg && signup['LastName'].errors }" />
+                  <div class="invalid-feedback">
+                      <div *ngIf="registerForm.get('LastName')?.hasError('required') && registerForm.get('LastName')?.touched || submittedReg && signup['LastName'].errors">{{'last_name_is_required' | translate}}</div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+              <div class="form-group">
+                  <label for="CompanyName" class="required">{{'common.company-name' | translate}}</label>
+                  <input placeholder="{{ 'customer-company-name' | translate }}" type="text" formControlName="CompanyName" class="form-control" [ngClass]="{ 'is-invalid': submittedReg && signup['CompanyName'].errors }" />
+                  <div class="invalid-feedback">
+                      <div *ngIf="registerForm.get('CompanyName')?.hasError('required') && registerForm.get('CompanyName')?.touched || submittedReg && signup['CompanyName'].errors">{{'company_name_is_required' | translate}}</div>
+                      <div *ngIf="registerForm.get('CompanyName')?.hasError('pattern') && registerForm.get('CompanyName')?.touched || submittedReg && signup['CompanyName'].errors && registerForm.get('CompanyName')?.value">{{'common.company-name' | translate}} {{ "common.is_not_valid" | translate }}</div>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+                <label for="Designation">{{'common.designation' | translate}} ( {{'optional' | translate}} )</label>
+                <input type="text" formControlName="Designation" placeholder="{{ 'customer-designation' | translate }}" class="form-control" [ngClass]="{ 'is-invalid': submittedReg && signup['Designation'].errors }" />
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="EmailId" class="required">{{'common.email-id' | translate}}</label>
+                <input type="text" placeholder="{{'customer-email-id' | translate}}" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" formControlName="EmailId" class="form-control" [ngClass]="{ 'is-invalid': submittedReg && signup['EmailId'].errors }" />
+                <div class="invalid-feedback">
+                  <div *ngIf="registerForm.get('EmailId')?.hasError('required') && registerForm.get('EmailId')?.touched || submittedReg && signup['EmailId'].errors">{{'common.email-id' | translate}} {{'common.is_required' | translate}}</div>
+                  <div *ngIf="registerForm.get('EmailId')?.hasError('pattern') && registerForm.get('EmailId')?.touched || submittedReg && signup['EmailId'].errors && registerForm.get('EmailId')?.value">{{'common.email-id' | translate}} {{'common.is_not_valid' | translate}}</div>
+              </div>
+              </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="ContactNo">{{'contact_no' | translate}}</label>
+                <input placeholder="{{'customer-contact' | translate}}" type="text" formControlName="ContactNo" class="form-control" maxlength="50" [ngClass]="{ 'is-invalid': submittedReg && signup['ContactNo'].errors || registerForm.get('ContactNo')?.hasError('pattern') }" />
+                <div class="invalid-feedback">
+                  <div *ngIf="registerForm.get('ContactNo')?.hasError('pattern')">
+                    {{'contact_no' | translate}}{{ "common.is_not_valid" | translate }}
+                            </div>
+                  </div>
+            </div>
+        </div>
+        <div class="terms-conditions">
+          <mat-checkbox formControlName="AgreeTermsAndConditions" color="primary" class="example-margin mr-2"></mat-checkbox>
+          <span class="d-inline-block ml-10px">{{'i_accept_all' | translate}} <a class="cursor-pointer link" (click)="openDialog()">{{'terms_and_conditions' | translate}}</a> {{'to_signup_railcar_lounge' | translate}}</span>
+          <div class="form-group mt-2">
+              <button class="float-end" [disabled]="!registerForm.value.AgreeTermsAndConditions" type="submit" mat-raised-button color="primary">{{'signup_s' | translate}}</button>
+          </div>
+      </div>
+
+          </form>
+      </mat-tab>-->
+
+      <mat-tab label="{{'login' | translate}}">
+          <form [formGroup]="loginForm" (ngSubmit)="onSubmitLoginForm()">
+
+                  <div class="row mb-2">
+                      <div class="col-md-7">
+                          <div class="form-group">
+                              <label for="userName" class="required">{{'userName' | translate}}</label>
+                              <input type="text" placeholder="{{'customer-email-id' | translate}}" formControlName="userName" class="form-control" [ngClass]="{ 'is-invalid': submittedLogin && login['userName'].errors }" />
+                              <div class="invalid-feedback">
+                                  <div *ngIf="loginForm.get('userName')?.hasError('required') && loginForm.get('userName')?.touched || submittedLogin && login['userName'].errors && !loginForm.get('userName')?.hasError('incorrect')">{{'username_is_required' | translate}}</div>
+                                  <div *ngIf="loginForm.get('userName')?.hasError('incorrect')">Username or Password is not valid</div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-5">
+                          <div class="form-group">
+                              <label for="password" class="required">{{'Password' | translate}}</label>
+                              <input maxlength="20" type="Password" (blur)="checkUserIncorrect()"  placeholder="********" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submittedLogin && login['password'].errors }" />
+                              <div class="invalid-feedback">
+                                  <div *ngIf="loginForm.get('password')?.hasError('required') && loginForm.get('password')?.touched && loginForm.get('password')?.value === '' || submittedLogin && login['password'].errors">{{'password_is_required' | translate}}</div>
+                                  <div *ngIf="loginForm.get('password')?.hasError('minlength') && loginForm.get('password')?.touched || submittedLogin && login['password'].errors && loginForm.get('password')?.value">{{'password_must_be_at_least_8_characters' | translate}}</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+
+                <div class="float-end">
+                  <p class="cursor-pointer link" (click)="onForgotPassword()">{{'forgot-password' | translate}} ?</p>
+                </div>
+                <div class="clearfix"></div>
+                  <button class="float-end" type="submit" mat-raised-button color="primary">{{'login' | translate}}</button>
+          </form>
+      </mat-tab>
+  </mat-tab-group>
+  </ng-container>
+  <div class="row" *ngIf="showSignupSubmitScreen">
+      <div class="col-md-12">
+        <div class="vertical-center min-height-200">
+          <p>Thank you for signing up. We have sent a confirmation link on your registered email address.</p>
+        </div>
+
+      </div>
+  </div>
+  <div class="row min-width-500" *ngIf="showForgotPasswordScreen" [formGroup]="forgotPasswordForm">
+
+    <div class="col-12">
+      <h3 class="mb-0">{{'forgot-password' | translate}}</h3>
+    </div>
+    <div class="col-md-8" [formGroup]="forgotPasswordForm">
+      <div class="form-group">
+          <label for="EmailId" class="required">{{'common.email-id' | translate}}</label>
+          <input type="text" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" placeholder="{{'customer-email-id' | translate}}" formControlName="EmailId" class="form-control" [ngClass]="{ 'is-invalid': submittedForgo && forgot['EmailId'].errors }" />
+          <div class="invalid-feedback">
+              <div *ngIf="forgotPasswordForm.get('EmailId')?.hasError('required') && forgotPasswordForm.get('EmailId')?.touched && forgotPasswordForm.get('EmailId')?.value === '' || submittedForgo && forgot['EmailId'].errors">{{'common.email-id' | translate}} {{'common.is_required' | translate}}</div>
+              <div *ngIf="forgotPasswordForm.get('EmailId')?.hasError('pattern') && forgotPasswordForm.get('EmailId')?.touched || submittedForgo && forgot['EmailId'].errors && forgotPasswordForm.get('EmailId')?.value">{{'common.email-id' | translate}} {{'common.is_not_valid' | translate}}</div>
+            </div>
+      </div>
+  </div>
+  <div class="col-md-12">
+    <div class="float-end">
+      <button  type="button" (click)="onBackToLogin()" class="secondary-btn mr-2" mat-raised-button>{{'common.back' | translate}}</button>
+      <button  type="submit" (click)="onSubmitForgotPassword()" mat-raised-button color="primary">{{'common.send' | translate}}</button>
+    </div>
+  </div>
+
+
+  </div>
+
+  <div class="row" *ngIf="showForgotPasswordSubmitScreen">
+    <ng-template [ngIf]="forgotEmailValid" [ngIfElse]="showValidatingAccount">
+    <div class="col-md-12">
+      <div class="vertical-center min-height-200">
+        <p>Thank for you for your request to reset your password for Standard Rail’s Railcar Lounge.  Your password can be reset by clicking on the link sent to your registered email <strong> {{forgotPasswordForm.get('EmailId')?.value}}</strong> </p>
+      </div>
+      <div class="clearfix"></div>
+      <button class="float-end ng-mt-35" type="submit" (click)="onBackToLogin()" mat-raised-button color="primary">{{'back-to-login' | translate}}</button>
+    </div>
+  </ng-template>
+    <ng-template #showValidatingAccount>
+      <div class="col-12">
+        <div class="vertical-center min-height-200">
+          <h3 class="position-absolute">{{'validating' | translate}}</h3>
+          <p>We are validating your email address. Please wait!</p>
+        </div>
+      </div>
+    </ng-template>
+</div>
+  <div class="row min-width-500" *ngIf="showResetPasswordScreen" >
+    <ng-template [ngIf]="resetEmailValid === true" [ngIfElse]="showValidatingAccount">
+      <div class="col-12">
+        <div class="vertical-center min-height-200">
+          <ng-template [ngIf]="isEmailValidOnReset === true" [ngIfElse]="mailValidationFailed">
+            <h3 class="position-absolute">{{'validating' | translate}}</h3>
+            <p>We are validating your password reset request. Please wait!</p>
+          </ng-template>
+          <ng-template #mailValidationFailed>
+            <ng-container *ngIf="tokenStatus === 1">
+              <h3 class="position-absolute">{{'validating' | translate}}</h3>
+              <p>We are validating your password reset request. Please wait!</p>
+            </ng-container>
+            <ng-container *ngIf="tokenStatus === 2 && !isEmailValidOnReset">
+              <h3 class="position-absolute">Verification Failed</h3>
+              <p>Token validation failed, if the token has expired you can get a new one at the <a routerLink="../forgot-password">forgot password</a>.</p>
+            </ng-container>
+          </ng-template>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #showValidatingAccount [formGroup]="resetPasswordForm">
+      <div class="col-12">
+        <h3 class="mb-0">{{'reset-password' | translate}}</h3>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+            <label for="Password" class="required d-block">{{'new-password' | translate}}<span matTooltipClass="info-tooltip" class="d-inline-block max-25 cursor-pointer float-end" matTooltip="{{ 'password-info' | translate}}"><mat-icon>info_outline</mat-icon></span></label>
+            <input autocomplete="new-password" maxlength="20" type="password" placeholder="{{'customer-password' | translate}}" formControlName="Password" class="form-control" [ngClass]="{ 'is-invalid': submittedResetPwd && forgot['Password'].errors }" />
+            <div class="invalid-feedback">
+                <div *ngIf="resetPasswordForm.get('Password')?.hasError('required') && resetPasswordForm.get('Password')?.touched || submittedResetPwd && reset['Password'].errors">{{'new-password' | translate}} {{'common.is_required' | translate}}</div>
+                <div *ngIf="resetPasswordForm.get('Password')?.hasError('minlength') && resetPasswordForm.get('Password')?.touched || submittedResetPwd && reset['Password'].errors && resetPasswordForm.get('Password')?.value">{{'password_must_be_at_least_8_characters' | translate}}</div>
+                <div *ngIf="resetPasswordForm.get('Password')?.hasError('pattern') && resetPasswordForm.get('Password')?.touched || submittedResetPwd && reset['Password'].errors && resetPasswordForm.get('Password')?.value">{{'password-info' | translate}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+      <div class="form-group">
+          <label for="ConfirmPassword" class="required d-block">{{'confirm-password' | translate}}<span matTooltipClass="info-tooltip" class="d-inline-block max-25 cursor-pointer float-end" matTooltip="{{ 'password-info' | translate}}"><mat-icon>info_outline</mat-icon></span></label>
+          <input maxlength="15" autocomplete="new-password" type="password" [placeholder]="'customer-password' | translate" formControlName="ConfirmPassword" class="form-control" [ngClass]="{ 'is-invalid': submittedResetPwd && reset['ConfirmPassword'].errors || resetPasswordForm.hasError('isFieldEqual') }" />
+          <div class="invalid-feedback">
+              <div *ngIf="resetPasswordForm.get('ConfirmPassword')?.hasError('required') && resetPasswordForm.get('ConfirmPassword')?.touched || submittedResetPwd && reset['ConfirmPassword'].errors">{{'confirm-password' | translate}} {{'common.is_required' | translate}}</div>
+              <div *ngIf="resetPasswordForm.hasError('isFieldEqual')">
+                {{'error.passwordFieldsMatchIssue' | translate}}
+              </div>
+              <div *ngIf="resetPasswordForm.get('ConfirmPassword')?.hasError('minlength') && resetPasswordForm.get('ConfirmPassword')?.touched || submittedResetPwd && reset['ConfirmPassword'].errors && resetPasswordForm.get('ConfirmPassword')?.value">{{'password_must_be_at_least_8_characters' | translate}}</div>
+            </div>
+      </div>
+  </div>
+    <div class="col-md-12 mt-3">
+      <div class="float-end">
+        <button  type="submit" (click)="onSubmitResetPassword()" mat-raised-button color="primary">{{'common.update' | translate}}</button>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    </ng-template>
+  </div>
+  <div class="row min-width-500" *ngIf="showVerifyEmailScreen">
+    <ng-template [ngIf]="verifyEmailValid" [ngIfElse]="showValidating">
+      <div class="col-12">
+        <div class="vertical-center min-height-200">
+          <h3 class="position-absolute">{{'validating' | translate}}</h3>
+          <p>We are validating your email address. Please wait!</p>
+        </div>
+      </div>
+    </ng-template>
+    <ng-template #showValidating>
+      <div class="col-md-12">
+        <div class="vertical-center min-height-200">
+          <ng-container *ngIf="emailVerificationStatus"> <p>Your email address is valid. You will receive confirmation from Admin with username and
+            password with which you will be able to login into railcar lounge.
+          </p></ng-container>
+          <ng-container *ngIf="!emailVerificationStatus"><p>Verification failed, you can also verify your account using the <a routerLink="../forgot-password">forgot password</a> page.
+          </p></ng-container>
+        </div>
+        <div class="clearfix"></div>
+        <button class="float-end ng-mt-35" type="submit" (click)="onBackToLogin()" mat-raised-button color="primary">{{'back-to-login' | translate}}</button>
+      </div>
+    </ng-template>
+  </div>
+
+  <div class="row" *ngIf="showResetPasswordSubmitScreen">
+    <div class="col-md-12">
+      <div class="vertical-center min-height-200">
+        <p [innerHTML]="resetPasswordMessage"></p>
+      </div>
+      <div class="clearfix"></div>
+      <button class="float-end ng-mt-35" type="submit" (click)="onBackToLogin()" mat-raised-button color="primary">{{'back-to-login' | translate}}</button>
+    </div>
+</div>
+</div>

@@ -1,0 +1,93 @@
+<div class="min-width-500">
+<div class="header">
+  <h1 mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" cdkDragHandle>{{'common.add-new' | translate}} {{ pageTitle}}</h1>
+  <button class="icon" (click)="onClosePopup()" title="Close">x</button>
+</div>
+<div mat-dialog-content>
+  <form [formGroup]="OrganizationForm" class="row">
+    <div class="col-lg-5 col-md-12 mb-2">
+      <div class="form-group">
+        <label for="Name" class="required">{{
+          "common.name" | translate
+        }}</label>
+        <input
+          placeholder="{{'customer-company-name' | translate}}"
+          type="text"
+          maxlength="50"
+          formControlName="Name"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              isOrganizationSaveRequestRaised &&
+              getOrganizationFormControl['Name'].errors ||
+              OrganizationForm.get('Name')?.hasError('pattern')
+          }"
+        />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              (OrganizationForm.get('Name')?.hasError('required') &&
+                OrganizationForm.get('Name')?.touched) ||
+              (isOrganizationSaveRequestRaised &&
+              getOrganizationFormControl['Name'].errors)
+            "
+          >
+          {{ "common.name" | translate
+        }}{{ "common.is_required" | translate }}
+          </div>
+          <div *ngIf="OrganizationForm.controls['Name'].hasError('pattern')">
+            {{ "common.name" | translate}} {{ "common.is_not_valid" | translate }}
+          </div>
+          <div
+            *ngIf="(isAlreadyExist && !OrganizationForm.get('Name')?.hasError('required'))">
+            {{ "common.name_already_exist" | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-7 col-md-12 mb-2">
+      <div class="form-group">
+        <label for="Description">{{
+          "common.description" | translate
+        }}</label>
+        <textarea
+        type="text"
+        placeholder="{{ 'customer-description' | translate }}"
+        formControlName="Description"
+        class="form-control height-5"
+      ></textarea>
+      </div>
+    </div>
+  </form>
+</div>
+
+<div class="row mt-4" mat-dialog-actions>
+    <div class="col-12">
+<div class="float-end">
+    <button
+        class="secondary-btn mr-2"
+        type="button"
+        mat-raised-button
+        (click)="onClosePopup()"
+      >
+        {{ "common.cancel" | translate }}
+      </button>
+        <button
+          class="secondary-btn mr-2"
+          type="button"
+          mat-raised-button
+          (click)="onReset()"
+        >
+          {{ "common.reset" | translate }}
+        </button>
+        <button
+      type="button"
+      mat-raised-button
+      color="primary"
+      (click)="onSubmitOrganizationForm()"
+    >
+      {{ "common.save" | translate }}
+    </button>
+    </div>
+</div>
+</div>

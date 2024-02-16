@@ -1,0 +1,193 @@
+<!-- <button (click)="editMode()">Edit</button> -->
+<h3 class="head-title">
+  <app-page-title></app-page-title>
+</h3>
+<div class="search-holder mb-2" [ngClass]="{isViewMode: isViewMode}">
+  <form [formGroup]="userForm" class="row">
+    <div class="col-md-3 text-center">
+      <div class="profile-picture">
+        <span>{{ profileName }}</span>
+      </div>
+      <!-- <input hidden (change)="selectFile($event)" #fileInput type="file" id="file"> -->
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <!-- <div class="col-md-4 mb-2">
+          <div class="form-group">
+              <label for="ProfileName">{{'common.profile-name' | translate}}</label>
+              <input type="text" appCharactorOnly formControlName="ProfileName" class="form-control" />
+          </div>
+      </div> -->
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label for="FirstName" class="required">{{
+              "common.first-name" | translate
+              }}</label>
+            <input type="text" autocomplete="first-names" formControlName="FirstName" appCharactorOnly maxlength="50" class="form-control"
+              placeholder="John" [ngClass]="{
+                'is-invalid':
+                  isUserDetailSubmitted && userFormControl['FirstName'].errors
+              }" />
+            <div class="invalid-feedback">
+              <div *ngIf="
+                  (userForm.get('FirstName')?.hasError('required') &&
+                    userForm.get('FirstName')?.touched) ||
+                  (isUserDetailSubmitted && userFormControl['FirstName'].errors)
+                ">
+                {{ "common.first-name" | translate }}
+                {{ "common.is_required" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label for="LastName" class="required">{{
+              "common.last-name" | translate
+              }}</label>
+            <input type="text" autocomplete="last-name" formControlName="LastName" class="form-control" placeholder="Doe" appCharactorOnly
+              maxlength="50" [ngClass]="{
+                'is-invalid':
+                  isUserDetailSubmitted && userFormControl['LastName'].errors
+              }" />
+            <div class="invalid-feedback">
+              <div *ngIf="
+                  (userForm.get('LastName')?.hasError('required') &&
+                    userForm.get('LastName')?.touched) ||
+                  (isUserDetailSubmitted && userFormControl['LastName'].errors)
+                ">
+                {{ "common.last-name" | translate }}
+                {{ "common.is_required" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label for="EmailId" class="required">{{
+              "common.email-id" | translate
+              }}</label>
+            <input type="text" formControlName="EmailId" class="form-control"
+              placeholder="{{'customer-email-id' | translate}}" pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+              [ngClass]="{
+                'is-invalid':
+              userForm.get('EmailId')?.hasError('pattern') && userForm.get('EmailId')?.touched || isUserDetailSubmitted && userFormControl['EmailId'].errors
+              }" />
+            <div class="invalid-feedback">
+              <div *ngIf="
+              userForm.get('EmailId')?.hasError('pattern') && userForm.get('EmailId')?.touched || isUserDetailSubmitted && userFormControl['EmailId'].errors
+                ">
+                {{ "common.email-id" | translate }}
+                {{ "common.is_required" | translate }}
+              </div>
+              <div *ngIf="
+                  (userForm.get('EmailId')?.hasError('pattern') &&
+                    userForm.get('EmailId')?.touched) ||
+                  (isUserDetailSubmitted && userFormControl['EmailId'].errors)
+                ">
+                {{ "common.email-id" | translate }}
+                {{ "common.is_not_valid" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label for="CompanyName" class="required">{{
+              "common.company-name" | translate
+              }}</label>
+            <input type="text" autocomplete="company-name" formControlName="CompanyName" placeholder="{{ 'customer-company-name' | translate }}"
+              class="form-control" maxlength="250"  [ngClass]="{
+                'is-invalid':
+                  isUserDetailSubmitted && userFormControl['CompanyName'].errors
+              }" />
+            <div class="invalid-feedback">
+              <div *ngIf="
+                  (userForm.get('CompanyName')?.hasError('required') &&
+                    userForm.get('CompanyName')?.touched) ||
+                  (isUserDetailSubmitted &&
+                    userFormControl['CompanyName'].errors)
+                ">
+                {{ "common.company-name" | translate }}
+                {{ "common.is_required" | translate }}
+              </div>
+              <div *ngIf="userForm.get('CompanyName')?.hasError('pattern')">
+                {{ "common.company-name" | translate}}{{ "common.is_not_valid" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label for="Designation">{{
+              "common.designation" | translate
+              }}</label>
+            <input type="text" appCharactorOnly maxlength="50" formControlName="Designation" placeholder="{{ 'customer-designation' | translate }}"
+              class="form-control" />
+          </div>
+        </div>
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label for="MobileNo">{{
+              "common.mobile-number" | translate
+              }}</label>
+            <input type="text" formControlName="MobileNo"
+            autocomplete="mobile-nos"
+            class="form-control" maxlength="50"
+            [ngClass]="{ 'is-invalid': userForm.get('MobileNo')?.hasError('pattern') && userForm.get('MobileNo')?.touched || isUserDetailSubmitted && userFormControl['MobileNo'].errors && userForm.get('MobileNo')?.value }"
+              placeholder="{{'customer-contact' | translate}}" />
+              <div class="invalid-feedback">
+                <div *ngIf="userForm.get('MobileNo')?.hasError('pattern') && userForm.get('MobileNo')?.touched || isUserDetailSubmitted && userFormControl['MobileNo'].errors && userForm.get('MobileNo')?.value">
+                  {{ "common.mobile-number" | translate}}{{ "common.is_not_valid" | translate }}
+                </div>
+              </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-2">
+          <div class="form-group">
+            <label for="ContactNo">{{
+              "contact_no" | translate
+              }}</label>
+            <input type="text" formControlName="ContactNo" class="form-control" maxlength="50"
+            autocomplete="contact-nos"
+              placeholder="{{'customer-contact' | translate}}" [ngClass]="{
+                'is-invalid':
+                  isUserDetailSubmitted && userFormControl['ContactNo'].errors
+              }" />
+            <div class="invalid-feedback">
+              <div *ngIf="userForm.get('ContactNo')?.hasError('pattern')">
+                {{ "contact_no" | translate}}{{ "common.is_not_valid" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-8 mb-2">
+          <div class="form-group">
+            <label for="Address">Address</label>
+            <textarea formControlName="Address" maxlength="500" autocomplete="new-address"
+             placeholder="{{'customer-address' | translate}}" class="form-control"
+              rows="2"></textarea>
+          </div>
+        </div>
+
+        <div class="clearfix"></div>
+        <div class="col-md-12 mb-2">
+          <button class="mt-4 pull-right" type="button" color="primary" mat-raised-button
+            (click)="onUpdateUsersDetail()">
+            {{ "common.save" | translate }}
+          </button>
+          <button *ngIf="isViewMode" color="primary" class="mt-4 showme pull-right" type="button" (click)="onUpdateDetails()" mat-raised-button>
+            {{ "common.update" | translate }}
+          </button>
+          <button class="mt-4 mr-2 secondary-btn pull-right" type="button" (click)="onResetUserDetails()" mat-raised-button>
+            {{ "common.reset" | translate }}
+          </button>
+          <button class="mt-4 showme mr-2 secondary-btn pull-right" type="button" (click)="onChangePassword()" mat-raised-button>
+            {{ "change-password" | translate }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

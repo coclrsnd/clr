@@ -1,0 +1,12 @@
+::ng-deep {
+    app-svg-icon {
+        width: 20px;
+        height: 20px;
+        svg {
+            display: inline-block;
+            fill: #000;
+            all: inherit;
+            margin: 0;
+        }
+    }
+}

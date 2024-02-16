@@ -1,0 +1,9 @@
+::ng-deep {
+  table {
+    tr {
+      &.hiddenRow {
+        display: none !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,28 @@
+<div class="g-0">
+    <div class="sidebar" [class.sidebar-fixed]="LayoutfixedSidebar" *ngIf="isOnLoginPage">
+        <div class="inner-scroll">
+            <!-- <app-header></app-header> -->
+            <app-side-nav (fixedSidebar)="fixedSidebar($event)"></app-side-nav>
+            <app-footer></app-footer>
+            <!-- <app-notification></app-notification> -->
+        </div>
+    </div>
+    <div class="container-fluid layout-view" [class.layout-view-fixed]="LayoutfixedSidebar" [ngClass]="isOnLoginPage? '' : 'login-page'">
+        <app-top-header [shortUserName]="shortUserName"  [logoPath]="orgLogo" [ngClass]="isOnLoginPage? '' : 'd-none'"></app-top-header>
+        <div [ngClass]="isOnLoginPage? 'p-3' : 'login-boxholder'">
+            <span [ngClass]="isOnLoginPage? '' : 'd-none'">
+            <app-opened-pages *ngIf="menusUniqueByKey" [menusUniqueByKey]="menusUniqueByKey" [LayoutfixedSidebar]="LayoutfixedSidebar"></app-opened-pages>
+            <!-- <app-page-title></app-page-title> -->
+          </span>
+            <router-outlet></router-outlet>
+        </div>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="footer w-100">
+      <p> CLR </p>
+    </div>
+</div>
+
+<button matTooltip="Back to top" [hidden]="!isShowBody" class="scroll-top d-none" (click)='scrollTopBody()'>Up</button>
+<app-loader></app-loader>

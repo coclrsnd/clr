@@ -1,0 +1,624 @@
+<h3 class="head-title">
+  {{ "Interchange" | translate }} {{ currentIndex + 1 }}
+  <!-- <button class="simple-button left-icon" type="button" (click)="onRemoveInterchange(currentIndex)">
+    <app-svg-icon icon="icon-delete" class="icon"></app-svg-icon>
+    {{'common.delete' | translate}}</button> -->
+</h3>
+<div
+  class="search-holder mb-3"
+  [ngClass]="{
+    isViewMode:
+      parentComponentName === 'InterchangesListComponent' &&
+      !isUpdateInterchangeBtnEnabled
+  }"
+>
+  <div [formGroup]="getInterchangesForm" class="row">
+    <div class="col-lg-4 col-md-8 mb-2">
+      <div class="form-group">
+        <label for="RailRoadName" class="required">{{
+          "RailroadName" | translate
+        }}</label>
+        <!-- <input placeholder="USD" type="text" formControlName="RailroadName" class="form-control"
+                [ngClass]="{ 'is-invalid': submittedInterchangesDetails && InterchangesDetails['RailroadName'].errors }" /> -->
+                <input type="text"
+                class="form-control"
+                placeholder="Search"
+                formControlName="RailRoadName"
+                [matAutocomplete]="auto"
+                [readonly]="IsEditInterchange"
+                (blur)="onBlurRailRoad($event)">
+                <mat-autocomplete
+                #auto="matAutocomplete"
+                (optionSelected)="onRailRoadSelectionChanged($event)">
+                <mat-option
+                  *ngIf="isSearching; else railRoadTemplate"
+                  disabled="true">
+                    <em>Searching...</em>
+                </mat-option>
+          <ng-template #railRoadTemplate>
+            <mat-option *ngFor="let option of filteredRailRoadList" [value]="option">
+              {{ option.Name }}
+            </mat-option>
+            <mat-option
+                *ngIf="!isSearching && noRailRoadResults"
+                value=""
+                disabled="true">
+              <b>No results found</b>
+              </mat-option>
+          </ng-template>
+
+                </mat-autocomplete>
+                <!-- <mat-select
+          formControlName="RailRoadId"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              submittedInterchangesDetails &&
+              InterchangesDetails['RailRoadId'].errors
+          }"
+          (selectionChange)="onRailRoadSelection($event)"
+        >
+          <mat-option [value]="defaultSelectedValueForDropdownlist">
+            {{ "common.select" | translate }}
+          </mat-option>
+          <mat-option *ngFor="let option of railRoadList" [value]="option.Id">
+            {{ option.Name }}
+          </mat-option>
+        </mat-select> -->
+        <div class="invalid-feedback">
+          <div
+            *ngIf="!getInterchangesForm.get('RailRoadName')?.hasError('notUnique') &&
+              ((getInterchangesForm.get('RailRoadName')?.hasError('required') &&
+                getInterchangesForm.get('RailRoadName')?.touched) ||
+              (submittedInterchangesDetails &&
+                InterchangesDetails['RailRoadName'].errors))
+            "
+          >
+            {{ "RailroadName" | translate }}
+            {{ "common.is_required" | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 mb-2">
+      <div class="form-group">
+        <label for="MarkCode" class="required">{{
+          "MarkCode" | translate
+        }}</label>
+        <input
+          type="text"
+          placeholder="{{ 'customer-mark' | translate }}"
+          formControlName="MarkCode"
+          class="form-control"
+          readonly="true"
+          [ngClass]="{
+            'is-invalid':
+              submittedInterchangesDetails &&
+              InterchangesDetails['MarkCode'].errors
+          }"
+        />
+        <div class="invalid-feedback">
+          <div
+            *ngIf="
+              (getInterchangesForm.get('MarkCode')?.hasError('required') &&
+                getInterchangesForm.get('RailRoadName')?.touched) ||
+              (submittedInterchangesDetails &&
+                InterchangesDetails['MarkCode'].errors)
+            "
+          >
+            {{ "MarkCode" | translate }}
+            {{ "common.is_required" | translate }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 mb-2">
+      <div class="form-group">
+        <label for="GrossRailRoadCapacity">{{
+          "GrossRailroadCapacity" | translate
+        }}</label>
+        <input
+          type="text"
+          formControlName="GrossRailRoadCapacity"
+          placeholder="{{ 'customer-number' | translate }}"
+          maxlength="6"
+          class="form-control"
+          [ngClass]="{
+            'is-invalid':
+              submittedInterchangesDetails &&
+              InterchangesDetails['GrossRailRoadCapacity'].errors
+          }"
+        />
+        <!-- <div class="invalid-feedback">
+          <div *ngIf="
+              (getInterchangesForm
+                .get('GrossRailRoadCapacity')
+                ?.hasError('required') &&
+                getInterchangesForm.get('GrossRailRoadCapacity')?.touched) ||
+              (submittedInterchangesDetails &&
+                InterchangesDetails['GrossRailRoadCapacity'].errors)
+            ">
+            {{ "GrossRailroadCapacity" | translate }}
+            {{ "common.is_required" | translate }}
+          </div>
+        </div> -->
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 mb-2">
+      <div class="form-group">
+        <label for="UnitId">{{ "common.unit" | translate }}</label>
+        <mat-select formControlName="UnitId">
+          <mat-option [value]="defaultValueForDropdownlist">
+            {{ "common.select" | translate }}
+          </mat-option>
+          <mat-option *ngFor="let unit of unitList" [value]="unit.Id">
+            {{
+            unit.Name
+            }}
+          </mat-option>
+        </mat-select>
+      </div>
+    </div>
+    <div class="col-lg-2 col-md-4 mb-2"></div>
+    <div class="col-md-12 mb-2">
+      <div *ngIf="getInterchangesForm.get('RailRoadName')?.hasError('notUnique')"  class="invalid-feedback">
+        {{ "interchange.duplicate-interchange" | translate }}
+      </div>
+    </div>
+    <!-- <div class="col-lg-2 col-md-4 mb-2">
+      <div class="form-group">
+        <label for="R260" class="required">{{ "R260" | translate }}</label>
+        <input type="text" formControlName="R260" class="form-control" [ngClass]="{
+            'is-invalid':
+              submittedInterchangesDetails && InterchangesDetails['R260'].errors
+          }" />
+        <div class="invalid-feedback">
+          <div *ngIf="
+              (getInterchangesForm.get('R260')?.hasError('required') &&
+                getInterchangesForm.get('R260')?.touched) ||
+              (submittedInterchangesDetails &&
+                InterchangesDetails['R260'].errors)
+            ">
+            {{ "R260" | translate }}
+            {{ "common.is_required" | translate }}
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <!-- <div class="col-lg-2 col-md-4 mb-2">
+      <div class="form-group">
+        <label for="FSAC" class="required">{{ "FSAC" | translate }}</label>
+        <input type="text" formControlName="FSAC" class="form-control" [ngClass]="{
+            'is-invalid':
+              submittedInterchangesDetails && InterchangesDetails['FSAC'].errors
+          }" />
+        <div class="invalid-feedback">
+          <div *ngIf="
+              (getInterchangesForm.get('FSAC')?.hasError('required') &&
+                getInterchangesForm.get('FSAC')?.touched) ||
+              (submittedInterchangesDetails &&
+                InterchangesDetails['FSAC'].errors)
+            ">
+            {{ "FSAC" | translate }}
+            {{ "common.is_required" | translate }}
+          </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="clearfix"></div>
+
+    <!-- Location details form -->
+    <div formArrayName="InterchangeLocations">
+      <div class="divider"></div>
+      <h3 class="mb-0">{{ "interchange.location-information" | translate }}</h3>
+
+      <div
+        *ngFor="
+          let interchangeDetailsList of getLocationDetailsForm;
+          let i = index;
+          let last = last;
+          let first = first
+        "
+        [formGroupName]="i"
+      >
+        <div class="divider" *ngIf="!first"></div>
+        <h3>
+          Location {{ i + 1 }}
+
+          <button
+            *ngIf="getLocationDetailsForm.length > 1"
+            class="simple-button left-icon pull-right"
+            type="button"
+            (click)="onRemoveLocation(i)"
+          >
+            <app-svg-icon
+              icon="icon-delete"
+              class="icon icon-delete"
+            ></app-svg-icon>
+            {{ "common.delete" | translate }}
+          </button>
+          <button
+            *ngIf="getLocationDetailsForm.length === i + 1"
+            class="simple-button left-icon pull-right mr-2"
+            type="button"
+            (click)="onAddLocation(i)"
+          >
+            <app-svg-icon icon="icon-add-plus" class="icon"></app-svg-icon>
+            {{ "common.add" | translate }} Location
+          </button>
+        </h3>
+        <div class="col-12">
+          <div class="row">
+            <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="CountryId" class="required">{{
+                  "Country" | translate
+                }}</label>
+                <mat-select
+                  formControlName="CountryId"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      submittedInterchangesDetails &&
+                      interchangeDetailsList.get('CountryId')?.errors
+                  }"
+                  (selectionChange)="onCountrySelectionChanged(i)"
+                >
+                <mat-option [value]="defaultValueForDropdownlist">
+                  {{ "common.select" | translate }}
+                </mat-option>
+                  <mat-option
+                    *ngFor="let option of CountryList"
+                    [value]="option.Id"
+                  >
+                    {{ option.Name }}
+                  </mat-option>
+                </mat-select>
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      (interchangeDetailsList
+                        .get('CountryId')
+                        ?.hasError('required') &&
+                        interchangeDetailsList.get('CountryId')?.touched) ||
+                      (submittedInterchangesDetails &&
+                        interchangeDetailsList.get('CountryId')?.errors)
+                    "
+                  >
+                    {{ "Country" | translate }}
+                    {{ "common.is_required" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="StateId" class="required">{{
+                  "State" | translate
+                }}</label>
+                <mat-select
+                  formControlName="StateId"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      submittedInterchangesDetails &&
+                      interchangeDetailsList.get('StateId')?.errors
+                  }"
+                  (selectionChange)="onStateSelectionChanged($event, i)"
+                >
+                <mat-option [value]="defaultValueForDropdownlist">
+                  {{ "common.select" | translate }}
+                </mat-option>
+                  <mat-option
+                    *ngFor="let option of getAllStates(
+                      interchangeDetailsList.get('CountryId')?.value, i
+                    )"
+                    [value]="option.Id"
+                  >
+                    {{ option.Name }}
+                  </mat-option>
+                </mat-select>
+
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      (interchangeDetailsList
+                        .get('StateId')
+                        ?.hasError('required') &&
+                        interchangeDetailsList.get('StateId')?.touched) ||
+                      (submittedInterchangesDetails &&
+                        interchangeDetailsList.get('StateId')?.errors)
+                    "
+                  >
+                    {{ "State" | translate }}
+                    {{ "common.is_required" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="City" class="required">{{
+                  "common.station-name" | translate
+                }}</label>
+                <input
+                  type="text"
+                  formControlName="City"
+                  placeholder="{{ 'customer-city' | translate }}"
+                  appCharactorOnly
+                  maxlength="250"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      submittedInterchangesDetails &&
+                      interchangeDetailsList.get('City')?.errors
+                  }"
+                  #City
+                  [matAutocomplete]="autoCompleteStation"
+                  (blur)="OnStationSelectionChanged($event, i)"
+                />
+                <mat-autocomplete
+                  #autoCompleteStation="matAutocomplete"
+                  (optionSelected)="onStationSelection($event, i)"
+                >
+                  <mat-option
+                    *ngIf="isSearching; else StationTemplate"
+                    disabled="true"
+                  >
+                    <em>Searching...</em>
+                  </mat-option>
+                  <ng-template #StationTemplate>
+                    <mat-option
+                      *ngFor="let geoCode of GeoStationsList[i]"
+                      [value]="geoCode.StationName"
+                    >
+                      {{ geoCode.StationFullName }}
+                    </mat-option>
+                  </ng-template>
+                  <mat-option
+                    *ngIf="!isSearching && noResults"
+                    value=""
+                    disabled="true"
+                  >
+                    <b>No results found</b>
+                  </mat-option>
+                </mat-autocomplete>
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      (interchangeDetailsList
+                        .get('City')
+                        ?.hasError('required') &&
+                        interchangeDetailsList.get('City')?.touched) ||
+                      (submittedInterchangesDetails &&
+                        interchangeDetailsList.get('City')?.errors)
+                    "
+                  >
+                    {{ "common.station-name" | translate }}
+                    {{ "common.is_required" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="SPLC" class="required">{{ "SPLC" | translate }}</label>
+                <input
+                  type="text"
+                  ngNumbersOnly
+                  maxlength="9"
+                  placeholder="{{ 'customer-splc' | translate }}"
+                  formControlName="SPLC"
+                  class="form-control"
+                  (blur)="AfterSPLCValueChange(i)"
+                  [ngClass]="{
+                    'is-invalid':
+                    (interchangeDetailsList
+                    .get('SPLC')
+                    ?.hasError('required') &&
+                    interchangeDetailsList.get('SPLC')?.touched) ||
+                    submittedInterchangesDetails && interchangeDetailsList.get('SPLC')?.errors ||
+                    interchangeDetailsList.get('SPLC')?.hasError('notUnique')
+                  }"
+                />
+                <div class="invalid-feedback">
+                  <div *ngIf="!interchangeDetailsList.get('SPLC')?.hasError('notUnique') &&
+                      ((interchangeDetailsList
+                        .get('SPLC')
+                        ?.hasError('required') &&
+                        interchangeDetailsList.get('SPLC')?.touched) ||
+                        submittedInterchangesDetails && interchangeDetailsList.get('SPLC')?.errors)
+                    ">
+                    {{ "SPLC" | translate }}
+                    {{ "common.is_required" | translate }}
+                  </div>
+                  <div
+                    *ngIf="!interchangeDetailsList.get('SPLC')?.hasError('notUnique') &&
+                      interchangeDetailsList.get('SPLC')?.hasError('pattern')
+                    "
+                  >
+                    {{ "error.decimalNotAllowed" | translate }}
+                  </div>
+                  <div class="col-md-12 mb-2">
+                    <div *ngIf="interchangeDetailsList.get('SPLC')?.hasError('notUnique')"  class="invalid-feedback">
+                      {{ "interchange.duplicate-location" | translate }}
+                    </div>
+                  </div>
+                 <!-- <div *ngIf="interchangeDetailsList.get('SPLC')?.hasError('minlength')">
+                    {{'error.minimumSixDigits' | translate}}
+                  </div> -->
+                </div>
+              </div>
+            </div>
+            <!-- <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="StationName">{{'common.station-name' | translate}}</label>
+                <input type="text" placeholder="{{'customer-station-name' | translate}}" formControlName="StationName" class="form-control" />
+            </div>
+            </div> -->
+            <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="Lat">{{ "Latitude" | translate }}</label>
+                <input
+                  type="text"
+                  formControlName="Lat"
+                  placeholder="{{ 'customer-latitude' | translate }}"
+                  class="form-control"
+                  maxlength="10"
+                  [ngClass]="{
+                    'is-invalid':
+                      submittedInterchangesDetails &&
+                      interchangeDetailsList.get('Lat')?.errors
+                  }"
+                />
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      (interchangeDetailsList
+                        .get('Lat')
+                        ?.hasError('required') &&
+                        interchangeDetailsList.get('Lat')?.touched) ||
+                      (submittedInterchangesDetails &&
+                        interchangeDetailsList.get('Lat')?.errors)
+                    "
+                  >
+                    {{ "Latitude" | translate }}
+                    {{ "common.is_required" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="Long">{{ "Longitude" | translate }}</label>
+                <input
+                  type="text"
+                  formControlName="Long"
+                  placeholder="{{ 'customer-longitude' | translate }}"
+                  class="form-control"
+                  maxlength="10"
+                  [ngClass]="{
+                    'is-invalid':
+                      submittedInterchangesDetails &&
+                      interchangeDetailsList.get('Long')?.errors
+                  }"
+                />
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      (interchangeDetailsList
+                        .get('Long')
+                        ?.hasError('required') &&
+                        interchangeDetailsList.get('Long')?.touched) ||
+                      (submittedInterchangesDetails &&
+                        interchangeDetailsList.get('Long')?.errors)
+                    "
+                  >
+                    {{ "Longitude" | translate }}
+                    {{ "common.is_required" | translate }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="R260">{{ "R260" | translate }}</label>
+                <input
+                  type="text"
+                  placeholder="{{ 'customer-r260' | translate }}"
+                  formControlName="R260"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      submittedInterchangesDetails &&
+                      interchangeDetailsList.get('R260')?.errors
+                  }"
+                />
+                <!-- <div class="invalid-feedback">
+                  <div *ngIf="
+                      (interchangeDetailsList.get('R260')?.hasError('required') &&
+                        interchangeDetailsList.get('R260')?.touched) ||
+                      (submittedInterchangesDetails &&
+                      interchangeDetailsList.get('R260')?.errors)
+                    ">
+                    {{ "R260" | translate }}
+                    {{ "common.is_required" | translate }}
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-4 mb-2">
+              <div class="form-group">
+                <label for="FSAC">{{ "FSAC" | translate }}</label>
+                <input
+                  type="text"
+                  placeholder="{{ 'customer-fsac' | translate }}"
+                  ngNumbersOnly
+                  maxlength="9"
+                  formControlName="FSAC"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      submittedInterchangesDetails &&
+                      interchangeDetailsList.get('FSAC')?.errors
+                  }"
+                />
+                <!-- <div class="invalid-feedback">
+                  <div *ngIf="
+                      (interchangeDetailsList.get('FSAC')?.hasError('required') &&
+                        interchangeDetailsList.get('FSAC')?.touched) ||
+                      (submittedInterchangesDetails &&
+                      interchangeDetailsList.get('FSAC')?.errors)
+                    ">
+                    {{ "FSAC" | translate }}
+                    {{ "common.is_required" | translate }}
+                  </div>
+                </div> -->
+              </div>
+            </div>
+            <div class="col-md-4 mb-2">
+              <div class="form-group">
+                <label for="Description">{{ "Description" | translate }}</label>
+                <textarea
+                  type="text"
+                  formControlName="Description"
+                  class="form-control"
+                  [ngClass]="{
+                    'is-invalid':
+                      submittedInterchangesDetails &&
+                      interchangeDetailsList.get('Description')?.errors
+                  }"
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- <app-interchange-form class="mb-3" (saveRates)="onSaveInterchanges($event)" [currentIndex]="i"
+              [getInterchangesForm]="$any(storageFacilityDetailsForm.get('InterchangeDetails')?.get(''+i))" *ngIf="last" (removeInterchanges)="onRemoveInterchanges($event)"></app-interchange-form> -->
+      </div>
+    </div>
+    <div class="col-md-12 mt-4 mb-2">
+      <button
+        *ngIf="isUpdateInterchangeBtnEnabled"
+        class="pull-right"
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="onUpdateInterchangesForm()"
+      >
+        {{ "interchange.update-interchange" | translate }}
+      </button>
+      <button
+        *ngIf="isSaveInterchangeBtnEnabled"
+        class="pull-right"
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="onSubmitInterchangesForm()"
+      >
+        {{ "save-interchange" | translate }}
+      </button>
+    </div>
+  </div>
+</div>
