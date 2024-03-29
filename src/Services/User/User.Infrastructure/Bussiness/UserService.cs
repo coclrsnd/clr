@@ -29,6 +29,7 @@ namespace User.Infrastructure.Bussiness
         private readonly IAsyncRepository<UserRoleMapping> _userRoleMappingRepository;
         private readonly IAsyncRepository<RoleAppFeatureMapping> _userRoleAppFeatureMappingRepository;
         private readonly IAsyncRepository<OrganizationConfiguration> _organizationConfigurationRepository;
+        private readonly IAsyncRepository<OrganizationUserMapping> _organizationUserMappingRepository;
 
         public UserService(
             IUserRepository userRepository,
@@ -40,7 +41,8 @@ namespace User.Infrastructure.Bussiness
             IAsyncRepository<UserRole> userRoleRepository,
             IAsyncRepository<UserRoleMapping> userRoleMappingRepository,
             IAsyncRepository<RoleAppFeatureMapping> userRoleAppFeatureMappingRepository,
-            IAsyncRepository<OrganizationConfiguration> organizationConfigurationRepository)
+            IAsyncRepository<OrganizationConfiguration> organizationConfigurationRepository,
+            IAsyncRepository<OrganizationUserMapping> organizationUserMappingRepository)
         {
             _userRepository = userRepository;
             _userManager = userManager;
@@ -52,6 +54,7 @@ namespace User.Infrastructure.Bussiness
             _userRoleMappingRepository = userRoleMappingRepository;
             _userRoleAppFeatureMappingRepository = userRoleAppFeatureMappingRepository;
             _organizationConfigurationRepository = organizationConfigurationRepository;
+            _organizationUserMappingRepository = organizationUserMappingRepository;
         }
 
         public async Task<Domain.Entities.User> GetUsers(int id)
@@ -71,7 +74,9 @@ namespace User.Infrastructure.Bussiness
                     string currentRole = string.Empty;
                     var user = (await _userRepository.GetAsync(usr => usr.IdentityUserId == aspNetUser.Id)).FirstOrDefault();
                     var roles = (await _userRoleMappingRepository.GetAsync(r => r.UserId == user.Id)).ToList();
-                    var organization = (await _organizationRepository.GetAsync(org => org.Code.ToLower() == loginRequest.OrganizationCode.ToLower())).FirstOrDefault();                    
+
+                    var organizationUserMapping = (await _organizationUserMappingRepository.GetAsync(exp => exp.UserId == user.Id)).FirstOrDefault();
+                    var organization = (await _organizationRepository.GetAsync(org => org.Id == organizationUserMapping.OrganizationId)).FirstOrDefault();                    
 
                     var authClaims = new List<Claim>
                     {
@@ -137,7 +142,7 @@ namespace User.Infrastructure.Bussiness
 
         public async Task<bool> SignUp(UserSignupRequestInput signupRequestInput)
         {
-            var existingUsers = await _userRepository.GetAsync(ex => ex.UserName == signupRequestInput.UserName);
+            var existingUsers = await _userRepository.GetAsync(ex => ex.UserName == signupRequestInput.Email);
             if (existingUsers.Any())
                 return false;
             try
@@ -147,7 +152,7 @@ namespace User.Infrastructure.Bussiness
                     Email = signupRequestInput.Email,
                     SecurityStamp = Guid.NewGuid().ToString(),
                     PhoneNumber = signupRequestInput.PhoneNumber,
-                    UserName = signupRequestInput.UserName,
+                    UserName = signupRequestInput.Email,
                     EmailConfirmed = true
                 };
 
@@ -166,7 +171,7 @@ namespace User.Infrastructure.Bussiness
                     {
                         Email = identityUser.Email,
                         PhoneNumber = identityUser.PhoneNumber,
-                        UserName = identityUser.UserName,
+                        UserName = identityUser.Email,
                         IdentityUserId = identityUser.Id
                     };
 
@@ -197,7 +202,7 @@ namespace User.Infrastructure.Bussiness
                         UserId = user.Id
                     };
 
-                    await _userRepository.AddOrganizationUserMapping(organizationUserMapping);
+                    await _organizationUserMappingRepository.AddAsync(organizationUserMapping);
                     return user.Id >= 0;
                 }
                 else

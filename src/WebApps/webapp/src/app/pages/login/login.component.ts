@@ -7,8 +7,11 @@ import {
 import { AuthService } from './services/auth.service'
 import { Router } from '@angular/router'
 import { AppState } from '../../reducers'
-import { Store } from '@ngrx/store'
+import { Store, select } from '@ngrx/store'
 import { login } from './store/auth.actions'
+import { errorOnLogin } from './store/auth.selectors'
+import { Observable } from 'rxjs'
+import { AuthState } from './store/auth.reducers'
 
 @Component({
   selector: 'login',
@@ -17,12 +20,11 @@ import { login } from './store/auth.actions'
 })
 export class LoginComponent implements OnInit {
   form: UntypedFormGroup
+  errorOnLogin$: Observable<boolean>
 
   constructor(
     private fb: UntypedFormBuilder,
-    private auth: AuthService,
-    private router: Router,
-    private store: Store<AppState>,
+    private store: Store<AuthState>,
   ) {
     this.form = fb.group({
       email: ['test@angular-university.io', [Validators.required]],
@@ -30,13 +32,15 @@ export class LoginComponent implements OnInit {
     })
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.errorOnLogin$ = this.store.pipe(select(errorOnLogin))
+  }
 
   login() {
     this.store.dispatch(
       login({
-        username: this.form.controls['email'].value,
-        password: this.form.controls['email'].value,
+        userName: this.form.controls['email'].value,
+        password: this.form.controls['password'].value,
       }),
     )
   }

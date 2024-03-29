@@ -23,6 +23,8 @@ import { metaReducers, reducers } from './reducers'
 import { EntityDataModule } from '@ngrx/data'
 import { LoginModule } from './pages/login/login.module'
 import { AuthGuard } from './pages/login/gaurds/auth.guard'
+import { SignupModule } from './pages/sign-up/signup.module'
+import { DashboardModule } from './pages/dashboard/dashboard.module'
 
 const routes: Routes = [
   {
@@ -30,6 +32,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./courses/courses.module').then((m) => m.CoursesModule),
     canActivate: [AuthGuard],
+  },
+  {
+    path: 'signup',
+    loadChildren: () =>
+      import('./pages/sign-up/signup.module').then((m) => m.SignupModule),
   },
   {
     path: '**',
@@ -50,7 +57,9 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     MatListModule,
     MatToolbarModule,
+    DashboardModule,
     LoginModule.forRoot(),
+    SignupModule.forRoot(),
     StoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {

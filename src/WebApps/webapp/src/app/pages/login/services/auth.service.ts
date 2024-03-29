@@ -7,7 +7,28 @@ import { User } from '../model/user.model'
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  login(email: string, password: string): Observable<User> {
-    return this.http.post<User>('/api/login', { email, password })
+  LOGINQUERY = `query Login($loginRequest: LoginRequestInput!) {
+    login(loginRequestInput: $loginRequest) {
+      userName
+      name
+      emailId
+      phoneNumber
+      token
+      organizationId
+      logoPath
+      roleId
+      roleName
+      userId
+    }
+  }`
+
+  login(loginRequest: {
+    userName: string
+    password: string
+  }): Observable<User> {
+    return this.http.post<User>('https://localhost:55148/graphql/', {
+      query: this.LOGINQUERY,
+      variables: { loginRequest: loginRequest },
+    })
   }
 }

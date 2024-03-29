@@ -3,5 +3,5 @@
     public record LoginRequestInput(
        string UserName,
        string Password,
-       string OrganizationCode);
+       string? OrganizationCode);
 }

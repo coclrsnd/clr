@@ -26,7 +26,7 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
-                        "outputPath": "dist/RailCarLounge",
+                        "outputPath": "dist/clr",
                         "index": "src/index.html",
                         "main": "src/main.ts",
                         "polyfills": "src/polyfills.ts",
@@ -38,12 +38,15 @@
                             "src/web.config"
                         ],
                         "styles": [
-                            "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
-                            "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-                            "./node_modules/ngx-ui-switch/ui-switch.component.css",
-                            "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss",
-                            "src/assets/scss/_variables.scss",
-                            "src/styles.scss"
+                          "./node_modules/@angular/material/prebuilt-themes/deeppurple-amber.css",
+                          "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+                          "./node_modules/ngx-ui-switch/ui-switch.component.css",
+                          "./node_modules/ngx-bootstrap/datepicker/bs-datepicker.scss",
+                          "src/assets/scss/_variables.scss",
+                          "src/styles.scss",
+                          "node_modules/primeicons/primeicons.css",
+                          "node_modules/primeng/resources/themes/saga-blue/theme.css",
+                          "node_modules/primeng/resources/primeng.min.css"
                         ],
                         "scripts": [
 

@@ -35,7 +35,7 @@ export class AppComponent implements OnInit {
     if (userProfile) {
       this.store.dispatch(
         login({
-          username: JSON.parse(userProfile).username,
+          userName: JSON.parse(userProfile).username,
           password: JSON.parse(userProfile).password,
         }),
       )

@@ -3,7 +3,7 @@ import { User } from '../model/user.model'
 
 export const login = createAction(
   '[Login Page] User Login',
-  props<{ username: string; password: string }>(),
+  props<{ userName: string; password: string }>(),
 )
 
 export const loginSuccess = createAction(
@@ -13,7 +13,7 @@ export const loginSuccess = createAction(
 
 export const loginError = createAction(
   '[Login Page] User Login Failure',
-  props<{ error: any }>(),
+  props<{ errorOnLogin: boolean }>(),
 )
 
 export const logout = createAction('[Top Menu] Logout')

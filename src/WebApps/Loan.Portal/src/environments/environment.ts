@@ -7,7 +7,7 @@ export const environment = {
   showDashboard: true,
   authToken: '94752A6E97A57C43960E02100C86A0C2',
   run:'dev',
-  apiUrl: 'https://localhost:55148/graphql/',
+  apiUrl: 'http://13.201.168.63:32768/graphql',
   //apiUrl: 'https://qa.railcarlounge.com',
 };
 

@@ -1,18 +1,34 @@
-# Stage 1: Compile and Build angular codebase
-# Use official node image as the base image
-FROM node:latest as build
-# Set the working directory
-WORKDIR /usr/local/app
-# Add the source code to app
-COPY ./ /usr/local/app/
-# Install all the dependencies
+# Use a base image with Node.js pre-installed
+FROM node:14
+
+# Install nvm (Node Version Manager)
+RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+
+# Source nvm to make it available in the current shell
+RUN . ~/.nvm/nvm.sh \
+    && nvm install v18.13 \
+    && nvm use v18.13
+
+# Verify the installed Node.js version
+RUN node --version
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
-# Generate the build of the application
-RUN npm run build
-# Stage 2: Serve app with nginx server
-# Use official nginx image as the base image
-FROM nginx:latest
-# Copy the build output to replace the default nginx contents.
-COPY --from=build /usr/local/app/dist/sample-angular-app /usr/share/nginx/html
-# Expose port 80
+
+# Copy the rest of the application code
+COPY . .
+
+# Build the Angular application for production
+RUN npm run build --prod
+
+# Expose port 80 to the outside world
 EXPOSE 80
+
+# Command to run the Angular application
+CMD ["npm", "start"]

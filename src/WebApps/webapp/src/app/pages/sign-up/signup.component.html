@@ -1,0 +1,35 @@
+<div class="form-container">
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="grid-form">
+    <div class="grid-form-row">
+      <mat-form-field class="grid-form-field">
+        <input matInput formControlName="email" placeholder="Email" />
+      </mat-form-field>
+      <mat-form-field class="grid-form-field">
+        <input matInput formControlName="password" type="password" placeholder="Password" />
+      </mat-form-field>
+    </div>
+    <div class="grid-form-row">
+      <mat-form-field class="grid-form-field">
+        <input matInput formControlName="organizationCode" placeholder="Organization Code" [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOrganizationFn">
+          <mat-option *ngFor="let organization of filteredOrganizations$ | async" [value]="organization.code">
+            {{ organization.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field class="grid-form-field">
+        <input matInput formControlName="phoneNumber" placeholder="Phone Number" />
+      </mat-form-field>
+    </div>
+    <button mat-raised-button color="primary" type="submit" [disabled]="userForm.invalid">Save</button>
+  </form>
+  <div>
+    <span *ngIf="signupFailed$ | async" class="error-message">
+      Error on signup
+    </span>
+    <span *ngIf="signupSuccess$ | async">
+       User created successfully
+    </span>
+  </div>
+
+</div>

@@ -1,9 +1,10 @@
 import { createReducer, on } from '@ngrx/store'
 import { User } from '../model/user.model'
-import { AuthActions } from './action-types'
+import { login, loginError, loginSuccess, logout } from './auth.actions'
 
 export interface AuthState {
   user: User
+  errorOnLogin?: boolean
 }
 
 export const initialAuthState: AuthState = {
@@ -13,21 +14,24 @@ export const initialAuthState: AuthState = {
 export const authReducer = createReducer(
   initialAuthState,
 
-  on(AuthActions.login, (state, { username, password }) => {
+  on(login, (state, { userName: username, password }) => ({
+    user: null,
+  })),
+
+  on(loginSuccess, (state, { user }) => ({
+    user: user,
+  })),
+
+  on(loginError, (state, { errorOnLogin }) => {
     return {
+      ...state,
       user: undefined,
+      errorOnLogin: errorOnLogin,
     }
   }),
 
-  on(AuthActions.loginSuccess, (state, { user }) => {
-    return {
-      user: user,
-    }
-  }),
-
-  on(AuthActions.logout, (state, action) => {
-    return {
-      user: undefined,
-    }
-  }),
+  on(logout, (state, action) => ({
+    user: undefined,
+    errorOnLogin: undefined,
+  })),
 )

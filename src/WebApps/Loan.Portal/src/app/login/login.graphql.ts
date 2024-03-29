@@ -20,10 +20,8 @@ const LOGIN_GRAPHQL = `query ValidateUser($loginInfo: LoginRequestInput!) {
 
 const USER_BY_ID =`query GetUserById($id: Int) {
   users(where: { id: { eq: $id } }) {
-    nodes {
       userName
       identityUserId
-    }
   }
 }
 `
