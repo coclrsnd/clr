@@ -1,9 +1,10 @@
-﻿using User.Domain.Common;
+﻿using System;
 
-namespace User.Domain.Entities
+namespace User.Api.Types
 {
-    public class Loans : EntityBase
+    public class LoanRequestModel
     {
+        public int Id { get; set; }
         public decimal Amount { get; set; }
         public string Status { get; set; }
         public string OrganizationCode { get; set; }

@@ -13,8 +13,10 @@ using User.GraphQL.Schema.Loan.Queries;
 using User.GraphQL.Schema.Users.Mutations;
 using Swashbuckle.AspNetCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddApplicationServices();
 builder.Services.AddCors(options =>

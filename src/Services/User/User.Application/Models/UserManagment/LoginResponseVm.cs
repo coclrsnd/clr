@@ -13,6 +13,7 @@ namespace User.Application.Models.UserManagment
         public string? PhoneNumber { get; set; }
         public string Token { get; set; }
         public int OrganizationId { get; set; }
+        public string OrganizationCode { get; set; }
         public string? LogoPath { get; set; }
         public int? RoleId { get; set; }
         public string? RoleName { get; set; }

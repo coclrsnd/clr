@@ -1,0 +1,84 @@
+<div style="display: flex">
+  <div>
+    <h2 mat-dialog-title>Create/Update Loan</h2>
+  </div>
+  <div>
+    <h3 *ngIf="dialogSaveStatus$ | async" style="color: green">
+      Saved Successfully
+    </h3>
+    <h3 *ngIf="(dialogSaveStatus$ | async) === false" style="color: red">
+      Error while Saving
+    </h3>
+  </div>
+</div>
+<mat-dialog-content class="dialog-content">
+  <form [formGroup]="loanForm" (ngSubmit)="onSave()">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <mat-form-field appearance="outline">
+        <mat-label>Amount</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Ex. 123"
+          formControlName="amount"
+        />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Loan Type</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let type of loanStatuType" [value]="type">{{
+            type
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- <mat-form-field appearance="outline">
+        <input matInput formControlName="organizationCode" readonly />
+      </mat-form-field> -->
+
+      <mat-form-field appearance="outline">
+        <mat-label>Adhar Number</mat-label>
+        <input matInput formControlName="adharNumber" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Loan Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="loanDatepicker"
+          formControlName="loanDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="loanDatepicker"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #loanDatepicker></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Loan Borrower</mat-label>
+        <input matInput formControlName="loanBorrower" />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Loan Type</mat-label>
+        <mat-select formControlName="loanType">
+          <mat-option *ngFor="let type of loanTypes" [value]="type">{{
+            type
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions class="dialog-actions">
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="loanForm.invalid"
+  >
+    Save
+  </button>
+</mat-dialog-actions>

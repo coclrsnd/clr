@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using User.Api.Types;
 using User.Application.Models.UserManagment;
 
 namespace User.Mappings
@@ -8,6 +9,7 @@ namespace User.Mappings
         public MappingProfile()
         {
             CreateMap<UserSignupRequestInput, User.Domain.Entities.User>().ReverseMap();
+            CreateMap<LoanRequestModel, User.Domain.Entities.Loans>().ReverseMap();
         }
     }
 }
