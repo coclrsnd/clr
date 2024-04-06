@@ -1,33 +1,37 @@
 <div class="content">
   <form class="form-container">
-    <mat-form-field class="example-full-width" appearance="outline">
-      <mat-label>Adhar Number</mat-label>
-      <input
-        matInput
-        [formControl]="adharFormControl"
-        placeholder="123456789"
-      />
-      @if (
-        adharFormControl.hasError("email") &&
-        !adharFormControl.hasError("required")
-      ) {
-        <mat-error>Please enter a valid Adhar</mat-error>
-      }
-      @if (adharFormControl.hasError("required")) {
-        <mat-error>Adhar is <strong>required</strong></mat-error>
-      }
-    </mat-form-field>
-    <button
-      mat-flat-button
-      color="primary"
-      [disabled]="adharFormControl.invalid"
-      (click)="onSubmit()"
-      type="button"
-    >
-      Basic
-    </button>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Adhar Number</mat-label>
+        <input
+          matInput
+          [formControl]="adharFormControl"
+          placeholder="123456789"
+        />
+        @if (
+          adharFormControl.hasError("pattern") &&
+          !adharFormControl.hasError("required")
+        ) {
+          <mat-error>Please enter a valid Adhar</mat-error>
+        }
+        @if (adharFormControl.hasError("required")) {
+          <mat-error>Adhar is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+    </div>
+    <div>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="adharFormControl.invalid"
+        (click)="onSubmit()"
+        type="button"
+      >
+        Search
+      </button>
+    </div>
   </form>
 </div>
-<div class="content">
+<div>
   <router-outlet></router-outlet>
 </div>

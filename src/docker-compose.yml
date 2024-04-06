@@ -43,7 +43,7 @@ services:
 
   angular-app:
     build:
-      context: ./WebApps/webapp
+      context: ./WebApps/clr-portal
       dockerfile: Dockerfile
     ports:
       - '80:80'

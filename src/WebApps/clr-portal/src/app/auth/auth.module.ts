@@ -25,7 +25,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
     MatButtonModule,
     MatIconModule,
     MatGridListModule,
-    RouterModule.forChild([{ path: "", component: LoginComponent }]),
+    RouterModule.forChild([{ path: "login", component: LoginComponent }]),
     StoreModule.forFeature(fromAuth.AUTH_KEY, authReducer),
     EffectsModule.forFeature([AuthEffects]),
   ],

@@ -36,3 +36,17 @@ h2 {
 .spinner-container {
   margin-top: 100px;
 }
+
+
+form{
+  display:flex;
+  justify-content: center;
+  > div:not(:last-child) {
+    margin-left: 20px; /* Adjust as needed */
+    margin-right: 20px; /* Adjust as needed */
+    display:flex;
+  }
+  button{
+    margin-top:10px;
+  }
+}

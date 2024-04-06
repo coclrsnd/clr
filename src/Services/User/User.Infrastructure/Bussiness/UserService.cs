@@ -123,6 +123,7 @@ namespace User.Infrastructure.Bussiness
                     loginResponse.RoleId = 1;
                     loginResponse.OrganizationId = organization.Id;
                     loginResponse.OrganizationCode = organization.Code;
+                    loginResponse.OrganizationName = organization.Name;
                     loginResponse.EmailId = user.Email;
                     loginResponse.Name = user.UserName;
                     loginResponse.CurrentRole = currentRole;

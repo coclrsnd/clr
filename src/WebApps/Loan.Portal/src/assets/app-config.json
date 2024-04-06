@@ -1,5 +1,0 @@
-{
-  "SessionTimeOutTime": 30,
-    "RefreshTokenUpdateCheckFrequency": 30000,
-    "TokenExpCheckTime": 5
-}

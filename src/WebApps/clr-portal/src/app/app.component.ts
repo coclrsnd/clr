@@ -10,9 +10,10 @@ import {
   Router,
 } from "@angular/router";
 import { AppState } from "./reducers";
-import { isLoggedIn, isLoggedOut } from "./auth/auth.selectors";
+import { isLoggedIn, isLoggedOut, selectUserDetails } from "./auth/auth.selectors";
 import { login, loginSuccess, logout } from "./auth/auth.actions";
 import { User } from "./auth/model/user.model";
+import { FormBuilder } from "@angular/forms";
 
 @Component({
   selector: "app-root",
@@ -25,15 +26,16 @@ export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
 
   isLoggedOut$: Observable<boolean>;
+  userDetails$: Observable<User>;
+  currentRoute: string;
 
   constructor(
     private router: Router,
-    private store: Store<AppState>,
+    private store: Store<AppState>
   ) {}
 
   ngOnInit() {
     const userProfile = JSON.parse(localStorage.getItem("user")) as User;
-
     if (userProfile) {
       this.store.dispatch(loginSuccess({ user: userProfile }));
     }
@@ -44,7 +46,6 @@ export class AppComponent implements OnInit {
           this.loading = true;
           break;
         }
-
         case event instanceof NavigationEnd:
         case event instanceof NavigationCancel:
         case event instanceof NavigationError: {
@@ -58,7 +59,7 @@ export class AppComponent implements OnInit {
     });
 
     this.isLoggedIn$ = this.store.pipe(select(isLoggedIn));
-
+    this.userDetails$ = this.store.pipe(select(selectUserDetails));
     this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
   }
 

@@ -28,7 +28,9 @@ export class AuthEffects {
         ofType(loginSuccess),
         tap((action) => {
           localStorage.setItem("user", JSON.stringify(action.user));
-          this.router.navigateByUrl("/loans");
+          if (this.router.routerState.snapshot.url === "/login") {
+            this.router.navigate(["loans"]);
+          }
         }),
       ),
     { dispatch: false },
@@ -49,6 +51,7 @@ export class AuthEffects {
   constructor(
     private actions$: Actions,
     private router: Router,
+    private route: ActivatedRoute,
     private authService: AuthService,
   ) {}
 }

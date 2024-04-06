@@ -2,7 +2,6 @@
 
 .login-page {
   max-width: 350px;
-  margin: 50px auto 0 auto;
   padding: 10px;
 }
 
@@ -11,7 +10,15 @@ mat-card-title {
   margin-bottom: 10px;
 }
 
-// .login-form {
-//   display: flex;
-//   flex-direction: column;
-// }
+.login-form {
+  display: flex;
+  flex-direction: column;
+}
+
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh; /* 100% of the viewport height */
+}

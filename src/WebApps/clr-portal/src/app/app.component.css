@@ -15,3 +15,21 @@ main {
     outline:none;
 }
 
+.content {
+  padding: 10px;
+}
+
+.toolbar-content {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding-right:15px;
+
+  image {
+    width:10% !important;
+  }
+}
+
+.spacer {
+  flex-grow: 1;
+}

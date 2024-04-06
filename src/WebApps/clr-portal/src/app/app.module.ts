@@ -17,12 +17,14 @@ import { StoreModule } from "@ngrx/store";
 import { StoreDevtoolsModule } from "@ngrx/store-devtools";
 import { environment } from "../environments/environment";
 import { RouterState, StoreRouterConnectingModule } from "@ngrx/router-store";
-
+import { MatCheckboxModule } from "@angular/material/checkbox";
 import { EffectsModule } from "@ngrx/effects";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { metaReducers, reducers } from "./reducers";
 import { AuthGuard } from "./auth/auth.guard";
 import { EntityDataModule } from "@ngrx/data";
+import { MatInputModule } from "@angular/material/input";
+import { ReactiveFormsModule } from "@angular/forms";
 
 const routes: Routes = [
   {
@@ -55,6 +57,9 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     MatListModule,
     MatToolbarModule,
+    MatInputModule,
+    MatCheckboxModule,
+    ReactiveFormsModule,
     AuthModule.forRoot(),
     StoreModule.forRoot(reducers, {
       metaReducers,
