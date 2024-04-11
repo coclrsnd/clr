@@ -3,10 +3,11 @@ import { HttpClient } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { User } from "./model/user.model";
 import { catchError, concatMap, map } from "rxjs/operators";
+import { environment } from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   LOGINQUERY = `query Login($loginRequest: LoginRequestInput!) {
     login(loginRequestInput: $loginRequest) {
@@ -29,7 +30,7 @@ export class AuthService {
     password: string;
   }): Observable<User> {
     return this.http
-      .post<any>("https://localhost:55148/graphql/", {
+      .post<any>(environment.apiUrl, {
         query: this.LOGINQUERY,
         variables: { loginRequest: loginRequest },
       })

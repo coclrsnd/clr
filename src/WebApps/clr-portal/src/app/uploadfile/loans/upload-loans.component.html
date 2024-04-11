@@ -1,0 +1,20 @@
+<div class="content"></div>
+<form>
+  <mat-form-field class="grid-form-field">
+    <input matInput [formControl]="adharFormControl" placeholder="Organization Code" [matAutocomplete]="auto" />
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOrganizationFn">
+      <mat-option *ngFor="let organization of filteredOrganizations$ | async" [value]="organization">
+        {{ organization.name }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <div class="file-input-container">
+    <mat-icon>attach_file</mat-icon>
+    <input type="file" id="fileInput" (change)="onFileSelected($event)">
+  </div>
+  <div>
+    {{selectedFile?.name ?? ''}}
+  </div>
+  <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Upload</button>
+</form>

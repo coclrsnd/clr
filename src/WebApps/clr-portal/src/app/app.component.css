@@ -24,7 +24,6 @@ main {
   justify-content: space-between;
   width: 100%;
   padding-right:15px;
-
   image {
     width:10% !important;
   }
@@ -33,3 +32,14 @@ main {
 .spacer {
   flex-grow: 1;
 }
+
+
+.org-name>p{
+    margin-left : 10px;
+}
+
+.list-item-content {
+  display: flex;
+  align-items: center;
+}
+

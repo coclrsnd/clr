@@ -10,7 +10,11 @@ import {
   Router,
 } from "@angular/router";
 import { AppState } from "./reducers";
-import { isLoggedIn, isLoggedOut, selectUserDetails } from "./auth/auth.selectors";
+import {
+  isLoggedIn,
+  isLoggedOut,
+  selectUserDetails,
+} from "./auth/auth.selectors";
 import { login, loginSuccess, logout } from "./auth/auth.actions";
 import { User } from "./auth/model/user.model";
 import { FormBuilder } from "@angular/forms";
@@ -31,7 +35,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private store: Store<AppState>
+    private store: Store<AppState>,
   ) {}
 
   ngOnInit() {

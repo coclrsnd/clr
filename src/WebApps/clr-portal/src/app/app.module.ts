@@ -39,6 +39,11 @@ const routes: Routes = [
       import("./sign-up/signup.module").then((m) => m.SignupModule),
   },
   {
+    path: "upload",
+    loadChildren: () =>
+      import("./uploadfile/upload.modules").then((m) => m.UploadModule),
+  },
+  {
     path: "**",
     redirectTo: "/",
   },

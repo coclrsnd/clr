@@ -14,6 +14,8 @@ using User.GraphQL.Schema.Users.Mutations;
 using Swashbuckle.AspNetCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using User.GraphQL.Schema.Loan.Mutation;
+using HotChocolate.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
@@ -38,13 +40,18 @@ builder.Services.AddControllers();
 
 builder.Services
     .AddGraphQLServer()
+    .AddMutationConventions()
     .AddQueryType<Query>()
     .AddTypeExtension<UserQueryExtension>()
     .AddTypeExtension<LoanQueryExtension>()
     .AddMutationType<Mutation>()
     .AddTypeExtension<UserMutationExtention>()
+    .AddTypeExtension<LoanMutationExtension>()
+    .AddType<UploadType>()
     .AddFiltering()
     .AddSorting();
+
+
 
 builder.Services.AddSwaggerGen(c =>
 {

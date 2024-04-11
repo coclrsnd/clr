@@ -20,14 +20,7 @@ namespace User.GraphQL.Schema.Users.Queries
     {
         public async Task<LoginResponseVm> Login([Service] IUserService userService, LoginRequestInput loginRequestInput)
         {
-            try
-            {
-                return await userService.Login(loginRequestInput);
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return await userService.Login(loginRequestInput);
         }
 
         [UseApplicationDbContext]

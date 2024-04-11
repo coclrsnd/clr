@@ -7,6 +7,7 @@ import { Loan } from "../model/loan";
 import { Observable, throwError } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
@@ -35,7 +36,7 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
     return this.http
       .post<{
         data: { loans: Loan[] };
-      }>("https://localhost:55148/graphql/", {
+      }>(environment.apiUrl, {
         query: this.FIND_LOANS_BY_ADHAR_QUERY,
         variables: { adharNumber: adharNumber },
       })

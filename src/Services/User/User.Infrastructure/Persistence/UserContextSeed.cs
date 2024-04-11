@@ -21,12 +21,12 @@ namespace User.Infrastructure.Persistence
                     new OrganizationConfiguration()
                     {
                         OrganizationId = 1,
-                        LogoPath = "SamplePath1"
+                        LogoPath = "../assets/images/logo.png"
                     },
                      new OrganizationConfiguration()
                     {
                          OrganizationId = 2,
-                         LogoPath = "SamplePath2"
+                         LogoPath = "../assets/images/logo.png"
                     }
                 };
                 userContext.OrganizationConfigurations.AddRange(organizationConfiguration);
@@ -35,7 +35,7 @@ namespace User.Infrastructure.Persistence
             }
 
             if (!userContext.AppFeatures.Any())
-            {               
+            {
 
                 userContext.AppFeatures.AddRange(GetAppFeatures());
                 await userContext.SaveChangesAsync();
@@ -97,13 +97,13 @@ namespace User.Infrastructure.Persistence
                     Name = "DashBoard",
                     Description = "DashBoard",
                     IsActive = true,
-                   
+
                 },
                     new AppFeatures
                     {
                         Name = "Admin",
                         Description = "Admin",
-                        IsActive = true,                        
+                        IsActive = true,
                     }
                  };
         }
@@ -122,8 +122,8 @@ namespace User.Infrastructure.Persistence
                     Name = "Admin",
                     Description = "Admin User Role",
                     IsActive = true
-    },
-};
+                }
+            };
         }
     }
 }

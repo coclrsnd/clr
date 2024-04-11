@@ -30,6 +30,11 @@ import { LoansResolver } from "./services/loan.resolver";
 
 export const loansRoutes: Routes = [
   {
+    path: "",
+    pathMatch: "full",
+    redirectTo: "loans",
+  },
+  {
     path: "loans",
     component: HomeComponent,
     children: [

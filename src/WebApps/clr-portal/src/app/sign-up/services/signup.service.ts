@@ -5,6 +5,7 @@ import { Observable, of, throwError } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
 import { Organization } from "../model/organization";
 import { SignUp } from "../model/signup";
+import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: "root" })
 export class SignupService {
@@ -19,15 +20,16 @@ export class SignupService {
   }
   `;
 
-  SIGNUPQUERY = `mutation CreateNewUser($signupUserRequest: UserSignupRequestInput!) {
-    createUser(userSignupRequestInput: $signupUserRequest)
+  SIGNUPQUERY = `mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      boolean
+    }
   }
-
   `;
 
   searchOrganizations(filterValue: string): Observable<Organization[]> {
     return this.httpClient
-      .post<any>("https://localhost:55148/graphql/", {
+      .post<any>(environment.apiUrl, {
         query: this.ORGQUERY,
         variables: { name: filterValue },
       })
@@ -40,14 +42,18 @@ export class SignupService {
 
   signup(signupRequest: SignUp): Observable<boolean> {
     return this.httpClient
-      .post<any>("https://localhost:55148/graphql/", {
+      .post<any>(environment.apiUrl, {
         query: this.SIGNUPQUERY,
-        variables: { signupUserRequest: signupRequest },
+        variables: {
+          input: {
+            userSignupRequestInput: signupRequest
+          }
+        },
       })
       .pipe(
         map((response) => {
-          if (response?.data?.createUser) {
-            return response.data.createUser;
+          if (response?.data?.createUser?.boolean) {
+            return response.data?.createUser?.boolean;
           } else {
             throw new Error("Error while creating");
           }

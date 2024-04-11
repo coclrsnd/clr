@@ -1,0 +1,31 @@
+
+.file-input-container {
+  position: relative;
+  margin-top: 16px; /* Adjust as needed */
+}
+
+.file-input-container input[type="file"] {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  cursor: pointer;
+}
+
+.file-input-container label {
+  cursor: pointer;
+}
+
+
+form{
+  display:flex;
+  justify-content: center;
+  > div:not(:last-child) {
+    margin-left: 20px; /* Adjust as needed */
+    margin-right: 20px; /* Adjust as needed */
+    display:flex;
+  }
+  button{
+    margin-top:10px;
+  }
+}

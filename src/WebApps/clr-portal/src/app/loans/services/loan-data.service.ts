@@ -9,6 +9,7 @@ import {
   QueryParams,
 } from "@ngrx/data/src/dataservices/interfaces";
 import { Update } from "@ngrx/entity";
+import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class LoansDataService extends DefaultDataService<Loan> {
@@ -22,14 +23,14 @@ export class LoansDataService extends DefaultDataService<Loan> {
   `;
 
   add(entity: Loan, options?: HttpOptions): Observable<Loan> {
-    return this.http.post<Loan>("https://localhost:55148/graphql/", {
+    return this.http.post<Loan>(environment.apiUrl, {
       query: this.CREATE_LOAN_QUERY,
       variables: { loanRequestModel: entity },
     });
   }
 
   update(update: Update<Loan>, options?: HttpOptions): Observable<Loan> {
-    return this.http.post<Loan>("https://localhost:55148/graphql/", {
+    return this.http.post<Loan>(environment.apiUrl, {
       query: this.CREATE_LOAN_QUERY,
       variables: { loanRequestModel: update.changes },
     });
