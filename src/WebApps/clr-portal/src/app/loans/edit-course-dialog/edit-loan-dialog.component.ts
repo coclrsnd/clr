@@ -12,6 +12,9 @@ import {
   UntypedFormBuilder,
   UntypedFormGroup,
   Validators,
+  FormControl,
+  FormGroupDirective,
+  NgForm
 } from "@angular/forms";
 import { Observable } from "rxjs";
 import { LoanEntityService } from "../services/loan-entity.service";
@@ -19,6 +22,8 @@ import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { Store } from "@ngrx/store";
 import { selectUserDetails } from "../../auth/auth.selectors";
+import {ErrorStateMatcher} from '@angular/material/core';
+
 
 @Component({
   selector: "Loan-dialog",
@@ -32,10 +37,11 @@ export class EditLoanDialogComponent implements OnInit {
   mode: "create" | "update";
   loading$: Observable<boolean>;
   loanForm: FormGroup;
-  loanTypes: string[] = ["Personal", "Vehicle"];
-  loanStatuType: string[] = ["Open", "Closed", "Pending"];
+  loanTypes: string[] = ["Surity Loan","Mortgage Loan","Business Loan", "Vehicle Loan","Loan on Fixed Deposite","Loan on Pigme","Pledge Loan","Housing Loan","Gold Purchase Loan"];
+  loanStatuType: string[] = ["Active","In-Active","Closed"];
   userDetails$: Observable<User>;
   dialogSaveStatus$: Observable<boolean>;
+  disableAdhar: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -47,20 +53,23 @@ export class EditLoanDialogComponent implements OnInit {
     this.dialogTitle = data.dialogTitle;
     this.loan = data.Loan;
     this.mode = data.mode;
+    this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
+
 
     this.loanForm = this.fb.group({
       id: [0],
-      amount: ["", Validators.required],
+      amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
       status: ["", Validators.required],
       organizationCode: ["", Validators.required],
-      adharNumber: ["", Validators.required],
+      adharNumber: ["", [Validators.required, Validators.pattern(/^(?!0{12})[0-9]{12}$/)]],
       loanDate: ["", Validators.required],
-      loanBorrower: ["", Validators.required],
+      loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,30}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+    )), Validators.maxLength(30)]],
       loanType: ["", Validators.required],
     });
 
     if (this.mode == "update") {
-      this.loanForm.patchValue({ ...data.Loan });
+      this.loanForm.patchValue({ ...data.Loan, disableAdhar:false  });
     }
   }
   ngOnInit(): void {
@@ -76,7 +85,7 @@ export class EditLoanDialogComponent implements OnInit {
   onSave() {
     const Loan: Loan = {
       ...this.loan,
-      ...this.loanForm.value,
+      ...this.loanForm.value, 
     };
 
     if (this.mode == "update") {
@@ -91,4 +100,5 @@ export class EditLoanDialogComponent implements OnInit {
       });
     }
   }
+  
 }

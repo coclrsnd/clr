@@ -9,10 +9,10 @@ import { FormControl, Validators } from "@angular/forms";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  numberPattern = /^[1-9]\d{11}$/;
+  numberPattern = (/^(?!0{12})[0-9]{12}$/);
   adharFormControl = new FormControl("", [
     Validators.required,
-    // Validators.pattern(this.numberPattern)
+    Validators.pattern(this.numberPattern)
   ]);
 
   constructor(

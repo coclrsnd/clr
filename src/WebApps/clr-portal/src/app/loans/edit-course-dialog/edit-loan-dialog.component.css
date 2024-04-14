@@ -1,5 +1,5 @@
 
-
+.formbody{display: flex; }
 mat-form-field {
   display: block;
   width: 100%;
@@ -9,4 +9,26 @@ textarea {
   height: 100px;
   resize: vertical;
 }
+.createtext{font-size: 1.1em;}
+.loantext{font-size: 0.9em; color: gray;}
+.savebtn{
+  margin-left: 80%;
+}
+mat-error{color: rgba(255, 0, 0, 0.912); font-size: 0.8em; margin: -10px 0px 15px 1px;}
+
+@media screen and (max-width: 560px) {
+  .formbody{min-height:200%; overflow-y: scroll;}
+  .savebtn{
+    margin-left: 56%;
+  }
+  mat-label{font-size: small;}
+  mat-datepicker-toggle{font-size: small; }
+}
+
+/* Reset pointer styles for disabled adharNumber input */
+.adhar input[disabled] {
+  cursor: default;
+  pointer-events: none;
+}
+
 

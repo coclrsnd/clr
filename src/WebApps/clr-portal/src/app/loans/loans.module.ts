@@ -27,6 +27,7 @@ import { LoanEntityService } from "./services/loan-entity.service";
 import { LoansDataService } from "./services/loan-data.service";
 import { EditLoanDialogComponent } from "./edit-course-dialog/edit-loan-dialog.component";
 import { LoansResolver } from "./services/loan.resolver";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
 export const loansRoutes: Routes = [
   {
@@ -69,6 +70,8 @@ const entityMetadata: EntityMetadataMap = {
     MatMomentDateModule,
     ReactiveFormsModule,
     RouterModule.forChild(loansRoutes),
+    FlexLayoutModule 
+   
   ],
   declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
   exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
