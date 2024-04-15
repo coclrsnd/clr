@@ -26,9 +26,9 @@ mat-error{color: rgba(255, 0, 0, 0.912); font-size: 0.8em; margin: -10px 0px 15p
 }
 
 /* Reset pointer styles for disabled adharNumber input */
-.adhar input[disabled] {
+/* .adhar input[disabled] {
   cursor: default;
   pointer-events: none;
-}
+} */
 
 

@@ -50,7 +50,8 @@ export class LoanListComponent implements OnInit {
 
     dialogConfig.data = {
       dialogTitle: "Edit Loan",
-      Loan:{ ...loan, disableAdhar: true }, // Add disableAdhar property,
+      Loan:{ ...loan }, 
+      disableAdhar: true, // Add disableAdhar property,
       mode: "update",
     };
 

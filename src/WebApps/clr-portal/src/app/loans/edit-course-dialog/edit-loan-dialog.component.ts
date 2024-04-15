@@ -61,7 +61,7 @@ export class EditLoanDialogComponent implements OnInit {
       amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
       status: ["", Validators.required],
       organizationCode: ["", Validators.required],
-      adharNumber: ["", [Validators.required, Validators.pattern(/^(?!0{12})[0-9]{12}$/)]],
+      adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^(?!0{12})[0-9]{12}$/)]],
       loanDate: ["", Validators.required],
       loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,30}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
     )), Validators.maxLength(30)]],
@@ -69,8 +69,8 @@ export class EditLoanDialogComponent implements OnInit {
     });
 
     if (this.mode == "update") {
-      this.loanForm.patchValue({ ...data.Loan, disableAdhar:false  });
-    }
+      this.loanForm.patchValue({ ...data.Loan });
+    } 
   }
   ngOnInit(): void {
     this.store.select(selectUserDetails).subscribe((user) => {
@@ -85,8 +85,8 @@ export class EditLoanDialogComponent implements OnInit {
   onSave() {
     const Loan: Loan = {
       ...this.loan,
-      ...this.loanForm.value, 
-    };
+      ...this.loanForm.value
+    }; 
 
     if (this.mode == "update") {
       this.loansService.update(Loan);
