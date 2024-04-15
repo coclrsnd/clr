@@ -63,7 +63,7 @@ export class EditLoanDialogComponent implements OnInit {
       organizationCode: ["", Validators.required],
       adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^(?!0{12})[0-9]{12}$/)]],
       loanDate: ["", Validators.required],
-      loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,30}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+      loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
     )), Validators.maxLength(30)]],
       loanType: ["", Validators.required],
     });

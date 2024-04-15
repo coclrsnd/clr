@@ -58,8 +58,8 @@
         </mat-form-field>
         <div *ngIf="loanForm.get('loanBorrower').invalid && (loanForm.get('loanBorrower').dirty || loanForm.get('loanBorrower').touched)">
           <mat-error *ngIf="loanForm.get('loanBorrower').hasError('required')"  >Name required</mat-error>
-          <mat-error *ngIf=" loanForm.get('loanBorrower').hasError('pattern')"  >Not a valid name</mat-error>
-          <mat-error *ngIf="loanForm.get('loanBorrower').hasError('maxlength')" >Names should not contain more than 30 characters</mat-error>
+          <mat-error *ngIf="!loanForm.get('loanBorrower').hasError('required') && loanForm.get('loanBorrower').hasError('pattern')"  >Not a valid name</mat-error>
+          <mat-error *ngIf="!loanForm.get('loanBorrower').hasError('pattern') && loanForm.get('loanBorrower').hasError('maxlength') " >Names should not contain more than 30 characters</mat-error>
         </div>
         
       </div>
