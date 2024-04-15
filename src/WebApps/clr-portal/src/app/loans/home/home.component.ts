@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
+import { ChangeDetectorRef } from "@angular/core";
 
 @Component({
   selector: "home",
@@ -18,8 +19,12 @@ export class HomeComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
+    private changeDR:ChangeDetectorRef
   ) {}
-
+  refreshView() {
+    // Trigger change detection manually
+    this.changeDR.detectChanges();
+  }
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
       this.adharFormControl.patchValue(param["adharNumber"]);
@@ -29,6 +34,9 @@ export class HomeComponent implements OnInit {
   onSubmit() {
     this.router.navigate([this.adharFormControl.value], {
       relativeTo: this.route,
-    });
+     
+    });  
+
+    
   }
 }
