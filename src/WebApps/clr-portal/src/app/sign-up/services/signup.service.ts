@@ -46,8 +46,8 @@ export class SignupService {
         query: this.SIGNUPQUERY,
         variables: {
           input: {
-            userSignupRequestInput: signupRequest
-          }
+            userSignupRequestInput: signupRequest,
+          },
         },
       })
       .pipe(

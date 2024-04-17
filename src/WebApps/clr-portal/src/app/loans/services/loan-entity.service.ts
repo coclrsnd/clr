@@ -32,6 +32,19 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
   }
   `;
 
+  FIND_LOANS_BY_ORG = `query FindLoansByAdhar($organizationCode: String!) {
+    loans(where: { organizationCode: { contains: $organizationCode } }) {
+      amount
+      status
+      organizationCode
+      adharNumber
+      loanDate
+      loanBorrower
+      loanType
+      id
+    }
+  }
+  `;
   getWithAdhar(adharNumber: string): Observable<Loan[]> {
     return this.http
       .post<{
@@ -39,6 +52,34 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       }>(environment.apiUrl, {
         query: this.FIND_LOANS_BY_ADHAR_QUERY,
         variables: { adharNumber: adharNumber },
+      })
+      .pipe(
+        tap((response) => {
+          if (response?.data?.loans) {
+            this.addAllToCache(response?.data?.loans);
+          }
+        }),
+        map((response) => {
+          if (response.data.loans) {
+            console.log(response.data.loans);
+            return response.data.loans;
+          } else {
+            throw new Error("something went wrong");
+          }
+        }),
+        catchError((error) => {
+          return throwError(error);
+        }),
+      );
+  }
+
+  getWithOrganization(organizationCode: string): Observable<Loan[]> {
+    return this.http
+      .post<{
+        data: { loans: Loan[] };
+      }>(environment.apiUrl, {
+        query: this.FIND_LOANS_BY_ORG,
+        variables: { organizationCode: organizationCode },
       })
       .pipe(
         tap((response) => {

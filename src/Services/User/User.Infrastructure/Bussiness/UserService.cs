@@ -118,12 +118,22 @@ namespace User.Infrastructure.Bussiness
 
                     var loginResponse = new LoginResponseVm();
                     loginResponse.Token = tokenString;
-                    loginResponse.RoleName = rolesString;
                     loginResponse.UserId = user.Id;
-                    loginResponse.RoleId = 1;
-                    loginResponse.OrganizationId = organization.Id;
-                    loginResponse.OrganizationCode = organization.Code;
-                    loginResponse.OrganizationName = organization.Name;
+                    if (rolesString.ToLower().Contains(UserRoles.SuperAdmin.ToString().ToLower()))
+                    {
+                        loginResponse.OrganizationId = 0;
+                        loginResponse.OrganizationCode = "SUPERGROUP";
+                        loginResponse.OrganizationName = "SuperGroup";
+                        loginResponse.RoleName = UserRoles.SuperAdmin.ToString();
+
+                    }
+                    else
+                    {
+                        loginResponse.OrganizationId = organization.Id;
+                        loginResponse.OrganizationCode = organization.Code;
+                        loginResponse.OrganizationName = organization.Name;
+                        loginResponse.RoleName = rolesString;
+                    }
                     loginResponse.EmailId = user.Email;
                     loginResponse.Name = user.UserName;
                     loginResponse.CurrentRole = currentRole;

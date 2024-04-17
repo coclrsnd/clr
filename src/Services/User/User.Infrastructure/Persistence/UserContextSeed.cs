@@ -82,12 +82,13 @@ namespace User.Infrastructure.Persistence
         {
             return new List<Organization>
             {
-                new Organization() {Name = "Org 1", Code = "ORG1" },
-                new Organization() {Name = "Org 2", Code = "ORG2" }
+                new Organization() {Name = "Arunagiri PSSN Sindhanur", Code = "APSSNS" },
+                new Organization() {Name = "Karnataka PSSN Sindhanur", Code = "KPSSNS" },
+                new Organization() {Name = "Bharathiya PSSN Sindhanur", Code = "BPSSNS" },
+                new Organization() {Name = "Sindhanur PSSN Sindhanur", Code = "SPSSNS" },
+                new Organization() {Name = "Tungabhadra PSSN Sindhanur", Code = "TPSSNS" },
             };
         }
-
-
         public static IEnumerable<AppFeatures> GetAppFeatures()
         {
             return

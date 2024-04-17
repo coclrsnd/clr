@@ -1,36 +1,15 @@
 <div class="content">
-  <form class="form-container">
-    <div>
-      <mat-form-field appearance="outline">
-        <mat-label>Adhar Number</mat-label>
-        <input
-          matInput
-          [formControl]="adharFormControl"
-          placeholder="123456789"
-        />
-        @if (
-          adharFormControl.hasError("pattern") &&
-          !adharFormControl.hasError("required")
-        ) {
-          <mat-error>Please enter a valid Adhar</mat-error>
-        }
-        @if (adharFormControl.hasError("required")) {
-          <mat-error>Adhar is <strong>required</strong></mat-error>
-        }
-      </mat-form-field>
-    </div>
-    <div>
-      <button
-        mat-flat-button
-        color="primary"
-        [disabled]="adharFormControl.invalid"
-        (click)="onSubmit()"
-        type="button"
-      >
-        Search
-      </button>
-    </div>
-  </form>
+  <div class="form-control">
+    <mat-form-field appearance="outline">
+      <mat-label>Adhar Number</mat-label>
+      <input matInput [formControl]="adharFormControl" placeholder="123456789" />
+    </mat-form-field>
+    <error-tooltip *ngIf="adharFormControl.touched || adharFormControl.dirty"
+      [errors]="adharFormControl?.errors"></error-tooltip>
+  </div>
+  <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="adharFormControl.invalid">
+    Save
+  </button>
 </div>
 <div>
   <router-outlet></router-outlet>

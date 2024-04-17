@@ -1,23 +1,19 @@
-# Stage 1: Build the Angular application
-FROM node:14 AS build
+# Stage 1: Build the Angular application (slim Node.js base)
+FROM node:alpine AS builder
 
 WORKDIR /app
-
-COPY package.json package-lock.json ./
-
+COPY package*.json ./
 RUN npm install
-
 COPY . .
+RUN npm run build --prod
 
-RUN npm run build -- --prod
+# Stage 2: Production-optimized image (smaller Nginx image)
+FROM trion/nginx-angular
 
-# Stage 2: Serve the Angular application using nginx
-FROM nginx:alpine
+# COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY --from=build /app/dist/your-angular-app /usr/share/nginx/html
-
-# Copy the default nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+WORKDIR /usr/share/nginx/html
+COPY --from=builder /app/dist .
 
 EXPOSE 80
 

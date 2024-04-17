@@ -1,12 +1,24 @@
 
-
-mat-form-field {
-  display: block;
-  width: 100%;
+.dialog-actions{
+  justify-content:center;
 }
 
-textarea {
-  height: 100px;
-  resize: vertical;
+.success-msg{
+  color:green;
 }
 
+.error-msg{
+  color:green;
+}
+
+.dialog-header{
+  display:flex;
+}
+
+.success-snackbar{
+  color:green;
+}
+
+.error-snackbar{
+  color:red;
+}

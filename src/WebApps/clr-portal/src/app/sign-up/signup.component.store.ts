@@ -35,6 +35,11 @@ export class SignupComponentStore extends ComponentStore<SignupState> {
 
   readonly signup = this.effect((signupRequest$: Observable<SignUp>) =>
     signupRequest$.pipe(
+      tap((_) => {
+        this.patchState((state) => ({
+          errorOnSignup: undefined,
+        }));
+      }),
       switchMap((signupRequest) =>
         this.signupService.signup(signupRequest).pipe(
           tap(() => this.signupSuccess()),

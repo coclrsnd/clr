@@ -6,19 +6,14 @@ import {
 } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Loan } from "../model/loan";
-import {
-  FormBuilder,
-  FormGroup,
-  UntypedFormBuilder,
-  UntypedFormGroup,
-  Validators,
-} from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Observable } from "rxjs";
 import { LoanEntityService } from "../services/loan-entity.service";
 import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { Store } from "@ngrx/store";
 import { selectUserDetails } from "../../auth/auth.selectors";
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: "Loan-dialog",
@@ -41,8 +36,9 @@ export class EditLoanDialogComponent implements OnInit {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLoanDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private loansService: LoanEntityService,
+    private loanEntityService: LoanEntityService,
     private store: Store<AppState>,
+    private _snackBar: MatSnackBar,
   ) {
     this.dialogTitle = data.dialogTitle;
     this.loan = data.Loan;
@@ -50,12 +46,18 @@ export class EditLoanDialogComponent implements OnInit {
 
     this.loanForm = this.fb.group({
       id: [0],
-      amount: ["", Validators.required],
+      amount: ["", [Validators.required, Validators.pattern(/^[1-9]\d$/)]],
       status: ["", Validators.required],
       organizationCode: ["", Validators.required],
-      adharNumber: ["", Validators.required],
+      adharNumber: [
+        "",
+        [Validators.required, Validators.pattern(/^[1-9]\d{11}$/)],
+      ],
       loanDate: ["", Validators.required],
-      loanBorrower: ["", Validators.required],
+      loanBorrower: [
+        "",
+        [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]*$/)],
+      ],
       loanType: ["", Validators.required],
     });
 
@@ -78,17 +80,42 @@ export class EditLoanDialogComponent implements OnInit {
       ...this.loan,
       ...this.loanForm.value,
     };
-
     if (this.mode == "update") {
-      this.loansService.update(Loan);
-
-      this.dialogRef.close();
+      this.loanEntityService.update(Loan).subscribe(
+        (response) => {
+          const htmlContent = "<span>Loan created successfully.</span>";
+          this._snackBar.open(htmlContent, "Close", {
+            duration: 3000,
+            panelClass: ["success-snackbar"],
+          });
+          this.dialogRef.close();
+        },
+        (error) => {
+          const htmlContent = "<span>Error while creating loan.</span>";
+          this._snackBar.open(htmlContent, "Close", {
+            duration: 3000,
+            panelClass: ["error-snackbar"],
+          });
+        },
+      );
     } else if (this.mode == "create") {
-      this.loansService.add(Loan).subscribe((newLoan) => {
-        console.log("New Loan", newLoan);
-
-        this.dialogRef.close();
-      });
+      this.loanEntityService.add(Loan).subscribe(
+        (response) => {
+          const htmlContent = "<span>Loan updated successfully.</span>";
+          this._snackBar.open(htmlContent, "Close", {
+            duration: 3000,
+            panelClass: ["success-snackbar"],
+          });
+          this.dialogRef.close();
+        },
+        (error) => {
+          const htmlContent = "<span>Error while updating loan</span>";
+          this._snackBar.open(htmlContent, "Close", {
+            duration: 3000,
+            panelClass: ["success-snackbar"],
+          });
+        },
+      );
     }
   }
 }

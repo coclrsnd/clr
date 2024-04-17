@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'https://localhost:55148/graphql/'
+  apiUrl: "https://localhost:55148/graphql/",
+  run: "dev",
 };

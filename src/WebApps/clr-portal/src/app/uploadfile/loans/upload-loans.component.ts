@@ -1,31 +1,39 @@
-
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { Organization } from '../../sign-up/model/organization';
-import { SignupComponentStore } from '../../sign-up/signup.component.store';
-import { startWith, tap } from 'rxjs/operators';
-import { UploadFileRequest } from '../models/upload';
-import { FileUploadService } from '../service/upload.service';
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { Observable } from "rxjs";
+import { Organization } from "../../sign-up/model/organization";
+import { SignupComponentStore } from "../../sign-up/signup.component.store";
+import { startWith, tap } from "rxjs/operators";
+import { UploadFileRequest } from "../models/upload";
+import { FileUploadService } from "../service/upload.service";
+import { UploadStore } from "./upload-loans.store";
 
 @Component({
-  selector: 'upload-loans',
-  templateUrl: 'upload-loans.component.html',
-  styleUrl: 'upload-loans.component.css'
+  selector: "upload-loans",
+  templateUrl: "upload-loans.component.html",
+  styleUrl: "upload-loans.component.css",
 })
-
 export class UploadLoansComponent implements OnInit {
   filteredOrganizations$: Observable<Organization[]>;
   selectedFile: any;
-  adharFormControl = new FormControl("", [
-    Validators.required,
-  ]);
-  constructor(private signupStore: SignupComponentStore, private uploadService: FileUploadService) { }
+  organization = new FormControl("", [Validators.required]);
+  uploadStatus$: Observable<boolean> = undefined;
+  constructor(
+    private signupStore: SignupComponentStore,
+    private uploadStore: UploadStore,
+  ) {
+    this.uploadStatus$ = this.uploadStore.uploadStatus$;
+  }
 
   ngOnInit() {
     this.filteredOrganizations$ = this.signupStore.filteredOrganizations$;
-    this.adharFormControl
-      .valueChanges.pipe(
+    this.organization.valueChanges
+      .pipe(
         startWith(""),
         tap((value) => this.signupStore.filterOrganizations(value)),
       )
@@ -37,18 +45,12 @@ export class UploadLoansComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.adharFormControl.value)
+    console.log(this.organization.value);
     let uploadFileRequest: UploadFileRequest = {
       file: this.selectedFile,
-      OrgCode: this.adharFormControl.value['code']
-    }
-
-    this.uploadService.uploadLoanFile(uploadFileRequest).subscribe(res => {
-      console.log(res);
-    },
-  err=>{
-    console.log(err)
-  })
+      OrgCode: this.organization.value["code"],
+    };
+    this.uploadStore.upload(uploadFileRequest);
   }
 
   onFileSelected($event: any) {

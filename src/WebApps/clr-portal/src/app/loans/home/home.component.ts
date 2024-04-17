@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
+import { BehaviorSubject } from "rxjs";
 
 @Component({
   selector: "home",
@@ -9,10 +10,11 @@ import { FormControl, Validators } from "@angular/forms";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  numberPattern = /^[1-9]\d{11}$/;
+  numberPattern = /^[1-9]\d$/;
   adharFormControl = new FormControl("", [
     Validators.required,
-    // Validators.pattern(this.numberPattern)
+    Validators.maxLength(12),
+    Validators.minLength(12)
   ]);
 
   constructor(

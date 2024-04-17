@@ -24,11 +24,13 @@ export class LoanListComponent implements OnInit {
     "status",
     "adharNumber",
     "loanDate",
+    "organizationName",
     "loanBorrower",
     "loanType",
     "actions",
   ];
   userDetails$: Observable<User>;
+  showCurrentOrgsLoans: boolean;
 
   constructor(
     private dialog: MatDialog,
@@ -39,7 +41,7 @@ export class LoanListComponent implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((param) => {
-      this.loans$ = this.loanService.getWithAdhar(param["adharNumber"]);
+        this.loans$ = this.loanService.getWithAdhar(param["adharNumber"]);
     });
 
     this.userDetails$ = this.store.pipe(select(selectUserDetails));

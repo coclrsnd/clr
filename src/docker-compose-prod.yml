@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   userdb:
-    image: postgres
+    image: coclr/clr_app:postgres.latest
     container_name: userdb
     environment:
       - POSTGRES_USER=admin
@@ -15,7 +15,7 @@ services:
       - postgres_data:/var/lib/postgresql/data/  
 
   user.api:
-    image: 654654428833.dkr.ecr.ap-south-1.amazonaws.com/clr:userapi-latest
+    image: coclr/clr_app:userapi.latest
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
@@ -27,6 +27,13 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+
+  angular-app:
+    image: coclr/clr_app:src-angular-app.latest
+    ports:
+      - '80:80'
+    volumes:
+      - './src:/app/src' 
 
 volumes:
   postgres_data:
