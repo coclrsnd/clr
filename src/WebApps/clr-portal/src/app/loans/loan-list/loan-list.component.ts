@@ -126,8 +126,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     } else {
       this.showCurrentOrgsLoans = false;
       // this.displayedColumns.splice(this.displayedColumns.length - 2, 0, 'organizationName');
-      if(this)
-      this.adharNumberSubject.next(this._adharNumber);
+      if (this) this.adharNumberSubject.next(this._adharNumber);
     }
   }
 

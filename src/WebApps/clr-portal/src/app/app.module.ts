@@ -37,6 +37,14 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   {
+    path: "resetPassword",
+    loadChildren: () =>
+      import("./reset-password/reset.password.module").then(
+        (m) => m.ResetPasswordModule,
+      ),
+    canActivate: [AuthGuard],
+  },
+  {
     path: "sign-up",
     loadChildren: () =>
       import("./sign-up/signup.module").then((m) => m.SignupModule),
