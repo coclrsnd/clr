@@ -3,18 +3,22 @@
     margin: 0;
 }
 
-main {
-    margin: 30px;
-}
+mat-toolbar{background-color: #03a4ed;}
 
 .menu-button {
-    background: rgba(255, 170, 0, 0.76);
-    color: white;
+    background: #f8f8f8;
+    color:#03a4ed;
     border: none;
     cursor:pointer;
     outline:none;
+    border-radius: 2px;  
 }
 
+.orgname{
+  color: white; 
+  text-shadow: 0px 0.5px 1px  white;
+  padding-left: 10px;
+}
 .content {
   padding: 10px;
 }
@@ -25,8 +29,9 @@ main {
   width: 100%;
   padding-right:15px;
   image {
-    width:10% !important;
+    width:4% !important;
   }
+  
 }
 
 .spacer {
@@ -42,4 +47,6 @@ main {
   display: flex;
   align-items: center;
 }
+
+.toolbar-content img{width: 4%;}
 

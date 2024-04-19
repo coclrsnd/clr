@@ -1,20 +1,34 @@
 <div class="content"></div>
-<form>
-  <mat-form-field class="grid-form-field">
-    <input matInput [formControl]="adharFormControl" placeholder="Organization Code" [matAutocomplete]="auto" />
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOrganizationFn">
-      <mat-option *ngFor="let organization of filteredOrganizations$ | async" [value]="organization">
-        {{ organization.name }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+<form class="row">
 
-  <div class="file-input-container">
-    <mat-icon>attach_file</mat-icon>
-    <input type="file" id="fileInput" (change)="onFileSelected($event)">
+    <div  class="col-sm-6">
+      <mat-form-field class="grid-form-field">
+        <input matInput [formControl]="adharFormControl" placeholder="Organization Code" [matAutocomplete]="auto" />
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOrganizationFn">
+          <mat-option *ngFor="let organization of filteredOrganizations$ | async" [value]="organization">
+            {{ organization.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <div class="file-input-container">
+        <mat-icon>attach_file</mat-icon>
+        <input type="file" id="fileInput" multiple (change)="onFileSelected($event)">
+        <span class="filename">
+          {{selectedFile?.name ?? ''}}
+        </span>
+      </div>
+    </div>
+  
+ <div class="col-sm-6">
+     <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Upload</button>
+     <div *ngIf="progressBarVisible">
+       <progress id="progressBar" [value]="progressValue" max="100" style="width:90px;"></progress> <!-- Progress bar -->
+       <span>{{ progressValue }}%</span> <!-- Display progress percentage -->
+      </div> <br>
+      <div [style]="{'color':progressmsgcolor,'font-size':'0.85em','margin-top':'10px'}">{{progressmessage}}</div>
   </div>
-  <div>
-    {{selectedFile?.name ?? ''}}
-  </div>
-  <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Upload</button>
 </form>
+
+
+

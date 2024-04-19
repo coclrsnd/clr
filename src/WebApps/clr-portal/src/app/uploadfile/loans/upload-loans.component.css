@@ -1,4 +1,6 @@
-
+.row{
+  margin-left: 10%;  
+}
 .file-input-container {
   position: relative;
   margin-top: 16px; /* Adjust as needed */
@@ -17,15 +19,22 @@
 }
 
 
+
 form{
-  display:flex;
-  justify-content: center;
+ 
   > div:not(:last-child) {
-    margin-left: 20px; /* Adjust as needed */
-    margin-right: 20px; /* Adjust as needed */
+    /* margin-left: 20px; Adjust as needed */
+    /* margin-right: 20px; Adjust as needed */
     display:flex;
   }
   button{
     margin-top:10px;
   }
+}
+
+@media screen and (max-width: 760px) {
+  .row{
+    margin-left: 2%;  
+  }
+  .filename{font-size: 0.7em;}
 }

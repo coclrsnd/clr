@@ -11,35 +11,37 @@ $dark-primary-text: rgba(black, 0.87);
 $light-primary-text: white;
 
 $mat-primary: (
-  50: #fff3e0,
-  100: #ffe0b2,
-  200: #ffcc80,
-  300: #ffb74d,
-  400: #ffa726,
-  500: rgba(255, 152, 0, 0.8),
-  600: #fb8c00,
-  700: #f57c00,
-  800: #ef6c00,
-  900: #e65100,
-  A100: #ffd180,
-  A200: #ffab40,
-  A400: #ff9100,
-  A700: #ff6d00,
-  contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
-    500: white,
-    600: white,
-    700: white,
-    800: white,
-    900: white,
-    A100: rgba(black, 0.87),
-    A200: white,
-    A400: white,
-    A700: white
+  50: #e0f4ff,
+100: #b3e0ff, 
+200: #80ccff, 
+300: #4db8ff, 
+400: #26a7ff, 
+500: #03a4ed,  
+600: #0083cc, 
+700: #0072b3, 
+800: #0061a0, 
+900: #004080, 
+A100: #80d7ff,
+A200: #40c4ff,
+A400: #00b0ff,
+A700: #0091e6,
+contrast: (
+  50: rgba(0, 0, 0, 0.87), /* Updated contrast color */
+  100: rgba(0, 0, 0, 0.87),
+  200: rgba(0, 0, 0, 0.87),
+  300: rgba(0, 0, 0, 0.87),
+  400: rgba(0, 0, 0, 0.87),
+  500: white, /* Updated contrast color */
+  600: white,
+  700: white,
+  800: white,
+  900: white,
+  A100: rgba(0, 0, 0, 0.87),
+  A200: white,
+  A400: white,
+  A700: white
+
+
   )
 );
 

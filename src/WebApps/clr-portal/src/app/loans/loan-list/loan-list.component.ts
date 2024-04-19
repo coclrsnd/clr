@@ -26,7 +26,16 @@ export class LoanListComponent implements OnInit {
     "loanDate",
     "loanBorrower",
     "loanType",
+    "organizationCode",
     "actions",
+    // "loanDate",
+    // "loanBorrower",
+    // "socity",
+    // "loanType",
+    // "loan amount",
+    // "status",
+    // "actions"
+
   ];
   userDetails$: Observable<User>;
 

@@ -22,6 +22,7 @@ import { SignupComponentStore } from '../sign-up/signup.component.store';
 import { CommonModule } from '@angular/common';
 import { FileUploadService } from './service/upload.service';
 
+
 @NgModule({
   imports: [
     CommonModule,

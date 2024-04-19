@@ -1,52 +1,53 @@
-<mat-toolbar color="primary" *ngIf="isLoggedIn$ | async">
-  <div class="toolbar-content">
-    <div class="org-name">
-      <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <p1 *ngIf="userDetails$ | async as userDetails"
-        >{{
-          userDetails.organizationName
-            ? userDetails.organizationName
-            : "Org Name"
-        }}
-      </p1>
-    </div>
-    <img
-      *ngIf="userDetails$ | async as user"
-      [src]="user.logoPath ? user.logoPath : '../assets/images/logo.png'"
-      alt="Image Description"
-      style="width: 8%"
-    />
-  </div>
-</mat-toolbar>
-<mat-sidenav-container>
-  <mat-sidenav
-    #sidenav
-    mode="side"
-    opened
-    [fixedInViewport]="true"
-    [fixedTopGap]="70"
-  >
-  <mat-nav-list *ngIf="isLoggedIn$ | async">
-    <a mat-list-item routerLink="/loans">
-      <div class="list-item-content">
-        <mat-icon>dashboard</mat-icon>
-        <span>Dashboard</span>
+  <mat-toolbar  *ngIf="isLoggedIn$ | async">
+    <div class="toolbar-content">
+      <div class="org-name">
+        <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
+          <mat-icon>menu</mat-icon>
+        </button>
+        <p1 *ngIf="userDetails$ | async as userDetails" class="orgname"
+          >{{
+            userDetails.organizationName
+              ? userDetails.organizationName
+              : "Org Name"
+          }}
+        </p1>
       </div>
-    </a>
-    <a mat-list-item (click)="logout()" *ngIf="isLoggedIn$ | async">
-      <div class="list-item-content">
-        <mat-icon>logout</mat-icon>
-        <span>Logout</span>
-      </div>
-    </a>
-  </mat-nav-list>
-
-  </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="content">
-      <router-outlet></router-outlet>
+      <img
+        *ngIf="userDetails$ | async as user"
+        [src]="user.logoPath ? user.logoPath : '../assets/images/logo.png'"
+        alt="Image Description"
+        
+      />
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </mat-toolbar>
+  <mat-sidenav-container>
+    <mat-sidenav
+      #sidenav
+      mode="side"
+      opened
+      [fixedInViewport]="true"
+      [fixedTopGap]="80"
+    >
+    <mat-nav-list *ngIf="isLoggedIn$ | async">
+      <a mat-list-item routerLink="/loans">
+        <div class="list-item-content">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </div>
+      </a>
+      <a mat-list-item (click)="logout()" *ngIf="isLoggedIn$ | async">
+        <div class="list-item-content">
+          <mat-icon>logout</mat-icon>
+          <span>Logout</span>
+        </div>
+      </a>
+    </mat-nav-list>
+  
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+  
