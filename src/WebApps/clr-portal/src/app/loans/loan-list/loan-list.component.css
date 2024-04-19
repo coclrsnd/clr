@@ -13,3 +13,13 @@
   margin-right: 5px;
 }
 
+.tableOptions{
+  display:flex;
+  justfy-content: center;
+  mat-checkbox{
+    margin-top:5px;
+  }
+  .form-control{
+    margin-right:5px;
+  }
+}

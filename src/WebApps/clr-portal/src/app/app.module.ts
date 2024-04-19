@@ -9,7 +9,7 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatListModule } from "@angular/material/list";
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { HttpClientModule } from "@angular/common/http";
+import { HTTP_INTERCEPTORS, HttpClientModule } from "@angular/common/http";
 
 import { RouterModule, Routes } from "@angular/router";
 import { AuthModule } from "./auth/auth.module";
@@ -25,6 +25,9 @@ import { AuthGuard } from "./auth/auth.guard";
 import { EntityDataModule } from "@ngrx/data";
 import { MatInputModule } from "@angular/material/input";
 import { ReactiveFormsModule } from "@angular/forms";
+import { SharedModule } from "./shared/shared.module";
+import { ApiInterceptor } from "./shared/services/api.interceptor";
+import { ToastrModule } from "ngx-toastr";
 
 const routes: Routes = [
   {
@@ -65,6 +68,7 @@ const routes: Routes = [
     MatInputModule,
     MatCheckboxModule,
     ReactiveFormsModule,
+    SharedModule,
     AuthModule.forRoot(),
     StoreModule.forRoot(reducers, {
       metaReducers,
@@ -86,7 +90,11 @@ const routes: Routes = [
       stateKey: "router",
       routerState: RouterState.Minimal,
     }),
+    ToastrModule.forRoot(),
   ],
   bootstrap: [AppComponent],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true },
+  ],
 })
 export class AppModule {}

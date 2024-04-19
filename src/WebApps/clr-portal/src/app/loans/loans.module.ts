@@ -29,6 +29,7 @@ import { EditLoanDialogComponent } from "./edit-course-dialog/edit-loan-dialog.c
 import { LoansResolver } from "./services/loan.resolver";
 import { SharedModule } from "../shared/shared.module";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatGridListModule } from "@angular/material/grid-list";
 
 export const loansRoutes: Routes = [
   {
@@ -73,6 +74,7 @@ const entityMetadata: EntityMetadataMap = {
     MatCheckboxModule,
     SharedModule,
     RouterModule.forChild(loansRoutes),
+    MatGridListModule,
   ],
   declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
   exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent],

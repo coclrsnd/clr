@@ -12,25 +12,29 @@ export class ErrorTooltipComponent implements OnInit {
   @Input()
   set errors(errs: ValidationErrors) {
     this.error = [];
-    if(!errs) return;
-    Object.keys(errs).forEach(key => {
+    if (!errs) return;
+    Object.keys(errs).forEach((key) => {
       switch (key) {
-        case 'required':
+        case "required":
           this.error.push("Field is required");
           break;
-        case 'pattern':
+        case "pattern":
           this.error.push("invalid value");
           break;
-        case 'minlength':
-          this.error.push(`Min length is ${errs['minlength']['requiredLength']}`);
+        case "minlength":
+          this.error.push(
+            `Min length is ${errs["minlength"]["requiredLength"]}`,
+          );
           break;
-        case 'maxlength':
-          this.error.push(`Max length is ${errs['maxlength']['requiredLength']}`);
+        case "maxlength":
+          this.error.push(
+            `Max length is ${errs["maxlength"]["requiredLength"]}`,
+          );
           break;
       }
-    })
+    });
   }
-  constructor() { }
+  constructor() {}
 
-  ngOnInit() { }
+  ngOnInit() {}
 }

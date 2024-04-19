@@ -2,6 +2,7 @@ export interface Loan {
   amount: number;
   status: string;
   organizationCode: string;
+  organizationName: string;
   adharNumber: string;
   loanDate: Date;
   loanBorrower: string;

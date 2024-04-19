@@ -14,8 +14,9 @@ export class HomeComponent implements OnInit {
   adharFormControl = new FormControl("", [
     Validators.required,
     Validators.maxLength(12),
-    Validators.minLength(12)
+    Validators.minLength(12),
   ]);
+  aadharNumber: string;
 
   constructor(
     private router: Router,
@@ -29,8 +30,6 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit() {
-    this.router.navigate([this.adharFormControl.value], {
-      relativeTo: this.route,
-    });
+    this.aadharNumber = this.adharFormControl.value;
   }
 }

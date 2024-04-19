@@ -1,16 +1,16 @@
 <div class="content">
-  <div class="form-control">
-    <mat-form-field appearance="outline">
-      <mat-label>Adhar Number</mat-label>
-      <input matInput [formControl]="adharFormControl" placeholder="123456789" />
-    </mat-form-field>
-    <error-tooltip *ngIf="adharFormControl.touched || adharFormControl.dirty"
-      [errors]="adharFormControl?.errors"></error-tooltip>
-  </div>
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Adhar Number</mat-label>
+        <input matInput [formControl]="adharFormControl" placeholder="123456789" />
+      </mat-form-field>
+      <error-tooltip *ngIf="adharFormControl.touched || adharFormControl.dirty"
+        [errors]="adharFormControl?.errors"></error-tooltip>
+    </div>
   <button mat-raised-button color="primary" (click)="onSubmit()" [disabled]="adharFormControl.invalid">
-    Save
-  </button>
-</div>
+    Search
+    </button>
+  </div>
 <div>
-  <router-outlet></router-outlet>
+  <loan-list [adharNumber]="aadharNumber"></loan-list>
 </div>

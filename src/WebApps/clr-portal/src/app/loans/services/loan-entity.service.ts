@@ -23,6 +23,7 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       amount
       status
       organizationCode
+      organizationName
       adharNumber
       loanDate
       loanBorrower
@@ -37,6 +38,7 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       amount
       status
       organizationCode
+      organizationName
       adharNumber
       loanDate
       loanBorrower

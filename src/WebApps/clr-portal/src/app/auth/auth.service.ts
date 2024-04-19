@@ -18,6 +18,7 @@ export class AuthService {
       token
       organizationId
       organizationCode
+      organizationName
       logoPath
       roleId
       roleName
