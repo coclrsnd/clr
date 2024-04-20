@@ -13,6 +13,7 @@ import { AppState } from "../../reducers";
 import { selectUserDetails } from "../../auth/auth.selectors";
 import { MatTableDataSource } from "@angular/material/table";
 import { EditLoanDialogComponent } from "../edit-course-dialog/edit-loan-dialog.component";
+import { PrintingService } from "../services/printing.service";
 
 @Component({
   selector: "loan-list",
@@ -28,13 +29,13 @@ export class LoanListComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<Loan>();
   loading$: Observable<boolean>;
   displayedColumns: string[] = [
-    "amount",
-    "status",
-    "adharNumber",
     "loanDate",
     "loanBorrower",
+    "adharNumber",
     "organizationName",
     "loanType",
+    "amount",
+    "status",
     "actions",
   ];
   userDetails$: Observable<User>;
@@ -48,6 +49,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     private loanService: LoanEntityService,
     private route: ActivatedRoute,
     private store: Store<AppState>,
+    private printingService: PrintingService,
   ) {}
 
   ngOnInit() {
@@ -134,4 +136,14 @@ export class LoanListComponent implements OnInit, OnDestroy {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  printTable(): void {
+    window.print(); // Open browser's print dialog
+  }
+
+  // print(): void {
+  //   setTimeout(() => {
+  //     this.printingService.printDocument(this.printSection.nativeElement.id);
+  //   });
+  // }
 }

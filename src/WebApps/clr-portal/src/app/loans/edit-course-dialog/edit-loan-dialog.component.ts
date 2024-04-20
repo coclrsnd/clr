@@ -27,8 +27,8 @@ export class EditLoanDialogComponent implements OnInit {
   mode: "create" | "update";
   loading$: Observable<boolean>;
   loanForm: FormGroup;
-  loanTypes: string[] = ["Personal", "Vehicle"];
-  loanStatuType: string[] = ["Open", "Closed", "Pending"];
+  loanTypes: string[] = ["Surity Loan","Mortgage Loan","Business Loan", "Vehicle Loan","Loan on Fixed Deposite","Loan on Pigme","Pledge Loan","Housing Loan","Gold Purchase Loan"];
+  loanStatuType: string[] = ["Active","In-Active","Closed"];
   userDetails$: Observable<User>;
   dialogSaveStatus$: Observable<boolean>;
 
@@ -56,7 +56,8 @@ export class EditLoanDialogComponent implements OnInit {
       loanDate: ["", Validators.required],
       loanBorrower: [
         "",
-        [Validators.required, Validators.pattern(/^[a-zA-Z0-9 ]*$/)],
+        [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+    )), Validators.maxLength(30)],
       ],
       loanType: ["", Validators.required],
     });

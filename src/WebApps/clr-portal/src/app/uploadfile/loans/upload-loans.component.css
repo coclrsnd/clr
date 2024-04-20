@@ -15,6 +15,7 @@
 .upload-button {
   width: 10%;
   min-width: 100px; /* Adjust the minimum width as needed */
+  
 }
 
 .error-tooltip{
@@ -24,4 +25,11 @@
 
 .form-control{
   width:100%;
+}
+
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: #03a4ed;
+  --mdc-protected-button-label-text-color: #fefdfd;
+  --mat-protected-button-state-layer-color: #fbf7f7;
+  --mat-protected-button-ripple-color: rgba(249, 246, 246, 0.1);
 }

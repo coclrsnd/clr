@@ -8,11 +8,12 @@ main {
 }
 
 .menu-button {
-    background: rgba(255, 170, 0, 0.76);
-    color: white;
+    background-color: white;
+    color:  #03a4ed;
     border: none;
     cursor:pointer;
     outline:none;
+    border-radius: 2px;
 }
 
 .content {
@@ -43,3 +44,6 @@ main {
   align-items: center;
 }
 
+mat-toolbar p1{
+  margin-left: 5px;
+}
