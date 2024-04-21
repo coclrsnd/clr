@@ -193,8 +193,13 @@ namespace User.Infrastructure.Bussiness
                     var userRole = (await _userRoleRepository.GetAsync(ur => ur.Name == signupRequestInput.SigninAs.ToString())).FirstOrDefault();
 
                     //Adding new Role incase if role not exists in UserRole
-                    if (userRole.Id <= 0)
+                    if (userRole == null)
                     {
+                        userRole = new UserRole()
+                        {
+                            Name = signupRequestInput.SigninAs.ToString(),
+                            Description = string.Empty,
+                        };
                         userRole = (await _userRoleRepository.AddAsync(userRole));
                     }
 
