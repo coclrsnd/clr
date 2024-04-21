@@ -29,5 +29,17 @@ namespace User.GraphQL.Schema.Users.Mutations
                 throw new Exception("Error While Signing up");
             }
         }
+
+        public async Task<bool> ResetPassword([Service] IUserService _userService, ResetPasswordRequest resetPasswordRequest)
+        {
+            try
+            {
+                return await _userService.ResetPassword(resetPasswordRequest);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error While Signing up");
+            }
+        }
     }
 }

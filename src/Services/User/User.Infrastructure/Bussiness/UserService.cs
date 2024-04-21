@@ -76,7 +76,7 @@ namespace User.Infrastructure.Bussiness
                     var roles = (await _userRoleMappingRepository.GetAsync(r => r.UserId == user.Id)).ToList();
 
                     var organizationUserMapping = (await _organizationUserMappingRepository.GetAsync(exp => exp.UserId == user.Id)).FirstOrDefault();
-                    var organization = (await _organizationRepository.GetAsync(org => org.Id == organizationUserMapping.OrganizationId)).FirstOrDefault();                    
+                    var organization = (await _organizationRepository.GetAsync(org => org.Id == organizationUserMapping.OrganizationId)).FirstOrDefault();
 
                     var authClaims = new List<Claim>
                     {
@@ -137,7 +137,7 @@ namespace User.Infrastructure.Bussiness
                     loginResponse.EmailId = user.Email;
                     loginResponse.Name = user.UserName;
                     loginResponse.CurrentRole = currentRole;
-                    loginResponse.UserName = user.UserName;                    
+                    loginResponse.UserName = user.UserName;
                     loginResponse.LogoPath = (await _organizationConfigurationRepository.GetAsync(oc => oc.OrganizationId == organization.Id)).FirstOrDefault().LogoPath;
                     return loginResponse;
                 }
@@ -261,6 +261,29 @@ namespace User.Infrastructure.Bussiness
             return encryptedJWT;
         }
 
+
+        public async Task<bool> ResetPassword(ResetPasswordRequest model)
+        {
+            var aspNetUser = await _userManager.FindByNameAsync(model.UserName);
+            if (aspNetUser != null && (await _userManager.CheckPasswordAsync(aspNetUser, model.Password)))
+            {
+                IdentityResult resetPasswordResult = await _userManager.ResetPasswordAsync(aspNetUser, "", model.NewPassword);
+                if (resetPasswordResult != null && resetPasswordResult.Errors.Any())
+                {
+                    StringBuilder errorMessage = new();
+                    foreach (var err in resetPasswordResult.Errors)
+                    {
+                        errorMessage.Append(err.Description + " ");
+                    }
+                    throw new Exception(errorMessage.ToString());
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
     }
 }
