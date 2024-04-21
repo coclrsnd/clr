@@ -41,6 +41,18 @@
           <span>Change Password</span>
         </div>
       </a>
+      <a *ngIf="(userDetails$ | async).roleName == 'SuperAdmin'" mat-list-item routerLink="/upload">
+        <div class="list-item-content">
+          <mat-icon>upload</mat-icon>
+          <span>Upload File</span>
+        </div>
+      </a>
+      <a *ngIf="(userDetails$ | async).roleName == 'SuperAdmin'" mat-list-item routerLink="/sign-up">
+        <div class="list-item-content">
+          <mat-icon>supervisor_account</mat-icon>
+          <span>Create User</span>
+        </div>
+      </a>
       <a mat-list-item (click)="logout()" *ngIf="isLoggedIn$ | async">
         <div class="list-item-content">
           <mat-icon>logout</mat-icon>
