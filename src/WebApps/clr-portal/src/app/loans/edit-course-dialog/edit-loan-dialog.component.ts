@@ -6,14 +6,24 @@ import {
 } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Loan } from "../model/loan";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormGroup,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  Validators,
+  FormControl,
+  FormGroupDirective,
+  NgForm
+} from "@angular/forms";
 import { Observable } from "rxjs";
 import { LoanEntityService } from "../services/loan-entity.service";
 import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { Store } from "@ngrx/store";
 import { selectUserDetails } from "../../auth/auth.selectors";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import {ErrorStateMatcher} from '@angular/material/core';
+
 
 @Component({
   selector: "Loan-dialog",
@@ -31,40 +41,37 @@ export class EditLoanDialogComponent implements OnInit {
   loanStatuType: string[] = ["Active","In-Active","Closed"];
   userDetails$: Observable<User>;
   dialogSaveStatus$: Observable<boolean>;
+  disableAdhar: boolean;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLoanDialogComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private loanEntityService: LoanEntityService,
+    private loansService: LoanEntityService,
     private store: Store<AppState>,
-    private _snackBar: MatSnackBar,
   ) {
     this.dialogTitle = data.dialogTitle;
     this.loan = data.Loan;
     this.mode = data.mode;
+    this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
+
 
     this.loanForm = this.fb.group({
       id: [0],
-      amount: ["", [Validators.required, Validators.pattern(/^[1-9]\d$/)]],
+      amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
       status: ["", Validators.required],
       organizationCode: ["", Validators.required],
-      adharNumber: [
-        "",
-        [Validators.required, Validators.pattern(/^[1-9]\d{11}$/)],
-      ],
+      adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^(?!0{12})[0-9]{12}$/)]],
       loanDate: ["", Validators.required],
-      loanBorrower: [
-        "",
-        [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
-    )), Validators.maxLength(30)],
-      ],
+      loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+    )), Validators.maxLength(30)]],
+      
       loanType: ["", Validators.required],
     });
 
     if (this.mode == "update") {
       this.loanForm.patchValue({ ...data.Loan });
-    }
+    } 
   }
   ngOnInit(): void {
     this.store.select(selectUserDetails).subscribe((user) => {
@@ -79,44 +86,20 @@ export class EditLoanDialogComponent implements OnInit {
   onSave() {
     const Loan: Loan = {
       ...this.loan,
-      ...this.loanForm.value,
-    };
+      ...this.loanForm.value
+    }; 
+
     if (this.mode == "update") {
-      this.loanEntityService.update(Loan).subscribe(
-        (response) => {
-          const htmlContent = "<span>Loan created successfully.</span>";
-          this._snackBar.open(htmlContent, "Close", {
-            duration: 3000,
-            panelClass: ["success-snackbar"],
-          });
-          this.dialogRef.close();
-        },
-        (error) => {
-          const htmlContent = "<span>Error while creating loan.</span>";
-          this._snackBar.open(htmlContent, "Close", {
-            duration: 3000,
-            panelClass: ["error-snackbar"],
-          });
-        },
-      );
+      this.loansService.update(Loan);
+
+      this.dialogRef.close();
     } else if (this.mode == "create") {
-      this.loanEntityService.add(Loan).subscribe(
-        (response) => {
-          const htmlContent = "<span>Loan updated successfully.</span>";
-          this._snackBar.open(htmlContent, "Close", {
-            duration: 3000,
-            panelClass: ["success-snackbar"],
-          });
-          this.dialogRef.close();
-        },
-        (error) => {
-          const htmlContent = "<span>Error while updating loan</span>";
-          this._snackBar.open(htmlContent, "Close", {
-            duration: 3000,
-            panelClass: ["success-snackbar"],
-          });
-        },
-      );
+      this.loansService.add(Loan).subscribe((newLoan) => {
+        console.log("New Loan", newLoan);
+
+        this.dialogRef.close();
+      });
     }
   }
+  
 }

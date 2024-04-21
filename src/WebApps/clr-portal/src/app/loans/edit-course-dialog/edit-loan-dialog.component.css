@@ -1,24 +1,30 @@
 
-.dialog-actions{
-  justify-content:center;
+.formbody{display: flex; }
+/* mat-form-field {
+  display: block;
+  width: 100%;
+} */
+
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+.createtext{font-size: 1.1em;}
+.loantext{font-size: 0.9em; color: gray;}
+.savebtn{
+  margin-left: 80%;
+}
+mat-error{color: rgba(255, 0, 0, 0.912); font-size: 0.8em; margin: -10px 0px 15px 1px;}
+
+@media screen and (max-width: 560px) {
+  .formbody{min-height:200%; overflow-y: scroll;}
+  .savebtn{
+    margin-left: 56%;
+  }
+  mat-label{font-size: small;}
+  mat-datepicker-toggle{font-size: small; }
 }
 
-.success-msg{
-  color:green;
-}
 
-.error-msg{
-  color:green;
-}
 
-.dialog-header{
-  display:flex;
-}
 
-.success-snackbar{
-  color:green;
-}
-
-.error-snackbar{
-  color:#0ba6ed8d;
-}
