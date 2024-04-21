@@ -7,3 +7,9 @@
     margin:11px;
   }
 }
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: #03a4ed;
+  --mdc-protected-button-label-text-color: #faf8f8;
+  --mat-protected-button-state-layer-color: #f7f2f2;
+  --mat-protected-button-ripple-color: rgba(252, 249, 249, 0.1);
+}
