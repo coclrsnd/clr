@@ -1,36 +1,36 @@
-<div class="container">
-  <mat-card class="login-page">
-    <mat-card-title>Login</mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="form" class="login-form">
-        <mat-form-field>
-          <input
-            matInput
-            type="email"
-            placeholder="Email"
-            formControlName="email"
-          />
-        </mat-form-field>
-        <mat-form-field>
-          <input
-            matInput
-            type="password"
-            placeholder="Password"
-            formControlName="password"
-          />
-        </mat-form-field>
-        <button
-          mat-raised-button
-          color="primary"
-          (click)="login()"
-          [disabled]="!form.valid"
-        >
-          Login
-        </button>
-      </form>
-      <span class="error-msg" *ngIf="errorOnLogin$ | async"
-        >Invalid User credentials</span
-      >
-    </mat-card-content>
-  </mat-card>
-</div>
+<div class="backgroundimageclass">
+  <div class="container row">
+    <mat-card class="col-sm-6 login-page">
+      <mat-card-title>Login</mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="form" class="login-form">
+          <mat-form-field appearance="outline">
+            <mat-label>Email</mat-label>
+            <input
+              matInput
+              type="email"
+              formControlName="email"
+            />
+          </mat-form-field>  
+          <mat-form-field appearance="outline">
+           <mat-label>Password</mat-label>
+            <input
+              matInput
+              type="password"
+              formControlName="password"
+            />
+          </mat-form-field>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="login()"
+            [disabled]="!form.valid"
+          >
+            Login
+          </button>
+        </form>
+        <span *ngIf="errorOnLogin$ | async">Invalid User credentials</span>
+      </mat-card-content>
+    </mat-card>
+  </div>
+  </div>

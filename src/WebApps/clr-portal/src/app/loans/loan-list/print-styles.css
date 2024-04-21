@@ -1,4 +1,6 @@
 
+/* print-styles.css */
+
 
 .course-card {
     margin: 20px 10px;
@@ -51,18 +53,22 @@ th, td {
   border: 1px solid #03a3ed89;
 }
 
+/* Adjust padding for borrower cells */
+/* Adjust padding for borrower cells */
 .mat-cell.loanborrower {
-  white-space: nowrap; 
-  overflow: hidden; 
-  text-overflow: ellipsis; 
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
   padding-right: 0px !important;
 }
 .tableprint{ width: 100%;
   display: flex; 
 }
 
-.printbutton{
+.print-button{
   margin-left: 60%;
+ 
+  
 }
 
 .tableOptions{
@@ -74,28 +80,35 @@ th, td {
   .form-control{
     margin-right:5px;
   }
-} 
-
-
-@media print {
-  /* Hide the top section containing buttons and form controls */
-  .tableprint {
-    display: none;
-  }
-
-  .table-container {
-    width: 100%;
-  }
-
- 
-  table {
-    width: 50%;
-    border-collapse: collapse;
-  }
-
-  th, td {
-    padding: 8px;
-    border: 1px solid #03a4ed; 
-  }
 }
 
+
+/* Hide non-essential elements */
+body * {
+    display: none;
+  }
+  
+  /* Show only the table and its contents */
+  table, th, td {
+    display: table !important;
+  }
+  
+  /* Adjust styles for the table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  
+  th, td {
+    padding: 8px;
+    border: 1px solid #000;
+  }
+  
+  /* Show the table header row */
+  th {
+    background-color: #03a4ed;
+    color: #fffefe;
+    font-weight: bold;
+  }
+    

@@ -17,6 +17,7 @@ using User.GraphQL.Extensions;
 using User.Infrastructure.Persistence;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Linq;
 
 namespace User.GraphQL.Schema.Loan.Mutation
 {
@@ -85,10 +86,13 @@ namespace User.GraphQL.Schema.Loan.Mutation
                     Debug.WriteLine(json);
                 }
 
+                var organizationName = context.Organizations.Where(org=>org.Code == bulkUploadRequest.OrganizationCode).FirstOrDefault().Name;
+
                 var loans = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Loans>>(json);
                 loans.ForEach(loan =>
                 {
                     loan.OrganizationCode = bulkUploadRequest.OrganizationCode;
+                    loan.OrganizationName = organizationName;
                     loan.LoanDate = DateTime.SpecifyKind(loan.LoanDate, DateTimeKind.Utc);
                 });
 

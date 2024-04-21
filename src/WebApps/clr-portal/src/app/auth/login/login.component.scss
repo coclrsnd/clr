@@ -1,26 +1,66 @@
+
+
 .login-page {
-  max-width: 350px;
-  padding: 10px;
+  width: 35%;
+  padding: 3.5%;
+  border-left: 15px solid #03a4ed;
+  border-left-width: 15px;
+  // border-start-start-radius: 0.5px;
+  box-shadow: 0.5px 0.5px 2px #03a4ed;
+  border-left-style:outset;
+  
 }
 
 mat-card-title {
   margin-left: 20px;
   margin-bottom: 10px;
+  font-size: 1.5em;
+  color: #03a4ed;
+  text-shadow: 0px 0px 1px #03a4ed;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  margin-bottom: 10px;
+}
+
+.backgroundimageclass{
+  height: 90vh; /* 100% of the viewport height */
+  background-image: url('../../../assets/images/signup-bg.png');
+  background-repeat: no-repeat;
+  background-position-y: 11%;
+  // background-position:5%;
+  background-size:85%;
+ 
 }
 
 .container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 80vh;
+ height: 100%; min-width: 100%;
+  background-color: rgba(28, 28, 33, 0.615);
+  // border: 0.1px solid #03a3edb0;
+ box-shadow: 0.1px 0.1px 2px #03a4ed;
 }
 
-.error-msg {
-  color: red;
+mat-form-field{
+  margin-bottom: 5%;
+}
+
+button{margin-top: 4%;
+  
+}
+
+@media screen and (max-width: 767px) {
+  .login-page {
+    width: 55%;
+  }
+
+  .backgroundimageclass{
+    background-position-y: 17%;
+    background-position-x:1%;
+    background-size:95%;
+   
+  }
 }

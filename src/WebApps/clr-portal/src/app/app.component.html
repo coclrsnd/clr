@@ -14,9 +14,9 @@
     </div>
     <img
       *ngIf="userDetails$ | async as user"
-      [src]="user.logoPath ? user.logoPath : '../assets/images/logo.png'"
+      [src]="user.logoPath ? user.logoPath : '../assets/images/APSSNS.png'"
       alt="Image Description"
-      style="width: 8%"
+      style="width: 5%"
     />
   </div>
 </mat-toolbar>
@@ -26,7 +26,7 @@
     mode="side"
     opened
     [fixedInViewport]="true"
-    [fixedTopGap]="70"
+    [fixedTopGap]="65"
   >
     <mat-nav-list *ngIf="isLoggedIn$ | async">
       <a mat-list-item routerLink="/loans">

@@ -1,7 +1,8 @@
 <div class="dialog-header">
   <div>
     <h2 mat-dialog-title>
-      {{ this.mode == "create" ? "Create" : "Update" }} Loan
+      <span [style]="{'font-size': '1.2em', 'color':'#03a4ed'}">{{ this.mode == "create" ? "Create" : "Update" }}</span> 
+      <span [style]="{'font-size': '1em', 'color':'#0ba6ed8d'}">Loan</span> 
     </h2>
   </div>
   <div>
@@ -23,6 +24,7 @@
           type="number"
           placeholder="Ex. 123"
           formControlName="amount"
+          min="0" max="10000000"
         />
       </mat-form-field>
       <error-tooltip
@@ -73,7 +75,7 @@
         />
         <mat-datepicker-toggle
           matSuffix
-          [for]="loanDatepicker"
+          [for]="loanDatepicker" style="color: blue;"
         ></mat-datepicker-toggle>
         <mat-datepicker #loanDatepicker></mat-datepicker>
       </mat-form-field>
