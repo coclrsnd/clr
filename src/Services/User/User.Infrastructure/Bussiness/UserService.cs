@@ -7,6 +7,7 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Transactions;
 using User.Application.Contracts.Bussiness;
@@ -267,7 +268,9 @@ namespace User.Infrastructure.Bussiness
             var aspNetUser = await _userManager.FindByNameAsync(model.UserName);
             if (aspNetUser != null && (await _userManager.CheckPasswordAsync(aspNetUser, model.Password)))
             {
-                IdentityResult resetPasswordResult = await _userManager.ResetPasswordAsync(aspNetUser, "", model.NewPassword);
+                string resetToken = await _userManager.GeneratePasswordResetTokenAsync(aspNetUser);
+
+                IdentityResult resetPasswordResult = await _userManager.ResetPasswordAsync(aspNetUser, resetToken, model.NewPassword);
                 if (resetPasswordResult != null && resetPasswordResult.Errors.Any())
                 {
                     StringBuilder errorMessage = new();
