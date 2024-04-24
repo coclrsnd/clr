@@ -18,55 +18,6 @@
   <form [formGroup]="loanForm" (ngSubmit)="onSave()">
     <div class="form-control">
       <mat-form-field appearance="outline">
-        <mat-label>Amount</mat-label>
-        <input
-          matInput
-          type="number"
-          placeholder="Ex. 123"
-          formControlName="amount"
-          min="0" max="10000000"
-        />
-      </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['amount'].touched ||
-          loanForm.controls['amount'].dirty
-        "
-        [errors]="loanForm.controls['amount'].errors"
-      ></error-tooltip>
-    </div>
-    <div class="form-control">
-      <mat-form-field appearance="outline">
-        <mat-label>Loan Type</mat-label>
-        <mat-select formControlName="status">
-          <mat-option *ngFor="let type of loanStatuType" [value]="type">{{
-            type
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['status'].touched ||
-          loanForm.controls['status'].dirty
-        "
-        [errors]="loanForm.controls['status'].errors"
-      ></error-tooltip>
-    </div>
-    <div class="form-control">
-      <mat-form-field appearance="outline">
-        <mat-label>Adhar Number</mat-label>
-        <input matInput formControlName="adharNumber" />
-      </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['adharNumber'].touched ||
-          loanForm.controls['adharNumber'].dirty
-        "
-        [errors]="loanForm.controls['adharNumber'].errors"
-      ></error-tooltip>
-    </div>
-    <div class="form-control">
-      <mat-form-field appearance="outline">
         <mat-label>Loan Date</mat-label>
         <input
           matInput
@@ -89,7 +40,20 @@
     </div>
     <div class="form-control">
       <mat-form-field appearance="outline">
-        <mat-label>Loan Borrower</mat-label>
+        <mat-label>Adhar Number</mat-label>
+        <input matInput formControlName="adharNumber" />
+      </mat-form-field>
+      <error-tooltip
+        *ngIf="
+          loanForm.controls['adharNumber'].touched ||
+          loanForm.controls['adharNumber'].dirty
+        "
+        [errors]="loanForm.controls['adharNumber'].errors"
+      ></error-tooltip>
+    </div>
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Borrower</mat-label>
         <input matInput formControlName="loanBorrower" />
       </mat-form-field>
       <error-tooltip
@@ -102,7 +66,7 @@
     </div>
     <div class="form-control">
       <mat-form-field appearance="outline">
-        <mat-label>Loan Type</mat-label>
+        <mat-label>Type</mat-label>
         <mat-select formControlName="loanType">
           <mat-option *ngFor="let type of loanTypes" [value]="type">{{
             type
@@ -115,6 +79,42 @@
           loanForm.controls['loanType'].dirty
         "
         [errors]="loanForm.controls['loanType'].errors"
+      ></error-tooltip>
+    </div>
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Amount</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Ex. 123"
+          formControlName="amount"
+          min="0" max="10000000"
+        />
+      </mat-form-field>
+      <error-tooltip
+        *ngIf="
+          loanForm.controls['amount'].touched ||
+          loanForm.controls['amount'].dirty
+        "
+        [errors]="loanForm.controls['amount'].errors"
+      ></error-tooltip>
+      </div>
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let type of loanStatuType" [value]="type">{{
+            type
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <error-tooltip
+        *ngIf="
+          loanForm.controls['status'].touched ||
+          loanForm.controls['status'].dirty
+        "
+        [errors]="loanForm.controls['status'].errors"
       ></error-tooltip>
     </div>
 

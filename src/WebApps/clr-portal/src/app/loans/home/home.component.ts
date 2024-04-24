@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   onSubmit() {
     this.aadharNumber = this.adharFormControl.value;
   }
+ 
   printTable(): void {
     window.print(); // Open browser's print dialog
   }

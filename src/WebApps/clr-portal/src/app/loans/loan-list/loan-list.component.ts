@@ -28,6 +28,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   ]);
   dataSource = new MatTableDataSource<Loan>();
   loading$: Observable<boolean>;
+  errorMsg = '';
   displayedColumns: string[] = [
     "loanDate",
     "loanBorrower",
@@ -43,7 +44,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   private adharNumberSubject = new BehaviorSubject<string>(null);
   private adharNumberSubscription: Subscription;
   private _adharNumber: string;
-
+  errormsg:string='';
   constructor(
     private dialog: MatDialog,
     private loanService: LoanEntityService,
@@ -73,7 +74,9 @@ export class LoanListComponent implements OnInit, OnDestroy {
       )
       .subscribe((loans) => {
         this.dataSource.data = loans;
-      });
+
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -87,6 +90,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     this._adharNumber = value;
     this.adharNumberSubject.next(value);
   }
+ 
 
   editLoan(loan: Loan) {
     const dialogConfig = defaultDialogConfig();

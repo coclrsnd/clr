@@ -17,10 +17,7 @@ import { HttpEventType } from '@angular/common/http';
 export class UploadLoansComponent implements OnInit {
   filteredOrganizations$: Observable<Organization[]>;
   selectedFile: File | undefined;
-  progressValue: number = 0;
-  progressBarVisible: boolean = false;
-  progressmessage: string = "";
-  progressmsgcolor: string = "black";
+  errormsg:string='';
 
   organization = new FormControl("", [Validators.required]);
   uploadStatus$: Observable<boolean> | undefined;
