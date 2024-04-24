@@ -14,6 +14,7 @@ export class ResetPasswordComponent {
 
   resetForm: FormGroup;
   userMessage: string = '';
+  newpserror:string='';
 
   constructor(private fb: FormBuilder, private resetPasswordService: ResetPasswordService, private store: Store<AppState>) {
     this.resetForm = this.fb.group({
@@ -36,4 +37,27 @@ export class ResetPasswordComponent {
       this.userMessage = 'Error while updating password';
     })
   }
+  showNewPasswordError: boolean = false;
+  newps() {
+    const newPasswordControl = this.resetForm.get('newPassword');
+    if (newPasswordControl.value.length < 6) {
+      newPasswordControl.setErrors({ minlength: true });
+    } else {
+      newPasswordControl.setErrors(null); // Clear any previous errors
+    }
+  }
+
+  confirmps() {
+    const newPassword = this.resetForm.get('newPassword')?.value;
+    const confirmPassword = this.resetForm.get('confirmPassword')?.value;
+    
+    const confirmPasswordControl = this.resetForm.get('confirmPassword');
+    if (newPassword !== confirmPassword) {
+      confirmPasswordControl.setErrors({ mismatch: true });
+    } else {
+      confirmPasswordControl.setErrors(null); // Clear any previous errors
+    }
+  }
+  
+  
 }

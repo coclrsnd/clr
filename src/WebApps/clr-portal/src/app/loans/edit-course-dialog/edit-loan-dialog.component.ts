@@ -65,7 +65,6 @@ export class EditLoanDialogComponent implements OnInit {
       loanDate: ["", Validators.required],
       loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
     )), Validators.maxLength(30)]],
-      
       loanType: ["", Validators.required],
     });
 

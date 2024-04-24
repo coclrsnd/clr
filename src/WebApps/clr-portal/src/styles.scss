@@ -83,6 +83,10 @@ $mat-accent: (
   )
 );
 
+error-tooltip{
+  color: red; font-size: 0.8em;
+}
+.successmsg{color: green; font-size: 0.8em;}
 $primary: mat.define-palette($mat-primary, 500);
 
 $accent: mat.define-palette($mat-accent, A200, A100, A400);

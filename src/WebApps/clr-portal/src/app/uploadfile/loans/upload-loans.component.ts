@@ -49,8 +49,7 @@ export class UploadLoansComponent implements OnInit {
 
   onSubmit() {
     console.log(this.organization.value);
-    this.progressBarVisible = true;
-    this.progressValue = 0;
+    
 
     if (!this.selectedFile || !this.organization.value['code']) {
       console.error('File or Organization code is missing');
@@ -63,36 +62,11 @@ export class UploadLoansComponent implements OnInit {
     };
 
     this.uploadStore.upload(uploadFileRequest)
-    // .subscribe(
-    //   (res) => {
-    //     console.log(res);
-    //     if (res.type === HttpEventType.UploadProgress) {
-    //       this.progressValue = Math.round((100 * res.loaded) / res.total);
-    //     } else if (res.type === HttpEventType.Response) {
-    //       console.log(res.body);
-    //     }
-    //   },
-    //   (err) => {
-    //     console.log(err);
-    //     this.progressmsgcolor = "red";
-    //     this.progressmessage = "Upload failed";
-    //     setTimeout(() => {
-    //       this.progressBarVisible = false;
-    //     }, 3000);
-    //   },
-    //   () => {
-    //     this.progressValue = 100;
-    //     this.progressmsgcolor = "green";
-    //     this.progressmessage = "Upload success!";
-    //     setTimeout(() => {
-    //       this.progressBarVisible = false;
-    //     }, 3000);
-    //   }
-    // );
+   
   }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
-    this.progressmessage = "";
+   
   }
 }
