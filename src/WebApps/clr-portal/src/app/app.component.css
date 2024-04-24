@@ -32,12 +32,14 @@ padding-left: 10px;
 }
 
 .toolbar-content {
+  width: 100%;
   display: flex;
   justify-content: space-between;
   padding-right:15px;
   padding-left:15px;
   img {
-    width:7% !important;
+    margin-left: 20px;
+    float: right !important;
   }
 }
 
