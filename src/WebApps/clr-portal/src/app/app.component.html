@@ -16,7 +16,7 @@
       *ngIf="userDetails$ | async as user"
       [src]="user.logoPath ? user.logoPath : 'assets/images/APSSNS.png'"
       alt="Image Description"
-      
+
     />
   </div>
 </mat-toolbar>
@@ -62,7 +62,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div class="content">
+    <div class="content" >
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>

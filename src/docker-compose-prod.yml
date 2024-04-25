@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   userdb:
-    image: coclr/clr_app:postgres.latest
+    image: 654654428833.dkr.ecr.ap-south-1.amazonaws.com/clr:postgres
     container_name: userdb
     environment:
       - POSTGRES_USER=admin
@@ -15,23 +15,25 @@ services:
       - postgres_data:/var/lib/postgresql/data/  
 
   user.api:
-    image: coclr/clr_app:userapi.latest
+    image: 654654428833.dkr.ecr.ap-south-1.amazonaws.com/clr:user-api
+    container_name: user.api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - "ConnectionStrings:UserDBConnection=Server=userdb;Port=5432;Database=userdb;User Id=admin;Password=admin1234;" 
     ports:
-      - "80"
+      - "8001:80"
     depends_on:
       - userdb
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
-  angular-app:
-    image: coclr/clr_app:src-angular-app.latest
+  clr-portal:
+    image: 654654428833.dkr.ecr.ap-south-1.amazonaws.com/clr:angular-app
+    container_name: clr-portal
     ports:
-      - '80:80'
+      - "8002:80"
     volumes:
       - './src:/app/src' 
 
