@@ -38,5 +38,8 @@
   >
     Upload
   </button>
-  <div *ngIf="(uploadStatus$ | async) === false">Error while uploading</div>
+  <div *ngIf="(uploadStatus$ | async) === true"><div class="successmsg">Upload success!</div></div>
+
+ 
+  <div *ngIf="(uploadStatus$ | async) === false"><div class="errormsg">Error while uploading</div></div>
 </div>

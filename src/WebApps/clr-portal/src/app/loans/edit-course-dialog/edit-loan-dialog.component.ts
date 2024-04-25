@@ -23,6 +23,7 @@ import { AppState } from "../../reducers";
 import { Store } from "@ngrx/store";
 import { selectUserDetails } from "../../auth/auth.selectors";
 import {ErrorStateMatcher} from '@angular/material/core';
+import { of } from "rxjs";
 
 
 @Component({
@@ -41,7 +42,9 @@ export class EditLoanDialogComponent implements OnInit {
   loanStatuType: string[] = ["Active","In-Active","Closed"];
   userDetails$: Observable<User>;
   dialogSaveStatus$: Observable<boolean>;
-  disableAdhar: boolean;
+  disableAdhar: boolean=false;
+  result:string='';
+  btnname:string='';
 
   constructor(
     private fb: FormBuilder,
@@ -54,7 +57,7 @@ export class EditLoanDialogComponent implements OnInit {
     this.loan = data.Loan;
     this.mode = data.mode;
     this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
-
+    this.btnname = this.mode === 'create' ? 'Save' : 'Update';
 
     this.loanForm = this.fb.group({
       id: [0],
@@ -68,9 +71,17 @@ export class EditLoanDialogComponent implements OnInit {
       loanType: ["", Validators.required],
     });
 
-    if (this.mode == "update") {
+    // if (this.mode == "update") {
+    //   this.loanForm.patchValue({ ...data.Loan });
+    //   this.disableAdhar=true;
+    // } 
+   
+    if (this.mode === "update") {
       this.loanForm.patchValue({ ...data.Loan });
-    } 
+      this.loanForm.get('adharNumber').disable(); // Disable the adharNumber control
+    }
+    
+    
   }
   ngOnInit(): void {
     this.store.select(selectUserDetails).subscribe((user) => {
@@ -90,12 +101,19 @@ export class EditLoanDialogComponent implements OnInit {
 
     if (this.mode == "update") {
       this.loansService.update(Loan);
+      this.result="Updated successfully!";
+      this.btnname="update" ;
+      this.dialogSaveStatus$ = of(true); // Update save status to true
+    this.dialogRef.close();
 
       this.dialogRef.close();
     } else if (this.mode == "create") {
+      this.btnname="save";
       this.loansService.add(Loan).subscribe((newLoan) => {
         console.log("New Loan", newLoan);
+        this.result="Created successfully!"
 
+        this.dialogSaveStatus$ = of(true); // Update save status to true
         this.dialogRef.close();
       });
     }

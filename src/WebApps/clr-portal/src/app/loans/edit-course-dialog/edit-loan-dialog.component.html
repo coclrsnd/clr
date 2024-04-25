@@ -30,39 +30,30 @@
         ></mat-datepicker-toggle>
         <mat-datepicker #loanDatepicker></mat-datepicker>
       </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['loanDate'].touched ||
-          loanForm.controls['loanDate'].dirty
-        "
-        [errors]="loanForm.controls['loanDate'].errors"
-      ></error-tooltip>
+      <div class="err" *ngIf="loanForm.controls['loanDate'].invalid && (loanForm.controls['loanDate'].dirty || loanForm.controls['loanDate'].touched)">
+        <div class="errormsg" *ngIf="loanForm.controls['loanDate'].hasError('required')" >Date required</div >
+      </div>
     </div>
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Adhar Number</mat-label>
-        <input matInput formControlName="adharNumber" />
+        <input matInput formControlName="adharNumber" [disabled]="disableAdhar"/>
       </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['adharNumber'].touched ||
-          loanForm.controls['adharNumber'].dirty
-        "
-        [errors]="loanForm.controls['adharNumber'].errors"
-      ></error-tooltip>
+      <div class="err" *ngIf="loanForm.get('adharNumber').invalid && (loanForm.get('adharNumber').dirty || loanForm.get('adharNumber').touched)">
+        <div class="errormsg" *ngIf="loanForm.get('adharNumber').hasError('required'); " >Aadhar required</div >
+        <div class="errormsg" *ngIf="loanForm.get('adharNumber').hasError('pattern')" >Not a valid Adhar number</div >
+      </div>
     </div>
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Borrower</mat-label>
         <input matInput formControlName="loanBorrower" />
       </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['loanBorrower'].touched ||
-          loanForm.controls['loanBorrower'].dirty
-        "
-        [errors]="loanForm.controls['loanBorrower'].errors"
-      ></error-tooltip>
+      <div class="err" *ngIf="loanForm.get('loanBorrower').invalid && (loanForm.get('loanBorrower').dirty || loanForm.get('loanBorrower').touched)">
+        <div class="errormsg" *ngIf="loanForm.get('loanBorrower').hasError('required')"  >Name required</div >
+        <div class="errormsg" *ngIf="!loanForm.get('loanBorrower').hasError('required') && loanForm.get('loanBorrower').hasError('pattern')"  >Not a valid name</div >
+        <div class="errormsg" *ngIf="!loanForm.get('loanBorrower').hasError('pattern') && loanForm.get('loanBorrower').hasError('maxlength') " >Names should not contain more than 30 characters</div >
+      </div>
     </div>
     <div class="form-control">
       <mat-form-field appearance="outline">
@@ -73,13 +64,9 @@
           }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['loanType'].touched ||
-          loanForm.controls['loanType'].dirty
-        "
-        [errors]="loanForm.controls['loanType'].errors"
-      ></error-tooltip>
+      <div class="err" *ngIf="loanForm.get('loanType').invalid && (loanForm.get('loanType').dirty || loanForm.get('loanType').touched)">
+        <div class="errormsg" *ngIf="loanForm.get('loanType').hasError('required'); " >Loan type required</div >
+      </div>
     </div>
     <div class="form-control">
       <mat-form-field appearance="outline">
@@ -92,13 +79,10 @@
           min="0" max="10000000"
         />
       </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['amount'].touched ||
-          loanForm.controls['amount'].dirty
-        "
-        [errors]="loanForm.controls['amount'].errors"
-      ></error-tooltip>
+      <div class="err" *ngIf="loanForm.get('amount').invalid && (loanForm.get('amount').dirty || loanForm.get('amount').touched)">
+        <div class="errormsg" *ngIf="loanForm.get('amount').hasError('required'); " >Amount required</div >
+        <div class="errormsg" *ngIf="loanForm.get('amount').hasError('pattern')" >Invalid amount range </div >
+      </div>
       </div>
     <div class="form-control">
       <mat-form-field appearance="outline">
@@ -109,13 +93,9 @@
           }}</mat-option>
         </mat-select>
       </mat-form-field>
-      <error-tooltip
-        *ngIf="
-          loanForm.controls['status'].touched ||
-          loanForm.controls['status'].dirty
-        "
-        [errors]="loanForm.controls['status'].errors"
-      ></error-tooltip>
+      <div class="err" *ngIf="loanForm.get('status').invalid && (loanForm.get('status').dirty || loanForm.get('status').touched)">
+        <div class="errormsg" *ngIf="loanForm.get('status').hasError('required'); " >Status required</div>
+      </div>
     </div>
 
   </form>
@@ -129,7 +109,7 @@
     (click)="onSave()"
     [disabled]="loanForm.invalid"
   >
-    Save
+    {{btnname}}
   </button>
-
+  <div class="successmsg" *ngIf="result">{{result}} </div>
 </mat-dialog-actions>

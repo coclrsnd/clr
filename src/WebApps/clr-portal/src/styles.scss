@@ -141,3 +141,20 @@ form {
   }
 }
 
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: #03a4ed;
+  --mdc-protected-button-label-text-color: #faf6f6;
+  --mat-protected-button-state-layer-color: white;
+  --mat-protected-button-ripple-color: rgba(246, 241, 241, 0.1);
+}
+
+.errormsg{
+  color:red;
+  font-size: 0.8em;
+  margin-top: 3px;
+}
+ .successmsg{
+  color:rgb(31, 235, 68);
+  font-size: 0.8em;
+  margin-top: 3px;
+ }

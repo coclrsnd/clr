@@ -1,10 +1,6 @@
 
-.formbody{display: flex; }
-/* mat-form-field {
-  display: block;
-  width: 100%;
-} */
-
+.formbody{
+  display: flex; }
 textarea {
   height: 100px;
   resize: vertical;
@@ -14,7 +10,12 @@ textarea {
 .savebtn{
   margin-left: 80%;
 }
-mat-error{color: rgba(255, 0, 0, 0.912); font-size: 0.8em; margin: -10px 0px 15px 1px;}
+.form-control{
+  display: flex;
+  flex-direction: column;
+}
+.err{ margin-bottom:15px;
+margin-top: -5px;}
 
 @media screen and (max-width: 560px) {
   .formbody{min-height:200%; overflow-y: scroll;}
