@@ -21,7 +21,7 @@
     <mat-spinner></mat-spinner>
   </div>
   <div class="tablestylesclass mat-elevation-z10">
-    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons=""></mat-paginator>
+    
     <table mat-table [dataSource]="dataSource" >
       <ng-container matColumnDef="loanDate">
         <th mat-header-cell *matHeaderCellDef>Date</th>
@@ -72,6 +72,7 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons=""></mat-paginator>
   </div>
  
 </div>
