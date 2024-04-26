@@ -71,10 +71,7 @@ export class EditLoanDialogComponent implements OnInit {
       loanType: ["", Validators.required],
     });
 
-    // if (this.mode == "update") {
-    //   this.loanForm.patchValue({ ...data.Loan });
-    //   this.disableAdhar=true;
-    // } 
+    
    
     if (this.mode === "update") {
       this.loanForm.patchValue({ ...data.Loan });

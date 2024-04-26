@@ -29,7 +29,7 @@
             Login
           </button>
         </form>
-        <span *ngIf="errorOnLogin$ | async">Invalid User credentials</span>
+        <span class="errormsg" *ngIf="errorOnLogin$ | async">Invalid User credentials</span>
       </mat-card-content>
     </mat-card>
   </div>

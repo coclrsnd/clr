@@ -37,7 +37,7 @@
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Adhar Number</mat-label>
-        <input matInput formControlName="adharNumber" [disabled]="disableAdhar"/>
+        <input matInput formControlName="adharNumber" />
       </mat-form-field>
       <div class="err" *ngIf="loanForm.get('adharNumber').invalid && (loanForm.get('adharNumber').dirty || loanForm.get('adharNumber').touched)">
         <div class="errormsg" *ngIf="loanForm.get('adharNumber').hasError('required'); " >Aadhar required</div >

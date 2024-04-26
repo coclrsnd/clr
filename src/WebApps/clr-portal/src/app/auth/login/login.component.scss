@@ -51,7 +51,14 @@ mat-form-field{
 button{
   margin-top: 4%;}
 
-@media screen and (max-width: 767px) {
+  mat-sidenav{
+    display: none;
+  }
+  .errormsg{
+   font-size: 1em; padding-top: 3px;
+  }
+
+@media screen and (min-width: 200px) and (max-width: 767px) {
   .login-page {
     width: 55%;
   }
@@ -62,4 +69,11 @@ button{
     background-size:95%;
    
   }
+
+  mat-form-field{
+    width: 100%;
+    font-size: 0.7em;
+  }
+  button{width: 90%;}
 }
+

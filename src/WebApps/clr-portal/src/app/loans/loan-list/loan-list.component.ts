@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
@@ -14,6 +14,8 @@ import { selectUserDetails } from "../../auth/auth.selectors";
 import { MatTableDataSource } from "@angular/material/table";
 import { EditLoanDialogComponent } from "../edit-course-dialog/edit-loan-dialog.component";
 import { PrintingService } from "../services/printing.service";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: "loan-list",
@@ -52,7 +54,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private printingService: PrintingService,
   ) {}
-
+  
+  @ViewChild(MatPaginator) paginator:MatPaginator;
   ngOnInit() {
     this.userDetails$ = this.store.pipe(select(selectUserDetails));
     this.adharNumberSubscription = this.adharNumberSubject
@@ -74,9 +77,10 @@ export class LoanListComponent implements OnInit, OnDestroy {
       )
       .subscribe((loans) => {
         this.dataSource.data = loans;
-
+        this.dataSource.paginator=this.paginator;
       }
     );
+   
   }
 
   ngOnDestroy() {
