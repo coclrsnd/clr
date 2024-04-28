@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   userdb:
-    image: 654654428833.dkr.ecr.ap-south-1.amazonaws.com/clr:postgres
+    image: postgres
     container_name: userdb
     environment:
       - POSTGRES_USER=admin
@@ -30,7 +30,7 @@ services:
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
   clr-portal:
-    image: 654654428833.dkr.ecr.ap-south-1.amazonaws.com/clr:angular-app
+    image: 654654428833.dkr.ecr.ap-south-1.amazonaws.com/clr:clr-portal
     container_name: clr-portal
     ports:
       - "8002:80"

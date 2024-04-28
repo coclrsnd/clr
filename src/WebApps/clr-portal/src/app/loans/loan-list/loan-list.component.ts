@@ -54,7 +54,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private printingService: PrintingService,
   ) {}
-  
+
   @ViewChild(MatPaginator) paginator:MatPaginator;
   ngOnInit() {
     this.userDetails$ = this.store.pipe(select(selectUserDetails));
@@ -80,7 +80,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
         this.dataSource.paginator=this.paginator;
       }
     );
-   
+
   }
 
   ngOnDestroy() {
@@ -94,7 +94,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     this._adharNumber = value;
     this.adharNumberSubject.next(value);
   }
- 
+
 
   editLoan(loan: Loan) {
     const dialogConfig = defaultDialogConfig();
@@ -109,7 +109,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
       .open(EditLoanDialogComponent, dialogConfig)
       .afterClosed()
       .subscribe((response) => {
-        console.log(response);
+        this.adharNumberSubject.next(this._adharNumber);
       });
   }
 
@@ -125,7 +125,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
       .open(EditLoanDialogComponent, dialogConfig)
       .afterClosed()
       .subscribe((response) => {
-        console.log(response);
+        this.adharNumberSubject.next(this._adharNumber);
       });
   }
 

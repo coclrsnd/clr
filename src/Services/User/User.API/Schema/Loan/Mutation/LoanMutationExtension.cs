@@ -18,6 +18,7 @@ using User.Infrastructure.Persistence;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Linq;
+using HotChocolate.Authorization;
 
 namespace User.GraphQL.Schema.Loan.Mutation
 {
@@ -30,7 +31,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
         {
             _mapper = mapper;
         }
-
+        //[Authorize]
         [UseApplicationDbContext]
         public async Task<int> SaveLoan([ScopedService] UserContext context, LoanRequestModel loanRequestInput, CancellationToken cancellationToken)
         {
@@ -39,6 +40,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
                 if (loanRequestInput.Id <= 0)
                 {
                     var loan = _mapper.Map<Loans>(loanRequestInput);
+                    loan.OrganizationName = context.Organizations.Where(org=>org.Code == loanRequestInput.OrganizationCode).FirstOrDefault().Name;
                     var loanEntity = await context.Loans.AddAsync(loan);
                     await context.SaveChangesAsync();
                     return loanEntity.Entity.Id;
@@ -46,6 +48,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
                 else
                 {
                     var loan = _mapper.Map<Loans>(loanRequestInput);
+                    loan.OrganizationName = context.Organizations.Where(org => org.Code == loanRequestInput.OrganizationCode).FirstOrDefault().Name;
                     var loanEntity = context.Loans.Update(loan);
                     await context.SaveChangesAsync();
                     return loanEntity.Entity.Id;
