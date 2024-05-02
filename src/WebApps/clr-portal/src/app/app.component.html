@@ -24,7 +24,7 @@
   <mat-sidenav
     #sidenav
     mode="side"
-    opened
+    [opened]="isLoggedIn$ | async" 
     [fixedInViewport]="true"
     [fixedTopGap]="65"
   >
@@ -61,8 +61,8 @@
       </a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <div class="content" >
+  <mat-sidenav-content [style.margin-left.px]="sidenav.opened ? 200 : 0">
+    <div class="content">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>

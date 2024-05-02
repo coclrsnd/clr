@@ -1,5 +1,5 @@
 
-
+.loanclass{width: 100%;}
 .course-card {
     margin: 20px 10px;
 }
@@ -14,16 +14,37 @@
 }
 
 .addicon{
-  background-color: #03a3ed;
+  background-color: #03a4ed;
   color: white;
   border-radius: 50px;
+}
+  /* .tableprint[_ngcontent-ng-c2928612300] {
+    width: 98%;
+    background-color: rgb(223, 14, 14);
+    margin: 4% 1% 4% 1%;
+    box-shadow: 0px 0px 4px gray;
+} */
+.tableOptions[_ngcontent-ng-c1339349165] {
+  width: 100%;
+  /* background-color: white; */
+ 
+  /* box-shadow: 0px 0px 4px gray; */
+}
+
+/* .tableOptions{
+  margin: 2% 1% 2% 1%;
+  padding: 2% 8% 0% 1%;
+} */
+mat-paginator{
+  width: 98%;
+  padding: 0% 1% 0% 1%;
 }
 
 
 button.mat-warn {
-  --mdc-icon-button-icon-color: #03a3ed;
-  --mat-icon-button-state-layer-color: #03a3ed;
-  --mat-icon-button-ripple-color: #03a3edf4;
+  --mdc-icon-button-icon-color: #03a4ed;
+  --mat-icon-button-state-layer-color:#03a4ed;
+  --mat-icon-button-ripple-color: #03a3edea;;
 }
 
 .tablestylesclass{
@@ -32,25 +53,28 @@ button.mat-warn {
   flex-direction: column;
   justify-content: center; 
   align-items: center;
+
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
   margin: 1px 10px;
-  border: 2px solid #03a3ed;
+  border: 2px solid #14a9ee;
 }
-tr th{background-color: #03a3edc9;
+tr th{background-color: #03a4ed;
 color: white;
 font-weight: 500;
 font-size: 1.3em;
-box-shadow: 1px 1px 5px #01aeff;
+box-shadow: 1px 1px 5px #03a4ed; 
+text-align: center;
 }
 
 th, td {
   padding: 8px;
-  border: 1px solid #03a3ed89;
+  border: 1px solid #03a4ed;
 }
+
 
 .mat-cell.loanborrower {
   white-space: nowrap; 
@@ -96,7 +120,7 @@ th, td {
 
   th, td {
     padding: 8px;
-    border: 1px solid #03a4ed; 
+  
   }
 }
 

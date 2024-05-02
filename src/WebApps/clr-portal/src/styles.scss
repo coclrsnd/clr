@@ -137,6 +137,7 @@ form {
 
     mat-icon {
       padding-top: 16px;
+      
     }
   }
 }
@@ -152,11 +153,13 @@ form {
   color:red;
   font-size: 0.8em;
   margin-top: 3px; 
-  text-shadow: 0px 0px 0.3px red;
+  text-shadow: 0px 0px 0.15px red;
 }
  .successmsg{
   color:rgb(31, 235, 68);
   font-size: 0.8em;
   margin-top: 3px;
-  text-shadow: 0px 0px 0.3px rgb(79, 252, 31);
+  text-shadow: 0px 0px 0.15px rgb(79, 252, 31);
  }
+ 
+ 
