@@ -16,6 +16,9 @@ import { EditLoanDialogComponent } from "../edit-course-dialog/edit-loan-dialog.
 import { PrintingService } from "../services/printing.service";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatPaginator } from '@angular/material/paginator';
+import { MaterialModule } from "../../material.module";
+import { LiveAnnouncer } from "@angular/cdk/a11y";
+import { MatSort, Sort } from "@angular/material/sort";
 
 @Component({
   selector: "loan-list",
@@ -53,9 +56,21 @@ export class LoanListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private printingService: PrintingService,
+    private _liveAnnouncer: LiveAnnouncer,
   ) {}
 
+  @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator:MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+  }
+  announceSortChange(sortState: Sort) {
+     if (sortState.direction) {
+      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
   ngOnInit() {
     this.userDetails$ = this.store.pipe(select(selectUserDetails));
     this.adharNumberSubscription = this.adharNumberSubject
