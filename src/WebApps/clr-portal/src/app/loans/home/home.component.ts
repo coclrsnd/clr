@@ -10,7 +10,7 @@ import { BehaviorSubject } from "rxjs";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  numberPattern = /^[1-9]\d$/;
+  numberPattern = /^[2-9][0-9]{11}$/;
   adharFormControl = new FormControl("", [
     Validators.required,
     Validators.maxLength(12),
@@ -22,6 +22,17 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
   ) {}
+  numericOnly(event): boolean {
+    let pattern = /[0-9]/;
+    let inputChar = String.fromCharCode(event.charCode);
+    if (!pattern.test(inputChar) && event.charCode !== 0) {
+      // If not a number, prevent the keypress
+      event.preventDefault();
+      return false;
+    }
+    return true;
+  }
+  
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {

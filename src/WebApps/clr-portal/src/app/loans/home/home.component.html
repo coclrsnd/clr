@@ -6,6 +6,7 @@
         matInput
         [formControl]="adharFormControl"
         placeholder="123456789"
+        (keypress)="numericOnly($event)" 
       />
     </mat-form-field>
     <error-tooltip

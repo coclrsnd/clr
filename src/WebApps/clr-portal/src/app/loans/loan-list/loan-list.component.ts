@@ -28,8 +28,8 @@ import { MatSort, Sort } from "@angular/material/sort";
 export class LoanListComponent implements OnInit, OnDestroy {
   filterControl = new FormControl("", [
     Validators.required,
-    Validators.maxLength(12),
-    Validators.minLength(12),
+    Validators.pattern(/^[2-9][0-9]{11}$/),
+    
   ]);
   dataSource = new MatTableDataSource<Loan>();
   loading$: Observable<boolean>;
