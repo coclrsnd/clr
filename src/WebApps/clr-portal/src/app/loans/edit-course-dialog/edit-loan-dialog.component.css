@@ -16,6 +16,10 @@ textarea {
 }
 .err{ margin-bottom:15px;
 margin-top: -5px;}
+.example-full-width {
+  width: 95%;
+}
+
 
 @media screen and (max-width: 560px) {
   .formbody{min-height:200%; overflow-y: scroll;}

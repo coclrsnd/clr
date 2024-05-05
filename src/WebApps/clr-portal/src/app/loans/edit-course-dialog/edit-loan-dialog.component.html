@@ -97,7 +97,12 @@
         <div class="errormsg" *ngIf="loanForm.get('status').hasError('required'); " >Status required</div>
       </div>
     </div>
-
+    <ng-container *ngIf="mode==='update'">
+      <mat-form-field class="example-full-width">
+        <mat-label>Note</mat-label>
+        <textarea matInput placeholder=""></textarea>
+      </mat-form-field>
+     </ng-container>
   </form>
 </mat-dialog-content>
 
@@ -105,6 +110,7 @@
 
     <button class="savebtn"
     mat-raised-button
+   
     color="primary"
     (click)="onSave()"
     [disabled]="loanForm.invalid"

@@ -24,7 +24,13 @@ import { Store } from "@ngrx/store";
 import { selectUserDetails } from "../../auth/auth.selectors";
 import {ErrorStateMatcher} from '@angular/material/core';
 import { of } from "rxjs";
-
+import {
+  MatSnackBar,
+  MatSnackBarAction,
+  MatSnackBarActions,
+  MatSnackBarLabel,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: "Loan-dialog",
@@ -52,6 +58,8 @@ export class EditLoanDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) data,
     private loansService: LoanEntityService,
     private store: Store<AppState>,
+    private _snackBar: MatSnackBar,
+    
   ) {
     this.dialogTitle = data.dialogTitle;
     this.loan = data.Loan;
@@ -95,25 +103,44 @@ export class EditLoanDialogComponent implements OnInit {
       ...this.loan,
       ...this.loanForm.value
     }; 
-
+  
     if (this.mode == "update") {
-      this.loansService.update(Loan);
-      this.result="Updated successfully!";
-      this.btnname="update" ;
-      this.dialogSaveStatus$ = of(true); // Update save status to true
-    this.dialogRef.close();
-
-      this.dialogRef.close();
+      this.loansService.update(Loan)
+        .subscribe(() => {
+          this.result = "Updated successfully!";
+          this.btnname = "update";
+          this.dialogSaveStatus$ = of(true); // Update save status to true
+          this.dialogRef.close();
+  
+          // Show a toast message for successful update
+          this._snackBar.open('Updated successfully!', 'Close', {
+            duration: 3000, // Duration in milliseconds
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['successsnackbar'] // Add custom CSS class for success
+          });
+        }, error => {
+          this.result = "Update failed!";
+          this.btnname = "update";
+          this.dialogSaveStatus$ = of(false); // Update save status to false
+          this.dialogRef.close();
+  
+          // Show a toast message for update failure
+          this._snackBar.open('Update failed! Please try again.', 'Close', {
+            duration: 3000, // Duration in milliseconds
+            horizontalPosition: 'end',
+            verticalPosition: 'top',
+            panelClass: ['errorsnackbar'] // Add custom CSS class for error
+          });
+        });
     } else if (this.mode == "create") {
-      this.btnname="save";
+      this.btnname = "save";
       this.loansService.add(Loan).subscribe((newLoan) => {
         console.log("New Loan", newLoan);
-        this.result="Created successfully!"
-
+        this.result = "Created successfully!"
         this.dialogSaveStatus$ = of(true); // Update save status to true
         this.dialogRef.close();
       });
     }
-  }
-  
+  }   
 }

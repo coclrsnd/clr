@@ -102,6 +102,7 @@ th, td {
 } 
 
 
+
 @media print {
   /* Hide the top section containing buttons and form controls */
   .tableprint {

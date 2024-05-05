@@ -159,4 +159,6 @@ export class LoanListComponent implements OnInit, OnDestroy {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  
 }
