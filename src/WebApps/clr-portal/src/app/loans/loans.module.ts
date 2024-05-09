@@ -77,6 +77,7 @@ const entityMetadata: EntityMetadataMap = {
     SharedModule,
     RouterModule.forChild(loansRoutes),
     MatGridListModule,
+    MaterialModule,
   ],
   declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
   exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent],

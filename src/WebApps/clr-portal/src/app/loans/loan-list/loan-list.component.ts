@@ -26,6 +26,7 @@ import * as moment from 'moment';
 import { NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { LoansModule } from "../loans.module";
 
 
 
