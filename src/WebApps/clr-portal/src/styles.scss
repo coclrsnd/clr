@@ -174,3 +174,21 @@ html {
   --mat-snack-bar-button-color: #fdfbfc;
   --mdc-snackbar-supporting-font-weight:bold ;
 }
+
+/* Global styles for snackbar */
+.errorsnackbar, .successsnackbar{
+  // background-color: #F44336 !important; /* Red color for error */
+  // color: white !important;
+  margin-top: 90px !important;
+  /* Custom positioning by moving to the right */
+  text-align: center;
+  border-radius: 5px;
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.snackbar-container-custom {
+  position: fixed;
+  right: 0;         /* Aligns snackbar to the right side */
+  top: 50px;        /* Adds a margin from the top */
+  z-index: 9999;    /* Ensures it is above other elements */
+}
