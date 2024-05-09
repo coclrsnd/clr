@@ -11,7 +11,7 @@ import { LoanEntityService } from "../services/loan-entity.service";
 import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { selectUserDetails } from "../../auth/auth.selectors";
-import { MatTableDataSource } from "@angular/material/table";
+import { MatTable, MatTableDataSource } from "@angular/material/table";
 import { EditLoanDialogComponent } from "../edit-course-dialog/edit-loan-dialog.component";
 import { PrintingService } from "../services/printing.service";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -19,21 +19,42 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MaterialModule } from "../../material.module";
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { MatSort, Sort } from "@angular/material/sort";
+import { MatButtonModule } from '@angular/material/button';
+import { trigger, state, style, animate, transition } from '@angular/animations';
+import { NgZone } from '@angular/core';
+import * as moment from 'moment';
+import { NgModule } from '@angular/core';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+
+
 
 @Component({
   selector: "loan-list",
   templateUrl: "./loan-list.component.html",
   styleUrls: ["./loan-list.component.css"],
+  animations: [
+    trigger('expandCollapse', [
+      state('collapsed', style({ height: '0px', overflow: 'hidden' })),
+      state('expanded', style({ height: '*' })),
+      transition('collapsed <=> expanded', animate('300ms ease-out')),
+    ]),
+  ],
 })
+
+
 export class LoanListComponent implements OnInit, OnDestroy {
   filterControl = new FormControl("", [
     Validators.required,
     Validators.pattern(/^[2-9][0-9]{11}$/),
     
   ]);
+  isHidden: boolean = true;
   dataSource = new MatTableDataSource<Loan>();
   loading$: Observable<boolean>;
   errorMsg = '';
+  fromDate = new FormControl('');
+  toDate = new FormControl('');
   displayedColumns: string[] = [
     "loanDate",
     "loanBorrower",
@@ -42,6 +63,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "loanType",
     "amount",
     "status",
+    "remarks",
     "actions",
   ];
   userDetails$: Observable<User>;
@@ -57,10 +79,13 @@ export class LoanListComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private printingService: PrintingService,
     private _liveAnnouncer: LiveAnnouncer,
+    private ngZone: NgZone
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator:MatPaginator;
+  @ViewChild(MatTable) table: MatTable<any>;
+
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
@@ -159,6 +184,39 @@ export class LoanListComponent implements OnInit, OnDestroy {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  panelState: 'expanded' | 'collapsed' = 'collapsed';
 
-  
+  togglePanel() {
+    this.panelState = this.panelState === 'expanded' ? 'collapsed' : 'expanded';
+  }
+  // applyDateFilter() {
+  //   const from = this.fromDate.value ? new Date(this.fromDate.value) : null;
+  //   const to = this.toDate.value ? new Date(this.toDate.value) : null;
+    
+  //   if (from && to) {
+  //     from.setHours(0, 0, 0, 0);  // Set start of day
+  //     to.setHours(23, 59, 59, 999);  // Set end of day
+
+  //     this.store.pipe(
+  //       select(selectUserDetails),
+  //       switchMap(user => this.loanService.getWithOrganization(user.organizationCode)),
+  //       tap(loans => {
+  //         const filteredLoans = loans.filter(loan => {
+  //           const loanDate = new Date(loan.loanDate);
+  //           return loanDate >= from && loanDate <= to;
+  //         });
+  //         this.dataSource.data = filteredLoans;
+  //       })
+  //     ).subscribe();
+  //   } else {
+  //     console.error("Both 'From' and 'To' dates must be selected.");
+  //   }
+  // }
+//   updateTable() {
+//     this.table.renderRows();
+// }
+
+  toggleVisibility() {
+    this.isHidden = !this.isHidden;
+  }
 }

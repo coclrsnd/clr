@@ -30,6 +30,8 @@ import { LoansResolver } from "./services/loan.resolver";
 import { SharedModule } from "../shared/shared.module";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatGridListModule } from "@angular/material/grid-list";
+import { MaterialModule } from "../material.module";
+
 
 export const loansRoutes: Routes = [
   {

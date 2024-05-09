@@ -12,5 +12,6 @@ namespace User.Api.Types
         public DateTime LoanDate { get; set; }
         public string LoanBorrower { get; set; }
         public string LoanType { get; set; }
+        public string? Remarks { get; set; }
     }
 }
