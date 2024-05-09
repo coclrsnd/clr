@@ -125,10 +125,10 @@ export class EditLoanDialogComponent implements OnInit {
   
           // Show a toast message for successful update
           this._snackBar.open('Updated successfully!', 'Close', {
-            duration: 3000, // Duration in milliseconds
+            duration: 4000, // Duration in milliseconds
             horizontalPosition: 'end',
             verticalPosition: 'top',
-            panelClass: ['successsnackbar'] // Add custom CSS class for success
+            panelClass: ['successsnackbar', 'snackbar-container-custom'] // Add custom CSS class for success
           });
         }, error => {
           this.result = "Update failed!";
@@ -138,10 +138,10 @@ export class EditLoanDialogComponent implements OnInit {
   
           // Show a toast message for update failure
           this._snackBar.open('Update failed! Please try again.', 'Close', {
-            duration: 3000, // Duration in milliseconds
+            duration: 4000, // Duration in milliseconds
             horizontalPosition: 'end',
             verticalPosition: 'top',
-            panelClass: ['errorsnackbar'] // Add custom CSS class for error
+            panelClass: ['errorsnackbar', 'snackbar-container-custom'] // Add custom CSS class for error
           });
         });
     } else if (this.mode == "create") {

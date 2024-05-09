@@ -19,7 +19,10 @@ margin-top: -5px;}
 .example-full-width {
   width: 95%;
 }
-
+.successsnackbar{
+  margin-top: 100px ;
+  /* margin-left: 500px; */
+}
 
 @media screen and (max-width: 560px) {
   .formbody{min-height:200%; overflow-y: scroll;}
