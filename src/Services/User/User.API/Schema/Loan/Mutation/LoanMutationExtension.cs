@@ -40,7 +40,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
                 if (loanRequestInput.Id <= 0)
                 {
                     var loan = _mapper.Map<Loans>(loanRequestInput);
-                    loan.OrganizationName = context.Organizations.Where(org=>org.Code == loanRequestInput.OrganizationCode).FirstOrDefault().Name;
+                    loan.OrganizationName = context.Organizations.Where(org => org.Code == loanRequestInput.OrganizationCode).FirstOrDefault().Name;
                     var loanEntity = await context.Loans.AddAsync(loan);
                     await context.SaveChangesAsync();
                     return loanEntity.Entity.Id;
@@ -58,6 +58,30 @@ namespace User.GraphQL.Schema.Loan.Mutation
             catch (Exception ex)
             {
                 throw new Exception("Error While Signing up");
+            }
+        }
+
+        [UseApplicationDbContext]
+        public async Task<int> AddSociety([ScopedService] UserContext context, OrganizationRequest organizationRequest)
+        {
+            try
+            {
+                var orgaRequest = _mapper.Map<Organization>(organizationRequest);
+                var res = await context.Organizations.AddAsync(orgaRequest);
+
+                await context.OrganizationConfigurations.AddAsync(new OrganizationConfiguration()
+                {
+                    LogoPath = $"..assets/images/{orgaRequest.Code}.png",
+                    OrganizationId = res.Entity.Id,
+                });
+
+                context.SaveChangesAsync();
+                return res.Entity.Id;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error While saving organization");
             }
         }
 

@@ -59,7 +59,7 @@ export class EditLoanDialogComponent implements OnInit {
     private loansService: LoanEntityService,
     private store: Store<AppState>,
     private _snackBar: MatSnackBar,
-    
+
   ) {
     this.dialogTitle = data.dialogTitle;
     this.loan = data.Loan;
@@ -77,15 +77,16 @@ export class EditLoanDialogComponent implements OnInit {
       loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
     )), Validators.maxLength(30)]],
       loanType: ["", Validators.required],
+      remarks: [""],
     });
-    
-   
+
+
     if (this.mode === "update") {
       this.loanForm.patchValue({ ...data.Loan });
       this.loanForm.get('adharNumber').disable(); // Disable the adharNumber control
     }
-    
-    
+
+
   }
 
   numericOnly(event): boolean {
@@ -113,8 +114,8 @@ export class EditLoanDialogComponent implements OnInit {
     const Loan: Loan = {
       ...this.loan,
       ...this.loanForm.value
-    }; 
-  
+    };
+
     if (this.mode == "update") {
       this.loansService.update(Loan)
         .subscribe(() => {
@@ -122,7 +123,7 @@ export class EditLoanDialogComponent implements OnInit {
           this.btnname = "update";
           this.dialogSaveStatus$ = of(true); // Update save status to true
           this.dialogRef.close();
-  
+
           // Show a toast message for successful update
           this._snackBar.open('Updated successfully!', 'Close', {
             duration: 4000, // Duration in milliseconds
@@ -135,7 +136,7 @@ export class EditLoanDialogComponent implements OnInit {
           this.btnname = "update";
           this.dialogSaveStatus$ = of(false); // Update save status to false
           this.dialogRef.close();
-  
+
           // Show a toast message for update failure
           this._snackBar.open('Update failed! Please try again.', 'Close', {
             duration: 4000, // Duration in milliseconds
@@ -153,5 +154,5 @@ export class EditLoanDialogComponent implements OnInit {
         this.dialogRef.close();
       });
     }
-  }   
+  }
 }
