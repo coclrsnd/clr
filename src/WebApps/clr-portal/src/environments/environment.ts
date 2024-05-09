@@ -5,6 +5,6 @@
 
 export const environment = {
   production: false,
-  apiUrl: "https://localhost:55148/graphql/",
+  apiUrl: "https://api.coclr.in/api/graphql/",
   run: "dev",
 };

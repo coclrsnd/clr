@@ -10,6 +10,7 @@ namespace User.Mappings
         {
             CreateMap<UserSignupRequestInput, User.Domain.Entities.User>().ReverseMap();
             CreateMap<LoanRequestModel, User.Domain.Entities.Loans>().ReverseMap();
+            CreateMap<OrganizationRequest, User.Domain.Entities.Organization>().ReverseMap();
         }
     }
 }
