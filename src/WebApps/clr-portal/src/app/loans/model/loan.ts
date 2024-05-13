@@ -7,7 +7,8 @@ export interface Loan {
   loanDate: Date;
   loanBorrower: string;
   loanType: string;
-  remarks: string;
+  repaymentStatus: string;
+  remarks:string;
   id: number;
 }
 

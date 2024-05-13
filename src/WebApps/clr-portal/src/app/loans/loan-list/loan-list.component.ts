@@ -27,6 +27,7 @@ import { NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { LoansModule } from "../loans.module";
+import { ToastrService } from "ngx-toastr";
 
 
 
@@ -64,7 +65,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "loanType",
     "amount",
     "status",
-    "remarks",
+    "repaymentStatus",
+    
     "actions",
   ];
   userDetails$: Observable<User>;
@@ -80,7 +82,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private printingService: PrintingService,
     private _liveAnnouncer: LiveAnnouncer,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private toastr: ToastrService
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
@@ -190,34 +193,37 @@ export class LoanListComponent implements OnInit, OnDestroy {
   togglePanel() {
     this.panelState = this.panelState === 'expanded' ? 'collapsed' : 'expanded';
   }
-  // applyDateFilter() {
-  //   const from = this.fromDate.value ? new Date(this.fromDate.value) : null;
-  //   const to = this.toDate.value ? new Date(this.toDate.value) : null;
-    
-  //   if (from && to) {
-  //     from.setHours(0, 0, 0, 0);  // Set start of day
-  //     to.setHours(23, 59, 59, 999);  // Set end of day
-
-  //     this.store.pipe(
-  //       select(selectUserDetails),
-  //       switchMap(user => this.loanService.getWithOrganization(user.organizationCode)),
-  //       tap(loans => {
-  //         const filteredLoans = loans.filter(loan => {
-  //           const loanDate = new Date(loan.loanDate);
-  //           return loanDate >= from && loanDate <= to;
-  //         });
-  //         this.dataSource.data = filteredLoans;
-  //       })
-  //     ).subscribe();
-  //   } else {
-  //     console.error("Both 'From' and 'To' dates must be selected.");
-  //   }
-  // }
-//   updateTable() {
-//     this.table.renderRows();
-// }
 
   toggleVisibility() {
     this.isHidden = !this.isHidden;
   }
+  toastrclick(){
+    this.toastr.success("add successfully",'Success');
+  }
+  
+  getStatusClass(status: any) {
+    switch (status) {
+      case 'Active':
+        return 'active dotgreen'; 
+
+      case 'In-Active':
+        return 'inactive'; 
+      case 'In-active':  
+        return 'inactive';   
+      case 'Closed':
+        return 'closed'; 
+      default:
+        return '';
+    }
+  }
+  hoverStates: { [key: string]: boolean } = {};
+  
+  setHoverState(elementId: string, state: boolean) {
+    this.hoverStates[elementId] = state;
+  }
+
+  isHovering(elementId: string): boolean {
+    return !!this.hoverStates[elementId];  // Ensure undefined states are treated as false
+  }
+
 }

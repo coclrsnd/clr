@@ -1,3 +1,4 @@
+
 <div class="formbody">
   <div>
     <h2 mat-dialog-title>
@@ -98,11 +99,30 @@
       </div>
     </div>
     <ng-container *ngIf="mode==='update'">
-      <mat-form-field class="example-full-width">
-        <mat-label>Note</mat-label>
-        <textarea formControlName="remarks" matInput placeholder=""></textarea>
-      </mat-form-field>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Repayment</mat-label>
+          <mat-select formControlName="repaymentStatus">
+            <mat-option *ngFor="let type of loanrepaymentstatus" [value]="type">{{
+              type
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="err" *ngIf="loanForm.get('repaymentStatus').invalid && (loanForm.get('repaymentStatus').dirty || loanForm.get('repaymentStatus').touched)">
+          <div class="errormsg" *ngIf="loanForm.get('repaymentStatus').hasError('required'); " >RepaymentStatus required</div>
+        </div>
+      </div>
      </ng-container>
+     <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline" *ngIf="mode === 'update'">
+          <mat-label>Remarks</mat-label>
+          <textarea matInput formControlName="remarks" cdkTextareaAutosize #autosize="cdkTextareaAutosize" 
+          cdkAutosizeMinRows="0.265" cdkAutosizeMaxRows="5"></textarea>  
+        </mat-form-field>
+      </div>
+     </ng-container>
+     
   </form>
 </mat-dialog-content>
 

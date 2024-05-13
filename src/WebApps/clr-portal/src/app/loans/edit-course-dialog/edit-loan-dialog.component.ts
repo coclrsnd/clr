@@ -31,6 +31,7 @@ import {
   MatSnackBarLabel,
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "Loan-dialog",
@@ -47,6 +48,7 @@ export class EditLoanDialogComponent implements OnInit {
   loanTypes: string[] = ["Surity Loan","Mortgage Loan","Business Loan", "Vehicle Loan","Loan on Fixed Deposite","Loan on Pigme","Pledge Loan","Housing Loan","Gold Purchase Loan"];
   loanStatuType: string[] = ["Active","In-Active","Closed"];
   userDetails$: Observable<User>;
+  loanrepaymentstatus:string[] = ["Poor","Healthy"];
   dialogSaveStatus$: Observable<boolean>;
   disableAdhar: boolean=false;
   result:string='';
@@ -59,6 +61,7 @@ export class EditLoanDialogComponent implements OnInit {
     private loansService: LoanEntityService,
     private store: Store<AppState>,
     private _snackBar: MatSnackBar,
+    private toastr: ToastrService
 
   ) {
     this.dialogTitle = data.dialogTitle;
@@ -77,7 +80,8 @@ export class EditLoanDialogComponent implements OnInit {
       loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
     )), Validators.maxLength(30)]],
       loanType: ["", Validators.required],
-      remarks: [""],
+      repaymentStatus: [""],
+      remarks:[""],
     });
 
 
@@ -123,27 +127,16 @@ export class EditLoanDialogComponent implements OnInit {
           this.btnname = "update";
           this.dialogSaveStatus$ = of(true); // Update save status to true
           this.dialogRef.close();
-
-          // Show a toast message for successful update
-          this._snackBar.open('Updated successfully!', 'Close', {
-            duration: 4000, // Duration in milliseconds
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-            panelClass: ['successsnackbar', 'snackbar-container-custom'] // Add custom CSS class for success
-          });
+          this.toastr.success("Updated Successfully!","Success");
+          
         }, error => {
           this.result = "Update failed!";
           this.btnname = "update";
           this.dialogSaveStatus$ = of(false); // Update save status to false
           this.dialogRef.close();
-
-          // Show a toast message for update failure
-          this._snackBar.open('Update failed! Please try again.', 'Close', {
-            duration: 4000, // Duration in milliseconds
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-            panelClass: ['errorsnackbar', 'snackbar-container-custom'] // Add custom CSS class for error
-          });
+           
+          this.toastr.error('Update failed! Please try again.','Error');
+         
         });
     } else if (this.mode == "create") {
       this.btnname = "save";
@@ -155,4 +148,8 @@ export class EditLoanDialogComponent implements OnInit {
       });
     }
   }
+  toastrclick(){
+    this.toastr.success("add successfully",'Success');
+  }
+  
 }

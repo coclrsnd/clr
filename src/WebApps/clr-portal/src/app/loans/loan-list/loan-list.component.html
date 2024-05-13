@@ -1,5 +1,5 @@
 <div class="loanclass">
-  
+  <!-- head section -->
   <div class="tableprint">
     <div class="tableOptions">
       <button mat-icon-button color="warn" (click)="addLoan()">
@@ -14,43 +14,14 @@
             (keyup)="applyFilter($event)"
           />
         </mat-form-field>
-      </div> 
-      <!-- <div>
-        <button class="filterdatebtn" (click)="togglePanel()" [disabled]="!fromDate.valid || !toDate.valid">Filter By Date</button>
-        <div class="panel-container" [@expandCollapse]="panelState">
-          <div class="panel-content">
-             Your content goes here -->
-            <!-- <div> 
-              <mat-form-field>
-                <mat-label>From Date</mat-label>
-                <input matInput [matDatepicker]="fromPicker" [formControl]="fromDate">
-                <mat-datepicker-toggle matSuffix [for]="fromPicker"></mat-datepicker-toggle>
-                <mat-datepicker #fromPicker></mat-datepicker>
-              </mat-form-field>
-              
-              <mat-form-field>
-                <mat-label>To Date</mat-label>
-                <input matInput [matDatepicker]="toPicker" [formControl]="toDate">
-                <mat-datepicker-toggle matSuffix [for]="toPicker"></mat-datepicker-toggle>
-                <mat-datepicker #toPicker></mat-datepicker>
-              </mat-form-field>
-              
-            
-              <button mat-button (click)="applyDateFilter()" style="margin-left: 5px;">search</button>
-            </div> 
-            
-          </div>
-      </div>
-    </div>-->
-    
+      </div>  
   </div>
   <div class="spinner-container" *ngIf="loading$ | async">
     <mat-spinner></mat-spinner>
   </div>
-
-
+    <!-- table data -->
   <div class="tablestylesclass mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
-    
+    <!-- date -->
     <table mat-table [dataSource]="dataSource" >
       <ng-container matColumnDef="loanDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header="loanDate" sortActionDescription="Sort by loanDate">Date</th>
@@ -58,54 +29,49 @@
           {{ element.loanDate | date: "mediumDate" }}
         </td>
       </ng-container>
-
+      <!-- Adhar -->
       <ng-container matColumnDef="adharNumber">
         <th mat-header-cell *matHeaderCellDef>Adhar</th>
         <td mat-cell *matCellDef="let element">{{ element.adharNumber }}</td>
       </ng-container>
-
+      <!-- amount -->
       <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef>Amount</th>
         <td mat-cell *matCellDef="let element">
           {{ element.amount | currency: "INR" }}
         </td>
       </ng-container>
-
+      <!-- Borrower -->
       <ng-container matColumnDef="loanBorrower">
         <th mat-header-cell *matHeaderCellDef>Borrower</th>
         <td mat-cell *matCellDef="let element" class="loanborrower">{{ element.loanBorrower }}</td>
       </ng-container>
-
-      <ng-container matColumnDef="remarks">
-        <th mat-header-cell *matHeaderCellDef>Remarks</th>
-        <td mat-cell *matCellDef="let element"
-          [matTooltip]="element.remarks || ''"
-          matTooltipPosition="above"
-          matTooltipShowDelay="500"
-          style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">
-          <ng-container *ngIf="element.remarks">
-            <!-- Truncate the text to the first 10 characters, but show the full text in the tooltip -->
-            {{element.remarks.length > 10 ? (element.remarks | slice: 0:10) + '...' : element.remarks}}
-          </ng-container>
+      <!-- Repayment -->
+      <ng-container matColumnDef="repaymentStatus">
+        <th mat-header-cell *matHeaderCellDef>Repayment</th>
+        <td mat-cell *matCellDef="let element" 
+            [ngStyle]="{'color': element.repaymentStatus === 'Poor' ? '#ff3e1d' : '#71dd37', 'font-weight':'550', 'font-size':'medium', 'display':'flex','align-items':'center', 'justify-content': 'space-between'}">
+          {{ element.repaymentStatus || 'Healthy' }}
+          
+          <button mat-icon-button class="eyeclass"
+          (mouseenter)="setHoverState(element.id, true)"
+          (mouseleave)="setHoverState(element.id, false)"
+          [matTooltip]="isHovering(element.id) ? element.remarks : ''"
+          matTooltipPosition="above">
+    <mat-icon [style]="{'color':'black','font-size':'16px'}" matTooltip="">
+      visibility
+    </mat-icon>
+  </button>
         </td>
       </ng-container>
-      
-      
-      
-
+    <!-- Status -->
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef>Status</th>
-        <!-- <td mat-cell *matCellDef="let element" style="display: flex; justify-content: space-between;"> <span style="display: flex; align-items: center;" ><span>{{ element.status }}</span></span>
-          <span matTooltip="Tooltip text here" style="float: right;">
-            <button mat-icon-button (click)="toggleVisibility(element)"  [disabled]="
-            (userDetails$ | async)?.organizationCode !== element.organizationCode">
-              <mat-icon class="visi">{{ isHidden ? 'visibility' : 'visibility_off' }}</mat-icon>
-            </button>
-          </span>
-        </td> -->
-        <td mat-cell *matCellDef="let element">{{element.status}}</td>
-      </ng-container>
-      
+        <td mat-cell *matCellDef="let element">
+          <span [ngClass]="getStatusClass(element.status)"> &#9679; {{ element.status }}</span>   
+        </td>
+     </ng-container>
+      <!-- loantype -->
       <ng-container matColumnDef="loanType">
         <th mat-header-cell *matHeaderCellDef>Type</th>
         <td mat-cell *matCellDef="let element">{{ element.loanType }}</td>
@@ -114,15 +80,14 @@
         <th mat-header-cell *matHeaderCellDef>Society</th>
         <td mat-cell *matCellDef="let element">{{ element.organizationName }}</td>
       </ng-container>
-      
+      <!-- editbutton -->
       <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef></th>
         <td mat-cell *matCellDef="let element">
           <button
             mat-icon-button
-            [disabled]="
-              (userDetails$ | async)?.organizationCode !== element.organizationCode
-            "
+            [disabled]=
+            "(userDetails$ | async)?.organizationCode !== element.organizationCode"
             (click)="editLoan(element)"
           >
             <mat-icon>edit</mat-icon>

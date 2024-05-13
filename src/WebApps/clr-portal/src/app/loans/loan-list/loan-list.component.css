@@ -75,7 +75,6 @@ th, td {
   border: 1px solid #03a4ed;
 }
 
-
 .mat-cell.loanborrower {
   white-space: nowrap; 
   overflow: hidden; 
@@ -124,15 +123,34 @@ th, td {
 }
  .visi{font-size: 16px;}
 
-/* .mat-mdc-icon-button .visi{
-  --mdc-icon-button-icon-color: inherit;
-  --mdc-icon-button-disabled-icon-color: rgba(0, 0, 0, 0.38);
-  --mat-icon-button-state-layer-color:transparent;
-  --mat-icon-button-ripple-color: transparent;
-  --mat-icon-button-hover-state-layer-opacity: 0.04;
-  --mat-icon-button-focus-state-layer-opacity: 0.12;
-  --mat-icon-button-pressed-state-layer-opacity: 0.12;
-} */
+.active{
+  font-size: medium;
+  background-color: #e8fadf !important;
+  color: #71dd37 !important;
+  /* font-weight: 600;  */
+  border-radius: 5px;
+ padding: 5px;
+}
+
+.inactive{
+  font-size: medium;
+  background-color: #ffe0db !important;
+ color:#ff3e1d !important;
+ border-color: #ffc5bb;
+ text-wrap: nowrap;
+ /* font-weight: 600; */
+ border-radius: 5px;
+ padding: 5px;
+}
+
+.closed{
+  font-size: medium;
+ color: black;
+ font-weight: 600;
+}
+.loanborrower{
+  width: 20%;
+}
 
 
 @media print {

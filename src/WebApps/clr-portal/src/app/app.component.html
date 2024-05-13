@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" *ngIf="isLoggedIn$ | async">
+<mat-toolbar color="primary" *ngIf="isLoggedIn$ | async"  style="position: fixed; z-index: 999;">
   <div class="toolbar-content">
     <div class="org-name">
       <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">

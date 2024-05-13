@@ -28,6 +28,7 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       loanDate
       loanBorrower
       loanType
+      repaymentStatus
       remarks
       id
     }
@@ -44,6 +45,7 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       loanDate
       loanBorrower
       loanType
+      repaymentStatus
       remarks
       id
     }
