@@ -54,9 +54,7 @@
           {{ element.repaymentStatus || 'Healthy' }}
           
           <button mat-icon-button class="eyeclass"
-          (mouseenter)="setHoverState(element.id, true)"
-          (mouseleave)="setHoverState(element.id, false)"
-          [matTooltip]="isHovering(element.id) ? element.remarks : ''"
+          [matTooltip]="element.remarks"
           matTooltipPosition="above">
     <mat-icon [style]="{'color':'black','font-size':'16px'}" matTooltip="">
       visibility
