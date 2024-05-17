@@ -117,7 +117,8 @@ td {
   padding: 2px;
   background-color: #fdfbfb;
 }
- .visi{font-size: 16px;}
+ .visi{font-size: 16px;
+}
 
 .active{
   font-size: medium;
@@ -136,6 +137,18 @@ td {
  border-color: #ffc5bb;
  text-wrap: nowrap;
  /* font-weight: 600; */
+ border-radius: 5px;
+ padding: 5px;
+ text-shadow: 0.1px 0px 0px rgb(255, 62, 62);
+}
+
+.ots{
+font-size: medium;
+ background-color: #e7d2fa !important;
+ color: #9b51e0 !important;
+ border-color: #8709fd;
+ text-wrap: nowrap;
+ font-weight: 600;
  border-radius: 5px;
  padding: 5px;
 }

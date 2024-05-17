@@ -212,6 +212,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
         return 'inactive';   
       case 'Closed':
         return 'closed'; 
+      case 'OTS':
+        return 'ots';  
       default:
         return '';
     }
