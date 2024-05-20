@@ -125,6 +125,7 @@ td {
   background-color: #e8fadf !important;
   color: #00a67e !important;
   /* font-weight: 600;  */
+  text-wrap: nowrap;
   border-radius: 5px;
  padding: 5px;
  text-shadow: 0.1px 0px 0px #69d84f;
@@ -160,12 +161,15 @@ font-size: medium;
  border-color: #494240;
  border-radius: 5px;
  padding: 5px;
+ text-wrap: nowrap;
  /* font-weight: 600; */
 }
 .loanborrower{
   width: 20%;
 }
-
+/* .infoclass{
+  float: right;
+} */
 
 @media print {
   /* Hide the top section containing buttons and form controls */
@@ -174,7 +178,7 @@ font-size: medium;
   }
 
   .table-container {
-    width: 100%;
+    width: 100%; 
   }
 
  

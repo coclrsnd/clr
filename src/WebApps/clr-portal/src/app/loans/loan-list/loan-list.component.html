@@ -49,17 +49,18 @@
       <!-- Repayment -->
       <ng-container matColumnDef="repaymentStatus">
         <th mat-header-cell *matHeaderCellDef>Repayment</th>
-        <td mat-cell *matCellDef="let element" 
-            [ngStyle]="{'color': element.repaymentStatus === 'Poor' ? '#ff3e1d' : '#049e32', 'font-weight':'595', 'font-size':'medium', 'display':'flex','align-items':'center', 'justify-content': 'space-between'}">
-          {{ element.repaymentStatus || 'Healthy' }}
+        <td mat-cell *matCellDef="let element">
+          <div [ngStyle]="{'color': element.repaymentStatus === 'Poor' ? '#ff3e1d' : '#049e32', 'font-weight':'595', 'font-size':'medium', 'display':'flex','align-items':'center', 'justify-content': 'space-between'}">
+               {{ element.repaymentStatus || 'Healthy' }}
           
-          <button mat-icon-button class="eyeclass"
-          [matTooltip]="element.remarks"
-          matTooltipPosition="above">
-    <mat-icon [style]="{'color':'black','font-size':'16px'}" matTooltip="">
-      visibility
-    </mat-icon>
-  </button>
+               <button mat-icon-button class="eyeclass"
+               [matTooltip]="element.remarks"
+               matTooltipPosition="above">
+               <mat-icon [style]="{'color':'black','font-size':'16px'}" matTooltip="">
+               visibility
+               </mat-icon>
+               </button>
+          </div>
         </td>
       </ng-container>
     <!-- Status -->
@@ -72,7 +73,21 @@
       <!-- loantype -->
       <ng-container matColumnDef="loanType">
         <th mat-header-cell *matHeaderCellDef>Type</th>
-        <td mat-cell *matCellDef="let element">{{ element.loanType }}</td>
+        <td mat-cell *matCellDef="let element">
+          <div [ngStyle]="{'font-size':'medium', 'display':'flex','align-items':'center', 'justify-content':'space-between'}">
+            {{element.loanType}}
+       
+            <ng-container *ngIf="element.loanType === 'Mortgage Loan' || element.loanType === 'Vehicle Loan'">
+              <button mat-icon-button class="infoclass"
+                      [matTooltip]="element.loanType === 'Mortgage Loan' ? element.securityreports : element['vehicalno/rcno']"
+                      matTooltipPosition="above">
+                <mat-icon [style]="{'color':'black','font-size':'16px'}">
+                  info
+                </mat-icon>
+              </button>
+            </ng-container>
+       </div>      
+      </td>
       </ng-container>
       <ng-container matColumnDef="organizationName">
         <th mat-header-cell *matHeaderCellDef>Society</th>

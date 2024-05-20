@@ -92,6 +92,10 @@ export class LoanListComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
+    // Set default sort
+    this.sort.active = 'loanDate';
+    this.sort.direction = 'desc';
+    this.dataSource.sort = this.sort;
   }
   announceSortChange(sortState: Sort) {
      if (sortState.direction) {

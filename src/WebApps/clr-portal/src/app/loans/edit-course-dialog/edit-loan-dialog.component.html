@@ -59,7 +59,7 @@
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Type</mat-label>
-        <mat-select formControlName="loanType">
+        <mat-select formControlName="loanType" (selectionChange)="onStatusChange($event.value)">
           <mat-option *ngFor="let type of loanTypes" [value]="type">{{
             type
           }}</mat-option>
@@ -67,7 +67,7 @@
       </mat-form-field>
       <div class="err" *ngIf="loanForm.get('loanType').invalid && (loanForm.get('loanType').dirty || loanForm.get('loanType').touched)">
         <div class="errormsg" *ngIf="loanForm.get('loanType').hasError('required'); " >Loan type required</div >
-      </div>
+      </div> 
     </div>
     <div class="form-control">
       <mat-form-field appearance="outline">
@@ -89,9 +89,8 @@
       <mat-form-field appearance="outline">
         <mat-label>Status</mat-label>
         <mat-select formControlName="status">
-          <mat-option *ngFor="let type of loanStatuType" [value]="type">{{
-            type
-          }}</mat-option>
+          <mat-option *ngFor="let type of loanStatuType" [value]="type">{{type}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
       <div class="err" *ngIf="loanForm.get('status').invalid && (loanForm.get('status').dirty || loanForm.get('status').touched)">
@@ -122,7 +121,26 @@
         </mat-form-field>
       </div>
      </ng-container>
-     
+     <!-- mortageloan option -->
+     <ng-container *ngIf="mortagefield">
+      <div class="form-control" >
+        <mat-form-field appearance="outline" >
+          <mat-label>Security Reports</mat-label>
+          <input matInput formControlName="securityreports"/> 
+        </mat-form-field>
+      </div>
+    </ng-container>
+      <!-- vehical option -->
+      <ng-container *ngIf="vehicalfield">
+        <div class="form-control" >
+          <mat-form-field appearance="outline" >
+            <mat-label>Vehical No/ RC No</mat-label>
+            <input matInput formControlName="vehicalno/rcno"/> 
+          </mat-form-field>
+        </div>
+      </ng-container>
+
+
   </form>
 </mat-dialog-content>
 

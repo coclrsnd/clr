@@ -18,7 +18,7 @@ import {
 import { login, loginSuccess, logout } from "./auth/auth.actions";
 import { User } from "./auth/model/user.model";
 import { FormBuilder } from "@angular/forms";
-
+import { NavigationExtras } from '@angular/router';
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -70,4 +70,8 @@ export class AppComponent implements OnInit {
   logout() {
     this.store.dispatch(logout());
   }
+
+refreshData() {
+  location.reload();
+}
 }

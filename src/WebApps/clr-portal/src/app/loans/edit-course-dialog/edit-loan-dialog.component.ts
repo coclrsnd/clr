@@ -3,6 +3,7 @@ import {
   Component,
   Inject,
   OnInit,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Loan } from "../model/loan";
@@ -53,7 +54,8 @@ export class EditLoanDialogComponent implements OnInit {
   disableAdhar: boolean=false;
   result:string='';
   btnname:string='';
-
+  mortagefield:boolean= false;
+  vehicalfield:boolean=false;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLoanDialogComponent>,
@@ -61,7 +63,8 @@ export class EditLoanDialogComponent implements OnInit {
     private loansService: LoanEntityService,
     private store: Store<AppState>,
     private _snackBar: MatSnackBar,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef,
 
   ) {
     this.dialogTitle = data.dialogTitle;
@@ -69,6 +72,7 @@ export class EditLoanDialogComponent implements OnInit {
     this.mode = data.mode;
     this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
     this.btnname = this.mode === 'create' ? 'Save' : 'Update';
+    this.initializeForm(data.Loan);
 
     this.loanForm = this.fb.group({
       id: [0],
@@ -109,7 +113,7 @@ export class EditLoanDialogComponent implements OnInit {
       this.loanForm.get("organizationCode").patchValue(user.organizationCode);
     });
   }
-
+  
   onClose() {
     this.dialogRef.close();
   }
@@ -151,5 +155,41 @@ export class EditLoanDialogComponent implements OnInit {
   toastrclick(){
     this.toastr.success("add successfully",'Success');
   }
+
+   // Initialize form and field visibility directly in the constructor
+   
   
+
+  initializeForm(loanData: Loan) {
+    this.loanForm = this.fb.group({
+      loanType: [loanData?.loanType || '', Validators.required],
+      // Set up additional form controls here
+    });
+
+    // Immediately determine field visibility based on existing data
+    this.determineFieldVisibility(loanData?.loanType);
+  }
+
+  determineFieldVisibility(loanType: string | undefined) {
+    this.mortagefield = loanType === 'Mortgage Loan';
+    this.vehicalfield = loanType === 'Vehicle Loan';
+  }
+
+
+  
+  onStatusChange(value: string) {
+    if (value === 'Mortgage Loan') {
+      this.mortagefield = true; 
+      this.vehicalfield = false;
+    } else if (value === 'Vehicle Loan') {
+      this.vehicalfield = true;
+      this.mortagefield = false; 
+      }
+      else{
+        this.vehicalfield = false;
+        this.mortagefield = false; 
+      }
+      this.determineFieldVisibility(value);
+    this.cdr.detectChanges();
+  }
 }
