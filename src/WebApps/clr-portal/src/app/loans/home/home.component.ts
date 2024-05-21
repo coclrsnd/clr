@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: "home",
@@ -17,8 +19,11 @@ export class HomeComponent implements OnInit {
     Validators.minLength(12),
   ]);
   aadharNumber: string;
+  loading = false;
+  printbtn:boolean=false;
 
   constructor(
+    private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
   ) {}
@@ -41,7 +46,27 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit() {
-    this.aadharNumber = this.adharFormControl.value;
+    // this.aadharNumber = this.adharFormControl.value;
+    if (this.adharFormControl.valid) {
+      this.loading = true; 
+      of(this.adharFormControl.value)
+        .pipe(delay(3000)) 
+        .subscribe(
+          value => {
+            this.aadharNumber = value;
+            this.loading = false;
+            this.printbtn=true;
+            this.cdr.markForCheck(); 
+          },
+          error => {
+            console.error('An error occurred', error);
+            this.loading = false; 
+            this.cdr.markForCheck(); 
+          }
+        );
+        
+    }
+
   }
  
   printTable(): void {

@@ -33,6 +33,7 @@ import { MatGridListModule } from "@angular/material/grid-list";
 import { MaterialModule } from "../material.module";
 
 
+
 export const loansRoutes: Routes = [
   {
     path: "",
@@ -78,6 +79,7 @@ const entityMetadata: EntityMetadataMap = {
     RouterModule.forChild(loansRoutes),
     MatGridListModule,
     MaterialModule,
+    MatProgressSpinnerModule,
   ],
   declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
   exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent],

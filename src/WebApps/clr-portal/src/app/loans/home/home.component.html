@@ -22,8 +22,8 @@
   >
     Search
   </button>
- 
-  <ng-container *ngIf="adharFormControl.valid" >
+  <mat-spinner *ngIf="loading" diameter="40"></mat-spinner>
+  <ng-container *ngIf="printbtn" >
     <button mat-icon-button (click)="printTable()" class="printbutton">
       <mat-icon>print</mat-icon>
     </button>
