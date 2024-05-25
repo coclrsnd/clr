@@ -46,7 +46,7 @@ export class EditLoanDialogComponent implements OnInit {
   mode: "create" | "update";
   loading$: Observable<boolean>;
   loanForm: FormGroup;
-  loanTypes: string[] = ["Surity Loan","Mortgage Loan","Business Loan", "Vehicle Loan","Loan on Fixed Deposite","Loan on Pigme","Pledge Loan","Housing Loan","Gold Purchase Loan"];
+  loanTypes: string[] = ["Surety Loan","Mortgage Loan","Business Loan", "Vehicle Loan","Loan on Fixed Deposite","Loan on Pigme","Pledge Loan","Housing Loan","Gold Purchase Loan"];
   loanStatuType: string[] = ["Active","In-Active","Closed","OTS"];
   userDetails$: Observable<User>;
   loanrepaymentstatus:string[] = ["Poor","Healthy"];
@@ -82,7 +82,13 @@ export class EditLoanDialogComponent implements OnInit {
       adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
       loanDate: ["", Validators.required],
       loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
-    )), Validators.maxLength(30)]],
+      )), Validators.maxLength(30)]],
+      Surityholder1: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+      )), Validators.maxLength(30)]],
+      adharNumber1: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
+      Surityholder2: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+      )), Validators.maxLength(30)]],
+      adharNumber2: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
       loanType: ["", Validators.required],
       repaymentStatus: [""],
       remarks:[""],
@@ -91,7 +97,17 @@ export class EditLoanDialogComponent implements OnInit {
 
     if (this.mode === "update") {
       this.loanForm.patchValue({ ...data.Loan });
-      this.loanForm.get('adharNumber').disable(); // Disable the adharNumber control
+      this.loanForm.get('adharNumber').disable(); 
+      if (data.Loan.adharNumber1 && data.Loan.adharNumber1.trim() !== '') {
+        this.loanForm.get('adharNumber1').disable(); 
+      } else {
+        this.loanForm.get('adharNumber1').enable(); // Enable if empty
+      }
+      if (data.Loan.adharNumber1 && data.Loan.adharNumber1.trim() !== '') {
+        this.loanForm.get('adharNumber2').disable(); 
+      } else {
+        this.loanForm.get('adharNumber2').enable(); // Enable if empty
+      }
     }
 
 
@@ -129,7 +145,7 @@ export class EditLoanDialogComponent implements OnInit {
         .subscribe(() => {
           this.result = "Updated successfully!";
           this.btnname = "update";
-          this.dialogSaveStatus$ = of(true); // Update save status to true
+          this.dialogSaveStatus$ = of(true); 
           this.dialogRef.close();
           this.toastr.success("Updated Successfully!","Success");
           

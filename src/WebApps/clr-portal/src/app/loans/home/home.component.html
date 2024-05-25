@@ -22,7 +22,10 @@
   >
     Search
   </button>
-  <mat-spinner *ngIf="loading" diameter="40"></mat-spinner>
+  <div class="spinner-container">
+    <mat-spinner *ngIf="loading" class="back-spinner" diameter="100"></mat-spinner>
+    
+  </div>
   <ng-container *ngIf="printbtn" >
     <button mat-icon-button (click)="printTable()" class="printbutton">
       <mat-icon>print</mat-icon>
@@ -30,7 +33,8 @@
    
   </ng-container>  
 </div>
-
+<!-- <ng-container *ngIf="!loading"> -->
 <div>
   <loan-list [adharNumber]="aadharNumber"></loan-list>
 </div>
+<!-- </ng-container> -->

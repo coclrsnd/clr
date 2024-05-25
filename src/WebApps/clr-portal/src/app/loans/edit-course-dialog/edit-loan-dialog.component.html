@@ -113,14 +113,65 @@
       </div>
      </ng-container>
      <ng-container>
-      <div class="form-control">
-        <mat-form-field appearance="outline" *ngIf="mode === 'update'">
+      <div class="form-control" *ngIf="mode === 'update'">
+        <mat-form-field appearance="outline">
           <mat-label>Remarks</mat-label>
           <textarea matInput formControlName="remarks" cdkTextareaAutosize #autosize="cdkTextareaAutosize" 
           cdkAutosizeMinRows="0.265" cdkAutosizeMaxRows="5"></textarea>  
         </mat-form-field>
       </div>
      </ng-container>
+     <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Surety holder1</mat-label>
+          <input matInput formControlName="Surityholder1" />
+        </mat-form-field>
+        <div class="err" *ngIf="loanForm.get('Surityholder1').invalid && (loanForm.get('Surityholder1').dirty || loanForm.get('Surityholder1').touched)">
+          <div class="errormsg" *ngIf="loanForm.get('Surityholder1').hasError('required')"  >Name required</div >
+          <div class="errormsg" *ngIf="!loanForm.get('Surityholder1').hasError('required') && loanForm.get('Surityholder1').hasError('pattern')"  >Not a valid name</div >
+          <div class="errormsg" *ngIf="!loanForm.get('Surityholder1').hasError('pattern') && loanForm.get('Surityholder1').hasError('maxlength') " >Names too long</div >
+        </div>
+      </div>
+     </ng-container>
+     <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>SH1 AdharNumber</mat-label>
+          <input matInput formControlName="adharNumber1" (keypress)="numericOnly($event)"  />
+        </mat-form-field>
+        <div class="err" *ngIf="loanForm.get('adharNumber1').invalid && (loanForm.get('adharNumber1').dirty || loanForm.get('adharNumber1').touched)">
+          <div class="errormsg" *ngIf="loanForm.get('adharNumber1').hasError('required'); " >Aadhar required</div >
+          <div class="errormsg" *ngIf="loanForm.get('adharNumber1').hasError('pattern')" >Not a valid Adhar number</div >
+        </div>
+      </div>
+     </ng-container>
+     <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Surety holder2</mat-label>
+          <input matInput formControlName="Surityholder2" />
+        </mat-form-field>
+        <div class="err" *ngIf="loanForm.get('Surityholder2').invalid && (loanForm.get('Surityholder2').dirty || loanForm.get('Surityholder2').touched)">
+          <div class="errormsg" *ngIf="loanForm.get('Surityholder2').hasError('required')"  >Name required</div >
+          <div class="errormsg" *ngIf="!loanForm.get('Surityholder2').hasError('required') && loanForm.get('Surityholder2').hasError('pattern')"  >Not a valid name</div >
+          <div class="errormsg" *ngIf="!loanForm.get('Surityholder2').hasError('pattern') && loanForm.get('Surityholder2').hasError('maxlength') " >Names too long</div >
+        </div>
+      </div>
+     </ng-container>
+     <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>SH2 AdharNumber</mat-label>
+          <input matInput formControlName="adharNumber2" (keypress)="numericOnly($event)"  />
+        </mat-form-field>
+        <div class="err" *ngIf="loanForm.get('adharNumber2').invalid && (loanForm.get('adharNumber2').dirty || loanForm.get('adharNumber2').touched)">
+          <div class="errormsg" *ngIf="loanForm.get('adharNumber2').hasError('required'); " >Aadhar required</div >
+          <div class="errormsg" *ngIf="loanForm.get('adharNumber2').hasError('pattern')" >Not a valid Adhar number</div >
+        </div>
+      </div>
+     </ng-container>
+     
      <!-- mortageloan option -->
      <ng-container *ngIf="mortagefield">
       <div class="form-control" >

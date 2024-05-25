@@ -66,7 +66,10 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "amount",
     "status",
     "repaymentStatus",
-    
+    "Suretyholder1",
+    "adharNumber1",
+    "Suretyholder2",
+    "adharNumber2",
     "actions",
   ];
   userDetails$: Observable<User>;

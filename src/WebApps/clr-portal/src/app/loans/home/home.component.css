@@ -8,3 +8,17 @@
     margin:11px;
   }
  }
+ .spinner-container {
+  position: absolute;
+  top: 30%;
+  left: 10;
+  right: 10;
+  bottom: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: transparent;
+  text-align: center;
+  z-index: 10;
+}
+

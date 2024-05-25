@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   aadharNumber: string;
   loading = false;
   printbtn:boolean=false;
-
+ cleanform:boolean=false;
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
@@ -48,11 +48,14 @@ export class HomeComponent implements OnInit {
   onSubmit() {
     // this.aadharNumber = this.adharFormControl.value;
     if (this.adharFormControl.valid) {
+      // this.cleanform=true;
+      this.printbtn = false; 
       this.loading = true; 
       of(this.adharFormControl.value)
         .pipe(delay(3000)) 
         .subscribe(
           value => {
+            // this.cleanform=false;
             this.aadharNumber = value;
             this.loading = false;
             this.printbtn=true;
