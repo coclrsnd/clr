@@ -28,6 +28,7 @@ import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/materia
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { LoansModule } from "../loans.module";
 import { ToastrService } from "ngx-toastr";
+import { MatSelectChange } from "@angular/material/select";
 
 
 
@@ -78,6 +79,13 @@ export class LoanListComponent implements OnInit, OnDestroy {
   private adharNumberSubscription: Subscription;
   private _adharNumber: string;
   errormsg:string='';
+
+  defaultColumns: string[] = ['loanDate', 'loanBorrower', 'adharNumber', 'organizationName','actions'];
+  columns = new FormControl([]);
+  columnsList: string[] = ['loanDate','loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','suretyholder1','suretyholder1Adhar','suretyholder2','suretyholder2Adhar','actions'];
+  // displayedColumns: string[] = [];
+  columnsToDisplay: string[] = [];
+
   constructor(
     private dialog: MatDialog,
     private loanService: LoanEntityService,
@@ -108,6 +116,9 @@ export class LoanListComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    this.columnsToDisplay = [...this.defaultColumns]; // Start with default columns
+    this.columns.setValue(this.defaultColumns); // Set the control to reflect the current state
+   
     this.userDetails$ = this.store.pipe(select(selectUserDetails));
     this.adharNumberSubscription = this.adharNumberSubject
       .pipe(
@@ -183,7 +194,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   onCheck(checked: boolean) {
     if (checked) {
       this.showCurrentOrgsLoans = true;
-      this.adharNumberSubject.next(null); // Clear adharNumber to show current org's loans
+      this.adharNumberSubject.next(null);
     } else {
       this.showCurrentOrgsLoans = false;
       // this.displayedColumns.splice(this.displayedColumns.length - 2, 0, 'organizationName');
@@ -235,4 +246,21 @@ export class LoanListComponent implements OnInit, OnDestroy {
     return !!this.hoverStates[elementId];  // Ensure undefined states are treated as false
   }
 
+  addColumn(event: MatSelectChange) {
+    // Get the currently selected columns from the event
+    const selectedColumns = event.value as string[];
+  
+    // Sort selected columns based on their predefined order in displayedColumns
+    this.columnsToDisplay = this.displayedColumns.filter(column => selectedColumns.includes(column));
+    this.defaultColumns.forEach(col => {
+      if (!this.columnsToDisplay.includes(col)) {
+        this.columnsToDisplay.unshift(col);  
+      }
+    });
+  
+    // Update the MatTable
+    this.table.renderRows();
+  }
+  
+  
 }
