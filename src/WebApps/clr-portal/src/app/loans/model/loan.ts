@@ -10,6 +10,12 @@ export interface Loan {
   repaymentStatus: string;
   remarks:string;
   id: number;
+  securityReports:string;
+  vehicleNo:string;
+  suretyholder1Adhar:string;
+  suretyholder2Adhar:string;
+  suretyholder1:string;
+  suretyholder2:string;
 }
 
 export function compareLoans(c1: Loan, c2: Loan) {

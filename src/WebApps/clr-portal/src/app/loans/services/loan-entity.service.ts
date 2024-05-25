@@ -31,6 +31,12 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       repaymentStatus
       remarks
       id
+      securityReports
+      vehicleNo
+      suretyholder1Adhar
+      suretyholder2Adhar
+      suretyholder1
+      suretyholder2
     }
   }
   `;
@@ -48,6 +54,12 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       repaymentStatus
       remarks
       id
+      securityReports
+      vehicleNo
+      suretyholder1Adhar
+      suretyholder2Adhar
+      suretyholder1
+      suretyholder2
     }
   }
   `;

@@ -49,7 +49,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   filterControl = new FormControl("", [
     Validators.required,
     Validators.pattern(/^[2-9][0-9]{11}$/),
-    
+
   ]);
   isHidden: boolean = true;
   dataSource = new MatTableDataSource<Loan>();
@@ -66,10 +66,10 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "amount",
     "status",
     "repaymentStatus",
-    "Suretyholder1",
-    "adharNumber1",
-    "Suretyholder2",
-    "adharNumber2",
+    "suretyholder1",
+    "suretyholder1Adhar",
+    "suretyholder2",
+    "suretyholder2Adhar",
     "actions",
   ];
   userDetails$: Observable<User>;
@@ -207,26 +207,26 @@ export class LoanListComponent implements OnInit, OnDestroy {
   toastrclick(){
     this.toastr.success("add successfully",'Success');
   }
-  
+
   getStatusClass(status: any) {
     switch (status) {
       case 'Active':
-        return 'active dotgreen'; 
+        return 'active dotgreen';
 
       case 'In-Active':
-        return 'inactive'; 
-      case 'In-active':  
-        return 'inactive';   
+        return 'inactive';
+      case 'In-active':
+        return 'inactive';
       case 'Closed':
-        return 'closed'; 
+        return 'closed';
       case 'OTS':
-        return 'ots';  
+        return 'ots';
       default:
         return '';
     }
   }
   hoverStates: { [key: string]: boolean } = {};
-  
+
   setHoverState(elementId: string, state: boolean) {
     this.hoverStates[elementId] = state;
   }

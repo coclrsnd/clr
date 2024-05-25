@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using User.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using User.Infrastructure.Persistence;
 namespace User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240525055442_Loan_new_Fields")]
+    partial class Loan_new_Fields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -321,19 +324,19 @@ namespace User.Infrastructure.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("character varying(12)");
 
-                    b.Property<string>("Suretyholder1")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Suretyholder1Adhar")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Suretyholder2")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Suretyholder2Adhar")
-                        .HasColumnType("text");
-
                     b.Property<string>("VehicleNo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("suretyholder1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("suretyholder1Adhar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("suretyholder2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("suretyholder2Adhar")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

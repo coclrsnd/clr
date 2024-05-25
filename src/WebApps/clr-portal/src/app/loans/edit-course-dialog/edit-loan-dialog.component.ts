@@ -83,30 +83,33 @@ export class EditLoanDialogComponent implements OnInit {
       loanDate: ["", Validators.required],
       loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
       )), Validators.maxLength(30)]],
-      Surityholder1: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+      suretyholder1: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
       )), Validators.maxLength(30)]],
-      adharNumber1: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
-      Surityholder2: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+      suretyholder1Adhar: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
+      suretyholder2: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
       )), Validators.maxLength(30)]],
-      adharNumber2: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
+      suretyholder2Adhar: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
       loanType: ["", Validators.required],
       repaymentStatus: [""],
       remarks:[""],
+      securityReports:[""],
+      vehicleNo:[""],
+
     });
 
 
     if (this.mode === "update") {
       this.loanForm.patchValue({ ...data.Loan });
-      this.loanForm.get('adharNumber').disable(); 
-      if (data.Loan.adharNumber1 && data.Loan.adharNumber1.trim() !== '') {
-        this.loanForm.get('adharNumber1').disable(); 
+      this.loanForm.get('adharNumber').disable();
+      if (data.Loan.suretyholder1Adhar && data.Loan.suretyholder1Adhar.trim() !== '') {
+        this.loanForm.get('suretyholder1Adhar').disable();
       } else {
-        this.loanForm.get('adharNumber1').enable(); // Enable if empty
+        this.loanForm.get('suretyholder1Adhar').enable(); // Enable if empty
       }
-      if (data.Loan.adharNumber1 && data.Loan.adharNumber1.trim() !== '') {
-        this.loanForm.get('adharNumber2').disable(); 
+      if (data.Loan.suretyholder2Adhar && data.Loan.suretyholder2Adhar.trim() !== '') {
+        this.loanForm.get('suretyholder2Adhar').disable();
       } else {
-        this.loanForm.get('adharNumber2').enable(); // Enable if empty
+        this.loanForm.get('suretyholder2Adhar').enable(); // Enable if empty
       }
     }
 
@@ -129,7 +132,7 @@ export class EditLoanDialogComponent implements OnInit {
       this.loanForm.get("organizationCode").patchValue(user.organizationCode);
     });
   }
-  
+
   onClose() {
     this.dialogRef.close();
   }
@@ -145,18 +148,18 @@ export class EditLoanDialogComponent implements OnInit {
         .subscribe(() => {
           this.result = "Updated successfully!";
           this.btnname = "update";
-          this.dialogSaveStatus$ = of(true); 
+          this.dialogSaveStatus$ = of(true);
           this.dialogRef.close();
           this.toastr.success("Updated Successfully!","Success");
-          
+
         }, error => {
           this.result = "Update failed!";
           this.btnname = "update";
           this.dialogSaveStatus$ = of(false); // Update save status to false
           this.dialogRef.close();
-           
+
           this.toastr.error('Update failed! Please try again.','Error');
-         
+
         });
     } else if (this.mode == "create") {
       this.btnname = "save";
@@ -173,8 +176,8 @@ export class EditLoanDialogComponent implements OnInit {
   }
 
    // Initialize form and field visibility directly in the constructor
-   
-  
+
+
 
   initializeForm(loanData: Loan) {
     this.loanForm = this.fb.group({
@@ -192,18 +195,18 @@ export class EditLoanDialogComponent implements OnInit {
   }
 
 
-  
+
   onStatusChange(value: string) {
     if (value === 'Mortgage Loan') {
-      this.mortagefield = true; 
+      this.mortagefield = true;
       this.vehicalfield = false;
     } else if (value === 'Vehicle Loan') {
       this.vehicalfield = true;
-      this.mortagefield = false; 
+      this.mortagefield = false;
       }
       else{
         this.vehicalfield = false;
-        this.mortagefield = false; 
+        this.mortagefield = false;
       }
       this.determineFieldVisibility(value);
     this.cdr.detectChanges();
