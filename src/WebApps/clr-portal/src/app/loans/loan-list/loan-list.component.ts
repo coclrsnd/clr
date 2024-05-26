@@ -80,7 +80,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   private _adharNumber: string;
   errormsg:string='';
 
-  defaultColumns: string[] = ['loanDate', 'loanBorrower', 'adharNumber', 'organizationName','actions'];
+  defaultColumns: string[] = ["loanDate",'loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','actions'];
   columns = new FormControl([]);
   columnsList: string[] = ['loanDate','loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','suretyholder1','suretyholder1Adhar','suretyholder2','suretyholder2Adhar','actions'];
   // displayedColumns: string[] = [];

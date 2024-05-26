@@ -44,16 +44,16 @@ button.mat-warn {
 .tablestylesclass{
   width: 100%;
   /* display: flex;  */
-  max-height: 400px;
+  /* max-height: 400px; */
   flex-direction: column;
   justify-content: center; 
   align-items: center;
-  overflow-y: auto;
+  /* overflow-y: auto; */
 }
 
 table {
   /* display: grid; */
-  max-height: 400px;
+  /* max-height: 400px; */
   width: 100%;
   position: relative;
   border-collapse: collapse;
@@ -177,11 +177,11 @@ font-size: medium;
  text-wrap: nowrap;
  /* font-weight: 600; */
 }
-.mat-header-row {
+/* .mat-header-row {
   position: sticky;
   top: 0;
-  z-index: 1; /* Makes sure the header is on top of other content */
-}
+  z-index: 1; 
+} */
 
 .table-responsive {
   width: 100%;
