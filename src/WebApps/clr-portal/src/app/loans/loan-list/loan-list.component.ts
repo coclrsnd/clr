@@ -30,7 +30,10 @@ import { LoansModule } from "../loans.module";
 import { ToastrService } from "ngx-toastr";
 import { MatSelectChange } from "@angular/material/select";
 
-
+interface TableColumn {
+  key: string;
+  displayName: string;
+}
 
 @Component({
   selector: "loan-list",
@@ -82,7 +85,21 @@ export class LoanListComponent implements OnInit, OnDestroy {
 
   defaultColumns: string[] = ["loanDate",'loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','actions'];
   columns = new FormControl([]);
-  columnsList: string[] = ['loanDate','loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','suretyholder1','suretyholder1Adhar','suretyholder2','suretyholder2Adhar','actions'];
+  columnsList: TableColumn[] = [
+    { key: 'loanDate', displayName: 'Loan Date' },
+    { key: 'loanBorrower', displayName: 'Borrower' },
+    { key: 'adharNumber', displayName: 'Adhar Number' },
+    { key: 'organizationName', displayName: 'Organization' },
+    { key: 'loanType', displayName: 'Loan Type' },
+    { key: 'amount', displayName: 'Amount' },
+    { key: 'status', displayName: 'Status' },
+    { key: 'repaymentStatus', displayName: 'Repayment Status' },
+    { key: 'suretyholder1', displayName: '1st Surety' },
+    { key: 'suretyholder1Adhar', displayName: '1st Surety Adhar' },
+    { key: 'suretyholder2', displayName: '2nd Surety' },
+    { key: 'suretyholder2Adhar', displayName: '2nd Surety Adhar' },
+    { key: 'actions', displayName: 'Actions' }
+  ];
   // displayedColumns: string[] = [];
   columnsToDisplay: string[] = [];
 
@@ -116,9 +133,9 @@ export class LoanListComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    this.columnsToDisplay = [...this.defaultColumns]; // Start with default columns
-    this.columns.setValue(this.defaultColumns); // Set the control to reflect the current state
-   
+    this.columns.setValue(this.defaultColumns);  // Set default columns on load
+    this.updateDisplayedColumns();
+
     this.userDetails$ = this.store.pipe(select(selectUserDetails));
     this.adharNumberSubscription = this.adharNumberSubject
       .pipe(
@@ -246,20 +263,40 @@ export class LoanListComponent implements OnInit, OnDestroy {
     return !!this.hoverStates[elementId];  // Ensure undefined states are treated as false
   }
 
-  addColumn(event: MatSelectChange) {
-    // Get the currently selected columns from the event
-    const selectedColumns = event.value as string[];
+  selectedColumnsDisplay(): string {
+    // Filter out default columns from the display
+    const userSelectedColumns = this.columns.value.filter(col => !this.defaultColumns.includes(col));
+    return userSelectedColumns.length > 0 ?
+      this.columnsList.filter(col => userSelectedColumns.includes(col.key))
+        .map(col => col.displayName)
+        .join(', ') : 'Select columns';
+  }
   
-    // Sort selected columns based on their predefined order in displayedColumns
-    this.columnsToDisplay = this.displayedColumns.filter(column => selectedColumns.includes(column));
-    this.defaultColumns.forEach(col => {
-      if (!this.columnsToDisplay.includes(col)) {
-        this.columnsToDisplay.unshift(col);  
+
+  addColumn(event: MatSelectChange): void {
+    // Update FormControl to include only selected columns that are not default
+    this.columns.setValue([
+      ...this.defaultColumns,  // Always include default columns in the form control value
+      ...event.value.filter(col => !this.defaultColumns.includes(col))  // Add non-default columns
+    ]);
+    this.updateDisplayedColumns();
+    this.table.renderRows();  // Refresh the table to show changes
+  }
+  
+  updateDisplayedColumns(): void {
+    // Initialize an array to hold the current state of selected columns.
+    let updatedColumns = [];
+  
+    // Loop through the predefined order of columns.
+    this.displayedColumns.forEach(column => {
+      // Check if the column is included in the FormControl value (i.e., it has been selected by the user or is a default column).
+      if (this.columns.value.includes(column)) {
+        updatedColumns.push(column);  // Add it to the updatedColumns array in the correct order.
       }
     });
   
-    // Update the MatTable
-    this.table.renderRows();
+    // Update the columnsToDisplay with the correctly ordered columns.
+    this.columnsToDisplay = updatedColumns;
   }
   
   

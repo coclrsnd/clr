@@ -19,9 +19,16 @@
       <mat-form-field>
         <mat-label>Add columns</mat-label>
         <mat-select [formControl]="columns" multiple (selectionChange)="addColumn($event)">
-          <mat-option *ngFor="let column of columnsList" [value]="column">{{ column }}</mat-option>
+          <mat-select-trigger>
+            {{ selectedColumnsDisplay() }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let column of columnsList" [value]="column.key">
+            {{ column.displayName }}
+          </mat-option>
         </mat-select>
-      </mat-form-field> 
+      </mat-form-field>
+      
+      
   </div>
  
   <div class="tablestylesclass mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">

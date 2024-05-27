@@ -73,6 +73,6 @@ export class HomeComponent implements OnInit {
   }
  
   printTable(): void {
-    window.print(); // Open browser's print dialog
+    window.print(); 
   }
 }
