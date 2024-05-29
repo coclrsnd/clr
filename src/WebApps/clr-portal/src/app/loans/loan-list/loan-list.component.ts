@@ -82,7 +82,10 @@ export class LoanListComponent implements OnInit, OnDestroy {
   private adharNumberSubscription: Subscription;
   private _adharNumber: string;
   errormsg:string='';
+  selectedLoan: Loan | null = null;
+  currentDate = new Date();
 
+ 
   defaultColumns: string[] = ["loanDate",'loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','actions'];
   columns = new FormControl([]);
   columnsList: TableColumn[] = [
@@ -156,6 +159,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
       )
       .subscribe((loans) => {
         this.dataSource.data = loans;
+        this.selectedLoan = loans && loans.length > 0 ? loans[0] : null;
         this.dataSource.paginator=this.paginator;
       }
     );

@@ -12,7 +12,7 @@
         }}
       </p1>
     </div>
-    <img
+    <img class="logo"
       *ngIf="userDetails$ | async as user"
       [src]="user.logoPath ? user.logoPath : 'assets/images/APSSNS.png'"
       alt="Image Description"

@@ -22,3 +22,9 @@
   z-index: 10;
 }
 
+@media print{
+  .content{
+    visibility:hidden;
+    display: none;
+  }
+}

@@ -81,21 +81,19 @@ color:#03a4ed;
      
   }
   
-  /* mat-sidenav, mat-nav-list{
-    display: none !important; 
-    visibility: hidden !important;
-  } */
-
-  
   /* .org-name{
     display: flex;
     justify-content: center;
     text-align: center;
   } */
   mat-toolbar p1{
-    padding-left: 50%;
+    padding-left: 90mm;
     text-align: center;
     color:#03a4ed;
+  }
+  .logo{
+    padding-right: 10mm;
+    
   }
   .menu-button{
     display: none;

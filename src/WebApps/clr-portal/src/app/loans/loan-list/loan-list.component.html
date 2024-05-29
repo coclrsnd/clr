@@ -27,8 +27,12 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-      
-      
+  </div>
+
+  <div *ngIf="selectedLoan" class="print-details">
+    <p>Applicant Name&nbsp;&nbsp;&nbsp;&nbsp; : {{ selectedLoan.loanBorrower }}</p>
+    <p>Aadhar Number&nbsp;&nbsp;&nbsp; : {{ selectedLoan.adharNumber }}</p>
+    <p>Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; : {{ currentDate | date: 'mediumDate' }}</p>
   </div>
  
   <div class="tablestylesclass mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
@@ -42,8 +46,8 @@
       </ng-container>
       <!-- Adhar -->
       <ng-container matColumnDef="adharNumber">
-        <th mat-header-cell *matHeaderCellDef>Adhar</th>
-        <td mat-cell *matCellDef="let element">{{ element.adharNumber| maskAadhar }}</td>
+        <th mat-header-cell *matHeaderCellDef class="adhar">Adhar</th>
+        <td mat-cell *matCellDef="let element" class="adhar">{{ element.adharNumber| maskAadhar }}</td>
       </ng-container>
       <!-- amount -->
       <ng-container matColumnDef="amount">
@@ -54,8 +58,8 @@
       </ng-container>
       <!-- Borrower -->
       <ng-container matColumnDef="loanBorrower">
-        <th mat-header-cell *matHeaderCellDef class="Borrower">Borrower</th>
-        <td mat-cell *matCellDef="let element" class="loanborrower">{{ element.loanBorrower}}</td>
+        <th mat-header-cell *matHeaderCellDef class="Borrower borrower">Borrower</th>
+        <td mat-cell *matCellDef="let element" class="loanborrower borrower">{{ element.loanBorrower}}</td>
       </ng-container>
       <!-- suretyholder1 -->
       <ng-container matColumnDef="suretyholder1">
@@ -123,7 +127,7 @@
       </ng-container>
       <!-- editbutton -->
       <ng-container matColumnDef="actions" class="action">
-        <th mat-header-cell *matHeaderCellDef class="action"s></th>
+        <th mat-header-cell *matHeaderCellDef class="action"></th>
         <td mat-cell *matCellDef="let element" class="action">
           <button
             mat-icon-button
