@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" *ngIf="isLoggedIn$ | async"  style="position: fixed; z-index: 999;">
+<mat-toolbar  *ngIf="isLoggedIn$ | async"  style="position: fixed; z-index: 999;">
   <div class="toolbar-content">
     <div class="org-name">
       <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
@@ -21,14 +21,14 @@
   </div>
 </mat-toolbar>
 <mat-sidenav-container>
-  <mat-sidenav
+  <mat-sidenav class="tool"
     #sidenav
     mode="side"
     [opened]="isLoggedIn$ | async" 
     [fixedInViewport]="true"
     [fixedTopGap]="65"
   >
-    <mat-nav-list *ngIf="isLoggedIn$ | async">
+    <mat-nav-list *ngIf="isLoggedIn$ | async" >
       <!-- <a mat-list-item routerLink="/loans">
         <div class="list-item-content">
           <mat-icon>dashboard</mat-icon>

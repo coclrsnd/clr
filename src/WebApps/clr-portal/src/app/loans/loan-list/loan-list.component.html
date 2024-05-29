@@ -43,7 +43,7 @@
       <!-- Adhar -->
       <ng-container matColumnDef="adharNumber">
         <th mat-header-cell *matHeaderCellDef>Adhar</th>
-        <td mat-cell *matCellDef="let element">{{ element.adharNumber }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.adharNumber| maskAadhar }}</td>
       </ng-container>
       <!-- amount -->
       <ng-container matColumnDef="amount">
@@ -65,7 +65,7 @@
       <!-- shAdhar1 -->
       <ng-container matColumnDef="suretyholder1Adhar">
         <th mat-header-cell *matHeaderCellDef>Adhar</th>
-        <td mat-cell *matCellDef="let element">{{ element.suretyholder1Adhar }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.suretyholder1Adhar | maskAadhar}}</td>
       </ng-container>
       <!-- suretyholder2 -->
       <ng-container matColumnDef="suretyholder2">
@@ -75,7 +75,7 @@
       <!-- shAdhar2 -->
       <ng-container matColumnDef="suretyholder2Adhar">
         <th mat-header-cell *matHeaderCellDef>Adhar</th>
-        <td mat-cell *matCellDef="let element">{{ element.suretyholder2Adhar }}</td>
+        <td mat-cell *matCellDef="let element">{{ element.suretyholder2Adhar | maskAadhar }}</td>
       </ng-container>
       <!-- Repayment -->
       <ng-container matColumnDef="repaymentStatus">
@@ -122,14 +122,14 @@
         <td mat-cell *matCellDef="let element">{{ element.organizationName }}</td>
       </ng-container>
       <!-- editbutton -->
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
+      <ng-container matColumnDef="actions" class="action">
+        <th mat-header-cell *matHeaderCellDef class="action"s></th>
+        <td mat-cell *matCellDef="let element" class="action">
           <button
             mat-icon-button
             [disabled]=
             "(userDetails$ | async)?.organizationCode !== element.organizationCode"
-            (click)="editLoan(element)"
+            (click)="editLoan(element)" class="action"
           >
             <mat-icon>edit</mat-icon>
           </button>

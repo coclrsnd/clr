@@ -4,6 +4,7 @@ import { FormControl, Validators } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { EventbusService } from "../../eventbus.service";
 
 @Component({
   selector: "home",
@@ -26,6 +27,7 @@ export class HomeComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
+    private eventBus: EventbusService,
   ) {}
   numericOnly(event): boolean {
     let pattern = /[0-9]/;
@@ -52,7 +54,7 @@ export class HomeComponent implements OnInit {
       this.printbtn = false; 
       this.loading = true; 
       of(this.adharFormControl.value)
-        .pipe(delay(3000)) 
+        .pipe(delay(2000)) 
         .subscribe(
           value => {
             // this.cleanform=false;
@@ -72,7 +74,11 @@ export class HomeComponent implements OnInit {
 
   }
  
-  printTable(): void {
-    window.print(); 
+  printTable(): void { 
+    this.eventBus.sidenavClose.emit();
+    setTimeout(() => {
+      window.print();
+    }, 0);
   }
+  
 }

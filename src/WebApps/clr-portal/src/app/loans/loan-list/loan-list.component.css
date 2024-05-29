@@ -203,22 +203,44 @@ font-size: medium;
 @media print {
   /* Hide the top section containing buttons and form controls */
   .tableprint {
-    display: none;
+    visibility: hidden;
+  }
+  @page {
+    margin: 10mm; /* Adjust this value as necessary */
   }
 
+.table-responsive{
+  visibility: visible;
+  overflow: visible;
+}
   .table-container {
     width: 100%; 
+    max-width: none;
   }
 
  
   table {
-    width: 50%;
+    margin: 1px;
+    display: flex;
+    justify-content: center;
+    border-spacing: 0;
     border-collapse: collapse;
+    overflow: visible;
+    max-width: none;
   }
 
   th, td {
-    padding: 8px;
+        padding: 8px;
+        overflow: hidden; /* Prevent content from overflowing the cell boundaries */
+        white-space: nowrap; /* Keeps the text in a single line */
+        text-overflow: ellipsis; /* Adds an ellipsis if the text is too long */
+    
   
   }
+  .action{
+    visibility: hidden;
+    display: none;
+  }
 }
+
 

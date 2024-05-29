@@ -29,7 +29,7 @@ import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { LoansModule } from "../loans.module";
 import { ToastrService } from "ngx-toastr";
 import { MatSelectChange } from "@angular/material/select";
-
+import { MaskAadharPipe } from "../../mask-aadhar.pipe";
 interface TableColumn {
   key: string;
   displayName: string;
@@ -41,7 +41,7 @@ interface TableColumn {
   styleUrls: ["./loan-list.component.css"],
   animations: [
     trigger('expandCollapse', [
-      state('collapsed', style({ height: '0px', overflow: 'hidden' })),
+      state('collapsed', style({ height: '0px', overflow: 'scroll' })),
       state('expanded', style({ height: '*' })),
       transition('collapsed <=> expanded', animate('300ms ease-out')),
     ]),
