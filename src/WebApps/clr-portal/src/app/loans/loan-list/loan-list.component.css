@@ -177,15 +177,18 @@ font-size: medium;
  text-wrap: nowrap;
  /* font-weight: 600; */
 }
-/* .mat-header-row {
+ .mat-mdc-header-row {
+  background-color: #03a4ed;
   position: sticky;
-  top: 0;
-  z-index: 1; 
-} */
+  z-index: 100;
+  top:-5px;
+}
 
 .table-responsive {
   width: 100%;
   overflow-x: auto; /* For horizontal scrolling if needed */
+  height: fit-content;
+  max-height: 380px;
 }
 .spinner-container {
   position: absolute;
@@ -206,18 +209,18 @@ font-size: medium;
 
 
 @media print {
-  /* Hide the top section containing buttons and form controls */
   .tableprint {
     visibility: hidden;
   }
   @page {
-    margin: 10mm; /* Adjust this value as necessary */
+    margin: 10mm;
   }
 
 .table-responsive{
   margin-top: 15mm;
   visibility: visible;
   overflow: visible;
+  height: fit-content;
 }
   .table-container {
     width: 100%; 
@@ -244,10 +247,8 @@ font-size: medium;
   th, td {
         padding: 8px;
         overflow: hidden; /* Prevent content from overflowing the cell boundaries */
-        white-space: nowrap; /* Keeps the text in a single line */
+        white-space: nowrap; 
         text-overflow: ellipsis; /* Adds an ellipsis if the text is too long */
-    
-  
   }
   .action, .borrower, .adhar, mat-icon{
     visibility: hidden;

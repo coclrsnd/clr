@@ -280,8 +280,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
   addColumn(event: MatSelectChange): void {
     // Update FormControl to include only selected columns that are not default
     this.columns.setValue([
-      ...this.defaultColumns,  // Always include default columns in the form control value
-      ...event.value.filter(col => !this.defaultColumns.includes(col))  // Add non-default columns
+      ...this.defaultColumns,
+      ...event.value.filter(col => !this.defaultColumns.includes(col))
     ]);
     this.updateDisplayedColumns();
     this.table.renderRows();  // Refresh the table to show changes
