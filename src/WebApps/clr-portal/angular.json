@@ -81,11 +81,13 @@
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/ngx-toastr/toastr.css"   
             ],
             "assets": [
               "src/assets",
               "src/favicon.ico"
+
             ]
           }
         }

@@ -3,6 +3,7 @@ import {
   Component,
   Inject,
   OnInit,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { Loan } from "../model/loan";
@@ -31,6 +32,7 @@ import {
   MatSnackBarLabel,
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "Loan-dialog",
@@ -44,14 +46,16 @@ export class EditLoanDialogComponent implements OnInit {
   mode: "create" | "update";
   loading$: Observable<boolean>;
   loanForm: FormGroup;
-  loanTypes: string[] = ["Surity Loan","Mortgage Loan","Business Loan", "Vehicle Loan","Loan on Fixed Deposite","Loan on Pigme","Pledge Loan","Housing Loan","Gold Purchase Loan"];
-  loanStatuType: string[] = ["Active","In-Active","Closed"];
+  loanTypes: string[] = ["Surety Loan","Mortgage Loan","Business Loan", "Vehicle Loan","Loan on Fixed Deposite","Loan on Pigme","Pledge Loan","Housing Loan","Gold Purchase Loan"];
+  loanStatuType: string[] = ["Active","In-Active","Closed","OTS"];
   userDetails$: Observable<User>;
+  loanrepaymentstatus:string[] = ["Poor","Healthy"];
   dialogSaveStatus$: Observable<boolean>;
   disableAdhar: boolean=false;
   result:string='';
   btnname:string='';
-
+  mortagefield:boolean= false;
+  vehicalfield:boolean=false;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLoanDialogComponent>,
@@ -59,6 +63,8 @@ export class EditLoanDialogComponent implements OnInit {
     private loansService: LoanEntityService,
     private store: Store<AppState>,
     private _snackBar: MatSnackBar,
+    private toastr: ToastrService,
+    private cdr: ChangeDetectorRef,
 
   ) {
     this.dialogTitle = data.dialogTitle;
@@ -66,24 +72,45 @@ export class EditLoanDialogComponent implements OnInit {
     this.mode = data.mode;
     this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
     this.btnname = this.mode === 'create' ? 'Save' : 'Update';
+    this.initializeForm(data.Loan);
 
     this.loanForm = this.fb.group({
       id: [0],
       amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
       status: ["", Validators.required],
       organizationCode: ["", Validators.required],
-      adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^(?!0|1)[0-9]{12}$/)]],
+      adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
       loanDate: ["", Validators.required],
       loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
-    )), Validators.maxLength(30)]],
+      )), Validators.maxLength(30)]],
+      suretyholder1: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+      )), Validators.maxLength(30)]],
+      suretyholder1Adhar: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
+      suretyholder2: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+      )), Validators.maxLength(30)]],
+      suretyholder2Adhar: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
       loanType: ["", Validators.required],
-      remarks: [""],
+      repaymentStatus: [""],
+      remarks:[""],
+      securityReports:[""],
+      vehicleNo:[""],
+
     });
 
 
     if (this.mode === "update") {
       this.loanForm.patchValue({ ...data.Loan });
-      this.loanForm.get('adharNumber').disable(); // Disable the adharNumber control
+      this.loanForm.get('adharNumber').disable();
+      if (data.Loan.suretyholder1Adhar && data.Loan.suretyholder1Adhar.trim() !== '') {
+        this.loanForm.get('suretyholder1Adhar').disable();
+      } else {
+        this.loanForm.get('suretyholder1Adhar').enable(); // Enable if empty
+      }
+      if (data.Loan.suretyholder2Adhar && data.Loan.suretyholder2Adhar.trim() !== '') {
+        this.loanForm.get('suretyholder2Adhar').disable();
+      } else {
+        this.loanForm.get('suretyholder2Adhar').enable(); // Enable if empty
+      }
     }
 
 
@@ -121,29 +148,18 @@ export class EditLoanDialogComponent implements OnInit {
         .subscribe(() => {
           this.result = "Updated successfully!";
           this.btnname = "update";
-          this.dialogSaveStatus$ = of(true); // Update save status to true
+          this.dialogSaveStatus$ = of(true);
           this.dialogRef.close();
+          this.toastr.success("Updated Successfully!","Success");
 
-          // Show a toast message for successful update
-          this._snackBar.open('Updated successfully!', 'Close', {
-            duration: 4000, // Duration in milliseconds
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-            panelClass: ['successsnackbar', 'snackbar-container-custom'] // Add custom CSS class for success
-          });
         }, error => {
           this.result = "Update failed!";
           this.btnname = "update";
           this.dialogSaveStatus$ = of(false); // Update save status to false
           this.dialogRef.close();
 
-          // Show a toast message for update failure
-          this._snackBar.open('Update failed! Please try again.', 'Close', {
-            duration: 4000, // Duration in milliseconds
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-            panelClass: ['errorsnackbar', 'snackbar-container-custom'] // Add custom CSS class for error
-          });
+          this.toastr.error('Update failed! Please try again.','Error');
+
         });
     } else if (this.mode == "create") {
       this.btnname = "save";
@@ -154,5 +170,45 @@ export class EditLoanDialogComponent implements OnInit {
         this.dialogRef.close();
       });
     }
+  }
+  toastrclick(){
+    this.toastr.success("add successfully",'Success');
+  }
+
+   // Initialize form and field visibility directly in the constructor
+
+
+
+  initializeForm(loanData: Loan) {
+    this.loanForm = this.fb.group({
+      loanType: [loanData?.loanType || '', Validators.required],
+      // Set up additional form controls here
+    });
+
+    // Immediately determine field visibility based on existing data
+    this.determineFieldVisibility(loanData?.loanType);
+  }
+
+  determineFieldVisibility(loanType: string | undefined) {
+    this.mortagefield = loanType === 'Mortgage Loan';
+    this.vehicalfield = loanType === 'Vehicle Loan';
+  }
+
+
+
+  onStatusChange(value: string) {
+    if (value === 'Mortgage Loan') {
+      this.mortagefield = true;
+      this.vehicalfield = false;
+    } else if (value === 'Vehicle Loan') {
+      this.vehicalfield = true;
+      this.mortagefield = false;
+      }
+      else{
+        this.vehicalfield = false;
+        this.mortagefield = false;
+      }
+      this.determineFieldVisibility(value);
+    this.cdr.detectChanges();
   }
 }

@@ -19,7 +19,15 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
   }
 
   FIND_LOANS_BY_ADHAR_QUERY = `query FindLoansByAdhar($adharNumber: String!) {
-    loans(where: { adharNumber: { contains: $adharNumber } }) {
+    loans(
+      where: {
+        or: [
+          { adharNumber: { contains: $adharNumber } }
+          { suretyholder1Adhar: { contains: $adharNumber } }
+          { suretyholder2Adhar: { contains: $adharNumber } }
+        ]
+      }
+    ) {
       amount
       status
       organizationCode
@@ -28,14 +36,27 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       loanDate
       loanBorrower
       loanType
+      repaymentStatus
       remarks
       id
+      securityReports
+      vehicleNo
+      suretyholder1Adhar
+      suretyholder2Adhar
+      suretyholder1
+      suretyholder2
     }
   }
   `;
 
   FIND_LOANS_BY_ORG = `query FindLoansByAdhar($organizationCode: String!) {
-    loans(where: { organizationCode: { contains: $organizationCode } }) {
+    loans(
+      where: {
+        or: [
+          { organizationCode: { contains: $organizationCode } }
+        ]
+      }
+    ) {
       amount
       status
       organizationCode
@@ -44,8 +65,15 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       loanDate
       loanBorrower
       loanType
+      repaymentStatus
       remarks
       id
+      securityReports
+      vehicleNo
+      suretyholder1Adhar
+      suretyholder2Adhar
+      suretyholder1
+      suretyholder2
     }
   }
   `;

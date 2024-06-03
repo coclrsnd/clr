@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" *ngIf="isLoggedIn$ | async">
+<mat-toolbar  *ngIf="isLoggedIn$ | async"  style="position: fixed; z-index: 999;">
   <div class="toolbar-content">
     <div class="org-name">
       <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
@@ -12,7 +12,7 @@
         }}
       </p1>
     </div>
-    <img
+    <img class="logo"
       *ngIf="userDetails$ | async as user"
       [src]="user.logoPath ? user.logoPath : 'assets/images/APSSNS.png'"
       alt="Image Description"
@@ -21,20 +21,28 @@
   </div>
 </mat-toolbar>
 <mat-sidenav-container>
-  <mat-sidenav
+  <mat-sidenav class="tool"
     #sidenav
     mode="side"
     [opened]="isLoggedIn$ | async" 
     [fixedInViewport]="true"
     [fixedTopGap]="65"
   >
-    <mat-nav-list *ngIf="isLoggedIn$ | async">
-      <a mat-list-item routerLink="/loans">
+    <mat-nav-list *ngIf="isLoggedIn$ | async" >
+      <!-- <a mat-list-item routerLink="/loans">
+        <div class="list-item-content">
+          <mat-icon>dashboard</mat-icon>
+          <span>Dashboard</span>
+        </div>
+      </a> -->
+
+      <a mat-list-item (click)="refreshData()">
         <div class="list-item-content">
           <mat-icon>dashboard</mat-icon>
           <span>Dashboard</span>
         </div>
       </a>
+      
       <a mat-list-item routerLink="/resetPassword">
         <div class="list-item-content">
           <mat-icon>password</mat-icon>

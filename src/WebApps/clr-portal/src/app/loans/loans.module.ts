@@ -31,6 +31,8 @@ import { SharedModule } from "../shared/shared.module";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MaterialModule } from "../material.module";
+import { MaskAadharPipe } from "../mask-aadhar.pipe";
+
 
 
 export const loansRoutes: Routes = [
@@ -78,6 +80,8 @@ const entityMetadata: EntityMetadataMap = {
     RouterModule.forChild(loansRoutes),
     MatGridListModule,
     MaterialModule,
+    MatProgressSpinnerModule,
+    MaskAadharPipe,
   ],
   declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
   exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent],

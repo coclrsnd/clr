@@ -22,15 +22,19 @@
   >
     Search
   </button>
- 
-  <ng-container *ngIf="adharFormControl.valid" >
+  <div class="spinner-container">
+    <mat-spinner *ngIf="loading" class="back-spinner" diameter="100"></mat-spinner>
+    
+  </div>
+  <ng-container *ngIf="printbtn" >
     <button mat-icon-button (click)="printTable()" class="printbutton">
       <mat-icon>print</mat-icon>
     </button>
    
   </ng-container>  
 </div>
-
+<!-- <ng-container *ngIf="!loading"> -->
 <div>
   <loan-list [adharNumber]="aadharNumber"></loan-list>
 </div>
+<!-- </ng-container> -->

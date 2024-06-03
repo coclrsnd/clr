@@ -37,12 +37,13 @@ export class LoansDataService extends DefaultDataService<Loan> {
   }
 
   update(update: Update<Loan>, options?: HttpOptions): Observable<Loan> {
-    delete update.changes['organizationName'];
+
+    const loan= update.changes;
     return this.http.post<Loan>(environment.apiUrl, {
       query: this.CREATE_LOAN_QUERY,
       variables: {
         loanRequest: {
-          loanRequestInput: update.changes,
+          loanRequestInput: loan,
         },
       },
     });

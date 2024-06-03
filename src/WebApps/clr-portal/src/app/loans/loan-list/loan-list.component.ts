@@ -27,8 +27,13 @@ import { NgModule } from '@angular/core';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { LoansModule } from "../loans.module";
-
-
+import { ToastrService } from "ngx-toastr";
+import { MatSelectChange } from "@angular/material/select";
+import { MaskAadharPipe } from "../../mask-aadhar.pipe";
+interface TableColumn {
+  key: string;
+  displayName: string;
+}
 
 @Component({
   selector: "loan-list",
@@ -36,7 +41,7 @@ import { LoansModule } from "../loans.module";
   styleUrls: ["./loan-list.component.css"],
   animations: [
     trigger('expandCollapse', [
-      state('collapsed', style({ height: '0px', overflow: 'hidden' })),
+      state('collapsed', style({ height: '0px', overflow: 'scroll' })),
       state('expanded', style({ height: '*' })),
       transition('collapsed <=> expanded', animate('300ms ease-out')),
     ]),
@@ -48,7 +53,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   filterControl = new FormControl("", [
     Validators.required,
     Validators.pattern(/^[2-9][0-9]{11}$/),
-    
+
   ]);
   isHidden: boolean = true;
   dataSource = new MatTableDataSource<Loan>();
@@ -64,7 +69,11 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "loanType",
     "amount",
     "status",
-    "remarks",
+    "repaymentStatus",
+    "suretyholder1",
+    "suretyholder1Adhar",
+    "suretyholder2",
+    "suretyholder2Adhar",
     "actions",
   ];
   userDetails$: Observable<User>;
@@ -73,6 +82,30 @@ export class LoanListComponent implements OnInit, OnDestroy {
   private adharNumberSubscription: Subscription;
   private _adharNumber: string;
   errormsg:string='';
+  selectedLoan: Loan | null = null;
+  currentDate = new Date();
+
+ 
+  defaultColumns: string[] = ["loanDate",'loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','actions'];
+  columns = new FormControl([]);
+  columnsList: TableColumn[] = [
+    { key: 'loanDate', displayName: 'Loan Date' },
+    { key: 'loanBorrower', displayName: 'Borrower' },
+    { key: 'adharNumber', displayName: 'Adhar Number' },
+    { key: 'organizationName', displayName: 'Organization' },
+    { key: 'loanType', displayName: 'Loan Type' },
+    { key: 'amount', displayName: 'Amount' },
+    { key: 'status', displayName: 'Status' },
+    { key: 'repaymentStatus', displayName: 'Repayment Status' },
+    { key: 'suretyholder1', displayName: '1st Surety' },
+    { key: 'suretyholder1Adhar', displayName: '1st Surety Adhar' },
+    { key: 'suretyholder2', displayName: '2nd Surety' },
+    { key: 'suretyholder2Adhar', displayName: '2nd Surety Adhar' },
+    { key: 'actions', displayName: 'Actions' }
+  ];
+  // displayedColumns: string[] = [];
+  columnsToDisplay: string[] = [];
+
   constructor(
     private dialog: MatDialog,
     private loanService: LoanEntityService,
@@ -80,7 +113,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
     private store: Store<AppState>,
     private printingService: PrintingService,
     private _liveAnnouncer: LiveAnnouncer,
-    private ngZone: NgZone
+    private ngZone: NgZone,
+    private toastr: ToastrService
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
@@ -88,6 +122,10 @@ export class LoanListComponent implements OnInit, OnDestroy {
   @ViewChild(MatTable) table: MatTable<any>;
 
   ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    // Set default sort
+    this.sort.active = 'loanDate';
+    this.sort.direction = 'desc';
     this.dataSource.sort = this.sort;
   }
   announceSortChange(sortState: Sort) {
@@ -98,6 +136,9 @@ export class LoanListComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
+    this.columns.setValue(this.defaultColumns);  // Set default columns on load
+    this.updateDisplayedColumns();
+
     this.userDetails$ = this.store.pipe(select(selectUserDetails));
     this.adharNumberSubscription = this.adharNumberSubject
       .pipe(
@@ -118,6 +159,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
       )
       .subscribe((loans) => {
         this.dataSource.data = loans;
+        this.selectedLoan = loans && loans.length > 0 ? loans[0] : null;
         this.dataSource.paginator=this.paginator;
       }
     );
@@ -173,7 +215,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   onCheck(checked: boolean) {
     if (checked) {
       this.showCurrentOrgsLoans = true;
-      this.adharNumberSubject.next(null); // Clear adharNumber to show current org's loans
+      this.adharNumberSubject.next(null);
     } else {
       this.showCurrentOrgsLoans = false;
       // this.displayedColumns.splice(this.displayedColumns.length - 2, 0, 'organizationName');
@@ -190,34 +232,76 @@ export class LoanListComponent implements OnInit, OnDestroy {
   togglePanel() {
     this.panelState = this.panelState === 'expanded' ? 'collapsed' : 'expanded';
   }
-  // applyDateFilter() {
-  //   const from = this.fromDate.value ? new Date(this.fromDate.value) : null;
-  //   const to = this.toDate.value ? new Date(this.toDate.value) : null;
-    
-  //   if (from && to) {
-  //     from.setHours(0, 0, 0, 0);  // Set start of day
-  //     to.setHours(23, 59, 59, 999);  // Set end of day
-
-  //     this.store.pipe(
-  //       select(selectUserDetails),
-  //       switchMap(user => this.loanService.getWithOrganization(user.organizationCode)),
-  //       tap(loans => {
-  //         const filteredLoans = loans.filter(loan => {
-  //           const loanDate = new Date(loan.loanDate);
-  //           return loanDate >= from && loanDate <= to;
-  //         });
-  //         this.dataSource.data = filteredLoans;
-  //       })
-  //     ).subscribe();
-  //   } else {
-  //     console.error("Both 'From' and 'To' dates must be selected.");
-  //   }
-  // }
-//   updateTable() {
-//     this.table.renderRows();
-// }
 
   toggleVisibility() {
     this.isHidden = !this.isHidden;
   }
+  toastrclick(){
+    this.toastr.success("add successfully",'Success');
+  }
+
+  getStatusClass(status: any) {
+    switch (status) {
+      case 'Active':
+        return 'active dotgreen';
+
+      case 'In-Active':
+        return 'inactive';
+      case 'In-active':
+        return 'inactive';
+      case 'Closed':
+        return 'closed';
+      case 'OTS':
+        return 'ots';
+      default:
+        return '';
+    }
+  }
+  hoverStates: { [key: string]: boolean } = {};
+
+  setHoverState(elementId: string, state: boolean) {
+    this.hoverStates[elementId] = state;
+  }
+
+  isHovering(elementId: string): boolean {
+    return !!this.hoverStates[elementId];  // Ensure undefined states are treated as false
+  }
+
+  selectedColumnsDisplay(): string {
+    // Filter out default columns from the display
+    const userSelectedColumns = this.columns.value.filter(col => !this.defaultColumns.includes(col));
+    return userSelectedColumns.length > 0 ?
+      this.columnsList.filter(col => userSelectedColumns.includes(col.key))
+        .map(col => col.displayName)
+        .join(', ') : 'Select columns';
+  }
+  
+
+  addColumn(event: MatSelectChange): void {
+    // Update FormControl to include only selected columns that are not default
+    this.columns.setValue([
+      ...this.defaultColumns,
+      ...event.value.filter(col => !this.defaultColumns.includes(col))
+    ]);
+    this.updateDisplayedColumns();
+    this.table.renderRows();  // Refresh the table to show changes
+  }
+  
+  updateDisplayedColumns(): void {
+    // Initialize an array to hold the current state of selected columns.
+    let updatedColumns = [];
+  
+    // Loop through the predefined order of columns.
+    this.displayedColumns.forEach(column => {
+      // Check if the column is included in the FormControl value (i.e., it has been selected by the user or is a default column).
+      if (this.columns.value.includes(column)) {
+        updatedColumns.push(column);  // Add it to the updatedColumns array in the correct order.
+      }
+    });
+  
+    // Update the columnsToDisplay with the correctly ordered columns.
+    this.columnsToDisplay = updatedColumns;
+  }
+  
+  
 }

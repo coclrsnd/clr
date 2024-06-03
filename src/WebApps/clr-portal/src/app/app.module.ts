@@ -28,6 +28,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { SharedModule } from "./shared/shared.module";
 import { ApiInterceptor } from "./shared/services/api.interceptor";
 import { ToastrModule } from "ngx-toastr";
+import { MaskAadharPipe } from "./mask-aadhar.pipe";
 
 const routes: Routes = [
   {
@@ -77,6 +78,7 @@ const routes: Routes = [
     MatCheckboxModule,
     ReactiveFormsModule,
     SharedModule,
+    MaskAadharPipe,
     AuthModule.forRoot(),
     StoreModule.forRoot(reducers, {
       metaReducers,

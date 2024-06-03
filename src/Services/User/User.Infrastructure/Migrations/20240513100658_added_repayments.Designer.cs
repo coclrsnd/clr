@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using User.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using User.Infrastructure.Persistence;
 namespace User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240513100658_added_repayments")]
+    partial class added_repayments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -307,34 +310,13 @@ namespace User.Infrastructure.Migrations
                     b.Property<string>("OrganizationName")
                         .HasColumnType("text");
 
-                    b.Property<string>("Remarks")
-                        .HasColumnType("text");
-
                     b.Property<string>("RepaymentStatus")
-                        .HasColumnType("text");
-
-                    b.Property<string>("SecurityReports")
                         .HasColumnType("text");
 
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(12)
                         .HasColumnType("character varying(12)");
-
-                    b.Property<string>("Suretyholder1")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Suretyholder1Adhar")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Suretyholder2")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Suretyholder2Adhar")
-                        .HasColumnType("text");
-
-                    b.Property<string>("VehicleNo")
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

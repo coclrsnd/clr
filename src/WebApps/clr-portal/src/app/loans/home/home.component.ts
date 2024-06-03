@@ -1,7 +1,10 @@
-import { ChangeDetectionStrategy, Component, OnInit } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
+import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { EventbusService } from "../../eventbus.service";
 
 @Component({
   selector: "home",
@@ -17,10 +20,14 @@ export class HomeComponent implements OnInit {
     Validators.minLength(12),
   ]);
   aadharNumber: string;
-
+  loading = false;
+  printbtn:boolean=false;
+ cleanform:boolean=false;
   constructor(
+    private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
+    private eventBus: EventbusService,
   ) {}
   numericOnly(event): boolean {
     let pattern = /[0-9]/;
@@ -41,10 +48,37 @@ export class HomeComponent implements OnInit {
   }
 
   onSubmit() {
-    this.aadharNumber = this.adharFormControl.value;
+    // this.aadharNumber = this.adharFormControl.value;
+    if (this.adharFormControl.valid) {
+      // this.cleanform=true;
+      this.printbtn = false; 
+      this.loading = true; 
+      of(this.adharFormControl.value)
+        .pipe(delay(2000)) 
+        .subscribe(
+          value => {
+            // this.cleanform=false;
+            this.aadharNumber = value;
+            this.loading = false;
+            this.printbtn=true;
+            this.cdr.markForCheck(); 
+          },
+          error => {
+            console.error('An error occurred', error);
+            this.loading = false; 
+            this.cdr.markForCheck(); 
+          }
+        );
+        
+    }
+
   }
  
-  printTable(): void {
-    window.print(); // Open browser's print dialog
+  printTable(): void { 
+    this.eventBus.sidenavClose.emit();
+    setTimeout(() => {
+      window.print();
+    }, 0);
   }
+  
 }
