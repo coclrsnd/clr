@@ -25,7 +25,7 @@ import { errorOnLogin } from "../auth.selectors";
 export class LoginComponent implements OnInit {
   form: UntypedFormGroup;
   errorOnLogin$: Observable<boolean>;
-
+  phoneNumber: string = '9019775970';
   constructor(
     private fb: UntypedFormBuilder,
     private auth: AuthService,

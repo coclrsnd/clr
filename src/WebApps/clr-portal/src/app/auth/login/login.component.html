@@ -32,6 +32,10 @@
           </button>
         </form>
         <span class="errormsg" *ngIf="errorOnLogin$ | async">Invalid User credentials</span>
+        <div class="contact">
+          <a [href]="'tel:' + phoneNumber">For more details contact us </a> <span>:</span>  
+          <span style="float: right;"><span> 9019775970</span> <br> <span> 9980094927</span></span> 
+        </div>
       </mat-card-content>
     </mat-card>
   </div>
