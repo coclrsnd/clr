@@ -105,6 +105,20 @@
           <span [ngClass]="getStatusClass(element.status)"> &#9679; {{ element.status }}</span>
         </td>
      </ng-container>
+     <!-- voterid -->
+     <ng-container matColumnDef="voterid">
+      <th mat-header-cell *matHeaderCellDef>VoterId</th>
+      <td mat-cell *matCellDef="let element">
+        <span> {{ element.voterid }}</span>
+      </td>
+   </ng-container>
+   <!-- pancard -->
+   <ng-container matColumnDef="pancard">
+    <th mat-header-cell *matHeaderCellDef>Pancard Number</th>
+    <td mat-cell *matCellDef="let element">
+      <span> {{ element.pancard }}</span>
+    </td>
+ </ng-container>
       <!-- loantype -->
       <ng-container matColumnDef="loanType">
         <th mat-header-cell *matHeaderCellDef>Type</th>

@@ -5,7 +5,7 @@ import {
   OnInit,
   ChangeDetectorRef,
 } from "@angular/core";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
 import { Loan } from "../model/loan";
 import {
   FormBuilder,
@@ -15,7 +15,8 @@ import {
   Validators,
   FormControl,
   FormGroupDirective,
-  NgForm
+  NgForm,
+  ReactiveFormsModule
 } from "@angular/forms";
 import { Observable } from "rxjs";
 import { LoanEntityService } from "../services/loan-entity.service";
@@ -33,14 +34,19 @@ import {
   MatSnackBarRef,
 } from '@angular/material/snack-bar';
 import { ToastrService } from "ngx-toastr";
+import { CommonModule } from "@angular/common";
+import { MatDialog } from "@angular/material/dialog";
+import { MaterialModule } from "../../material.module";
 
 @Component({
-  selector: "Loan-dialog",
-  templateUrl: "./edit-loan-dialog.component.html",
-  styleUrls: ["./edit-loan-dialog.component.css"],
+  selector: 'leadsform',
+  standalone: true,
+  imports: [CommonModule,MatDialogModule,ReactiveFormsModule, MaterialModule],
+  templateUrl: './leadsform.component.html',
+  styleUrl: './leadsform.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditLoanDialogComponent implements OnInit {
+export class LeadsformComponent implements OnInit {
   dialogTitle: string;
   loan: Loan;
   mode: "create" | "update";
@@ -56,25 +62,27 @@ export class EditLoanDialogComponent implements OnInit {
   btnname:string='';
   mortagefield:boolean= false;
   vehicalfield:boolean=false;
-  loanpermission:string[]=["Approved","Pendind"];
+  leadstage:string[]=["Approached","Notapproached"];
+  leadstatus:string[]=["Disbursed","NotApproved","Pending"];
   pancard:string='';
   voterid:string='';
   constructor(
     private fb: FormBuilder,
-    private dialogRef: MatDialogRef<EditLoanDialogComponent>,
+    private dialogRef: MatDialogRef<LeadsformComponent>,
     @Inject(MAT_DIALOG_DATA) data,
     private loansService: LoanEntityService,
     private store: Store<AppState>,
     private _snackBar: MatSnackBar,
     private toastr: ToastrService,
     private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
 
   ) {
     this.dialogTitle = data.dialogTitle;
     this.loan = data.Loan;
     this.mode = data.mode;
     this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
-    this.btnname = this.mode === 'create' ? 'Save' : 'Update';
+    this.btnname = this.mode === 'create' ? 'Add Lead' : 'Update';
     this.initializeForm(data.Loan);
 
     this.loanForm = this.fb.group({
@@ -105,8 +113,7 @@ export class EditLoanDialogComponent implements OnInit {
 
 
     if (this.mode === "update") {
-      const statusdata = { status: 'Active' };
-      this.loanForm.patchValue({ ...data.Loan,...statusdata });
+      this.loanForm.patchValue({ ...data.Loan });
       this.loanForm.get('adharNumber').disable();
       if (data.Loan.suretyholder1Adhar && data.Loan.suretyholder1Adhar.trim() !== '') {
         this.loanForm.get('suretyholder1Adhar').disable();
@@ -118,11 +125,6 @@ export class EditLoanDialogComponent implements OnInit {
       } else {
         this.loanForm.get('suretyholder2Adhar').enable(); // Enable if empty
       }
-
-      this.loanForm.get('status').enable();
-    }
-    else{
-      this.loanForm.get('status').disable();
     }
 
 
@@ -206,6 +208,8 @@ export class EditLoanDialogComponent implements OnInit {
     this.vehicalfield = loanType === 'Vehicle Loan';
   }
 
+
+
   onStatusChange(value: string) {
     if (value === 'Mortgage Loan') {
       this.mortagefield = true;
@@ -221,9 +225,5 @@ export class EditLoanDialogComponent implements OnInit {
       this.determineFieldVisibility(value);
     this.cdr.detectChanges();
   }
-
-  convertToUpperCase(event: any): void{
-    const input= event.target;
-    input.value= input.value.toUpperCase();
-  }
+  
 }

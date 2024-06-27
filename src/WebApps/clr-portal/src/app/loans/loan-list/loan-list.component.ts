@@ -74,6 +74,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "suretyholder1Adhar",
     "suretyholder2",
     "suretyholder2Adhar",
+    "voterid",
+    "pancard",
     "actions",
   ];
   userDetails$: Observable<User>;
@@ -101,6 +103,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
     { key: 'suretyholder1Adhar', displayName: '1st Surety Adhar' },
     { key: 'suretyholder2', displayName: '2nd Surety' },
     { key: 'suretyholder2Adhar', displayName: '2nd Surety Adhar' },
+    { key: 'voterid', displayName: 'Voter Id' },
+    { key: 'pancard', displayName: 'Pancard Number' },
     { key: 'actions', displayName: 'Actions' }
   ];
   // displayedColumns: string[] = [];
@@ -203,7 +207,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
       loan: null,
       mode: "create",
     };
-
+// LoanListComponent.dialog: MatDialog
     this.dialog
       .open(EditLoanDialogComponent, dialogConfig)
       .afterClosed()

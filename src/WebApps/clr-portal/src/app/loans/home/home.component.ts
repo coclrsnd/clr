@@ -5,6 +5,23 @@ import { BehaviorSubject } from "rxjs";
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { EventbusService } from "../../eventbus.service";
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { defaultDialogConfig } from "../shared/default-dialog-config";
+import { LeadsformComponent } from "../leadsform/leadsform.component";
+import { MatDialog } from "@angular/material/dialog";
+
+export function adharOrVoterValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const adharPattern = /^[0-9]{12}$/;
+    const voterPattern = /^[A-Z0-9]{10}$/; 
+    if (!control.value) {
+      return null; // consider empty value valid
+    }
+    const isValidAadhar = adharPattern.test(control.value);
+    const isValidVoter = voterPattern.test(control.value);
+    return isValidAadhar || isValidVoter ? null : { invalidNumber: 'Invalid Aadhaar or Voter ID' };
+  };
+}
 
 @Component({
   selector: "home",
@@ -13,33 +30,35 @@ import { EventbusService } from "../../eventbus.service";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
-  numberPattern = /^[2-9][0-9]{11}$/;
-  adharFormControl = new FormControl("", [
-    Validators.required,
-    Validators.maxLength(12),
-    Validators.minLength(12),
-  ]);
+  numberPattern = /^[0-9]{12}$/;
+  adharFormControl = new FormControl("", [Validators.required, adharOrVoterValidator()]);
+
   aadharNumber: string;
+  voterid:string='';
   loading = false;
   printbtn:boolean=false;
  cleanform:boolean=false;
+ private _adharNumber: string;
+ private adharNumberSubject = new BehaviorSubject<string>(null);
+
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
-    private eventBus: EventbusService,
+    private eventBus: EventbusService, 
+    private dialog: MatDialog,
   ) {}
-  numericOnly(event): boolean {
-    let pattern = /[0-9]/;
-    let inputChar = String.fromCharCode(event.charCode);
-    if (!pattern.test(inputChar) && event.charCode !== 0) {
-      // If not a number, prevent the keypress
-      event.preventDefault();
-      return false;
-    }
-    return true;
-  }
-  
+  // numericOnly(event): boolean {
+  //   let pattern = /[0-9]/;
+  //   let inputChar = String.fromCharCode(event.charCode);
+  //   if (!pattern.test(inputChar) && event.charCode !== 0) {
+  //     // If not a number, prevent the keypress
+  //     event.preventDefault();
+  //     return false;
+  //   }
+  //   return true;
+  // }
+  // (keypress)="numericOnly($event)" 
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
@@ -80,5 +99,22 @@ export class HomeComponent implements OnInit {
       window.print();
     }, 0);
   }
+
+  addlead() {
+    const dialogConfig = defaultDialogConfig();
+    dialogConfig.data = {
+      dialogTitle: "Add Lead",
+      loan: null,
+      mode: "create",
+    };
+
+    this.dialog
+      .open(LeadsformComponent, dialogConfig)
+      .afterClosed()
+      .subscribe((response) => {
+        this.adharNumberSubject.next(this._adharNumber);
+      });
+  }
+
   
 }
