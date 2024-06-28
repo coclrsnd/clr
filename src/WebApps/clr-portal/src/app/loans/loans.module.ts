@@ -32,6 +32,8 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatGridListModule } from "@angular/material/grid-list";
 import { MaterialModule } from "../material.module";
 import { MaskAadharPipe } from "../mask-aadhar.pipe";
+import { LeadslistComponent } from "./leadslist/leadslist.component";
+import { LeadsformComponent } from "./leadsform/leadsform.component";
 
 
 
@@ -49,6 +51,10 @@ export const loansRoutes: Routes = [
         path: ":adharNumber",
         component: LoanListComponent,
       },
+      {
+        path: "leadadharnumber",
+        component : LeadslistComponent,
+      }
     ],
   },
 ];
@@ -83,8 +89,8 @@ const entityMetadata: EntityMetadataMap = {
     MatProgressSpinnerModule,
     MaskAadharPipe,
   ],
-  declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
-  exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
+  declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent, LeadslistComponent],
+  exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent, LeadslistComponent],
   providers: [LoanEntityService, LoansDataService, LoansResolver],
 })
 export class LoansModule {

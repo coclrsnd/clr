@@ -39,6 +39,7 @@ export class HomeComponent implements OnInit {
   printbtn:boolean=false;
  cleanform:boolean=false;
  private _adharNumber: string;
+ private _leadadharnumber:string;
  private adharNumberSubject = new BehaviorSubject<string>(null);
 
   constructor(

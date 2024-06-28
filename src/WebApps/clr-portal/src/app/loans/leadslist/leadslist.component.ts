@@ -1,3 +1,4 @@
+
 import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
@@ -30,15 +31,16 @@ import { LoansModule } from "../loans.module";
 import { ToastrService } from "ngx-toastr";
 import { MatSelectChange } from "@angular/material/select";
 import { MaskAadharPipe } from "../../mask-aadhar.pipe";
+
 interface TableColumn {
   key: string;
   displayName: string;
 }
 
 @Component({
-  selector: "loan-list",
-  templateUrl: "./loan-list.component.html",
-  styleUrls: ["./loan-list.component.css"],
+  selector: 'leadslist',
+  templateUrl: './leadslist.component.html',
+  styleUrl: './leadslist.component.css',
   animations: [
     trigger('expandCollapse', [
       state('collapsed', style({ height: '0px', overflow: 'scroll' })),
@@ -48,8 +50,7 @@ interface TableColumn {
   ],
 })
 
-
-export class LoanListComponent implements OnInit, OnDestroy {
+export class LeadslistComponent implements OnInit, OnDestroy {
   filterControl = new FormControl("", [
     Validators.required,
     Validators.pattern(/^[0-9]{12}$/),
@@ -67,13 +68,6 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "adharNumber",
     "organizationName",
     "loanType",
-    "amount",
-    "status",
-    "repaymentStatus",
-    "suretyholder1",
-    "suretyholder1Adhar",
-    "suretyholder2",
-    "suretyholder2Adhar",
     "voterid",
     "pancard",
     "actions",
@@ -86,27 +80,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   errormsg:string='';
   selectedLoan: Loan | null = null;
   currentDate = new Date();
-
- 
-  defaultColumns: string[] = ["loanDate",'loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','actions'];
   columns = new FormControl([]);
-  columnsList: TableColumn[] = [
-    { key: 'loanDate', displayName: 'Loan Date' },
-    { key: 'loanBorrower', displayName: 'Borrower' },
-    { key: 'adharNumber', displayName: 'Adhar Number' },
-    { key: 'organizationName', displayName: 'Organization' },
-    { key: 'loanType', displayName: 'Loan Type' },
-    { key: 'amount', displayName: 'Amount' },
-    { key: 'status', displayName: 'Status' },
-    { key: 'repaymentStatus', displayName: 'Repayment Status' },
-    { key: 'suretyholder1', displayName: '1st Surety' },
-    { key: 'suretyholder1Adhar', displayName: '1st Surety Adhar' },
-    { key: 'suretyholder2', displayName: '2nd Surety' },
-    { key: 'suretyholder2Adhar', displayName: '2nd Surety Adhar' },
-    { key: 'voterid', displayName: 'Voter Id' },
-    { key: 'pancard', displayName: 'Pancard Number' },
-    { key: 'actions', displayName: 'Actions' }
-  ];
   // displayedColumns: string[] = [];
   columnsToDisplay: string[] = [];
 
@@ -122,7 +96,6 @@ export class LoanListComponent implements OnInit, OnDestroy {
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator:MatPaginator;
   @ViewChild(MatTable) table: MatTable<any>;
 
   ngAfterViewInit() {
@@ -140,8 +113,6 @@ export class LoanListComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    this.columns.setValue(this.defaultColumns);  // Set default columns on load
-    this.updateDisplayedColumns();
 
     this.userDetails$ = this.store.pipe(select(selectUserDetails));
     this.adharNumberSubscription = this.adharNumberSubject
@@ -164,7 +135,6 @@ export class LoanListComponent implements OnInit, OnDestroy {
       .subscribe((loans) => {
         this.dataSource.data = loans;
         this.selectedLoan = loans && loans.length > 0 ? loans[0] : null;
-        this.dataSource.paginator=this.paginator;
       }
     );
 
@@ -270,42 +240,5 @@ export class LoanListComponent implements OnInit, OnDestroy {
   isHovering(elementId: string): boolean {
     return !!this.hoverStates[elementId];  // Ensure undefined states are treated as false
   }
-
-  selectedColumnsDisplay(): string {
-    // Filter out default columns from the display
-    const userSelectedColumns = this.columns.value.filter(col => !this.defaultColumns.includes(col));
-    return userSelectedColumns.length > 0 ?
-      this.columnsList.filter(col => userSelectedColumns.includes(col.key))
-        .map(col => col.displayName)
-        .join(', ') : 'Select columns';
-  }
-  
-
-  addColumn(event: MatSelectChange): void {
-    // Update FormControl to include only selected columns that are not default
-    this.columns.setValue([
-      ...this.defaultColumns,
-      ...event.value.filter(col => !this.defaultColumns.includes(col))
-    ]);
-    this.updateDisplayedColumns();
-    this.table.renderRows();  // Refresh the table to show changes
-  }
-  
-  updateDisplayedColumns(): void {
-    // Initialize an array to hold the current state of selected columns.
-    let updatedColumns = [];
-  
-    // Loop through the predefined order of columns.
-    this.displayedColumns.forEach(column => {
-      // Check if the column is included in the FormControl value (i.e., it has been selected by the user or is a default column).
-      if (this.columns.value.includes(column)) {
-        updatedColumns.push(column);  // Add it to the updatedColumns array in the correct order.
-      }
-    });
-  
-    // Update the columnsToDisplay with the correctly ordered columns.
-    this.columnsToDisplay = updatedColumns;
-  }
-  
   
 }

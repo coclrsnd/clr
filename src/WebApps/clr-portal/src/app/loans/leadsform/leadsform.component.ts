@@ -82,7 +82,7 @@ export class LeadsformComponent implements OnInit {
     this.loan = data.Loan;
     this.mode = data.mode;
     this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
-    this.btnname = this.mode === 'create' ? 'Add Lead' : 'Update';
+    this.btnname = this.mode === 'create' ? 'AddLead' : 'Update';
     this.initializeForm(data.Loan);
 
     this.loanForm = this.fb.group({
@@ -94,40 +94,19 @@ export class LeadsformComponent implements OnInit {
       loanDate: ["", Validators.required],
       loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
       )), Validators.maxLength(30)]],
-      suretyholder1: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
-      )), Validators.maxLength(30)]],
-      suretyholder1Adhar: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
-      suretyholder2: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
-      )), Validators.maxLength(30)]],
-      suretyholder2Adhar: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
       loanType: ["", Validators.required],
       repaymentStatus: [""],
       remarks:[""],
       securityReports:[""],
       vehicleNo:[""],
-      
       pancard:["", Validators.pattern(/^[A-Z0-9]{10}$/)],
       voterid:["",[Validators.required, Validators.pattern(/^[A-Z0-9]{10}$/)]]
-
     });
-
 
     if (this.mode === "update") {
       this.loanForm.patchValue({ ...data.Loan });
       this.loanForm.get('adharNumber').disable();
-      if (data.Loan.suretyholder1Adhar && data.Loan.suretyholder1Adhar.trim() !== '') {
-        this.loanForm.get('suretyholder1Adhar').disable();
-      } else {
-        this.loanForm.get('suretyholder1Adhar').enable(); // Enable if empty
-      }
-      if (data.Loan.suretyholder2Adhar && data.Loan.suretyholder2Adhar.trim() !== '') {
-        this.loanForm.get('suretyholder2Adhar').disable();
-      } else {
-        this.loanForm.get('suretyholder2Adhar').enable(); // Enable if empty
-      }
     }
-
-
   }
 
   numericOnly(event): boolean {
@@ -190,9 +169,7 @@ export class LeadsformComponent implements OnInit {
   }
 
    // Initialize form and field visibility directly in the constructor
-
-
-
+   
   initializeForm(loanData: Loan) {
     this.loanForm = this.fb.group({
       loanType: [loanData?.loanType || '', Validators.required],
@@ -207,8 +184,6 @@ export class LeadsformComponent implements OnInit {
     this.mortagefield = loanType === 'Mortgage Loan';
     this.vehicalfield = loanType === 'Vehicle Loan';
   }
-
-
 
   onStatusChange(value: string) {
     if (value === 'Mortgage Loan') {

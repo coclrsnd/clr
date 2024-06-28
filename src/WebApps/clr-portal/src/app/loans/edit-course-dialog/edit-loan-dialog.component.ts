@@ -188,9 +188,6 @@ export class EditLoanDialogComponent implements OnInit {
   }
 
    // Initialize form and field visibility directly in the constructor
-
-
-
   initializeForm(loanData: Loan) {
     this.loanForm = this.fb.group({
       loanType: [loanData?.loanType || '', Validators.required],
