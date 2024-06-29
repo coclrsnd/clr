@@ -31,11 +31,9 @@ import { LoansModule } from "../loans.module";
 import { ToastrService } from "ngx-toastr";
 import { MatSelectChange } from "@angular/material/select";
 import { MaskAadharPipe } from "../../mask-aadhar.pipe";
+import { Lead } from "../model/lead";
 
-interface TableColumn {
-  key: string;
-  displayName: string;
-}
+
 
 @Component({
   selector: 'leadslist',
@@ -51,13 +49,13 @@ interface TableColumn {
 })
 
 export class LeadslistComponent implements OnInit, OnDestroy {
-  filterControl = new FormControl("", [
-    Validators.required,
-    Validators.pattern(/^[0-9]{12}$/),
+  // filterControl = new FormControl("", [
+  //   Validators.required,
+  //   Validators.pattern(/^[0-9]{12}$/),
 
-  ]);
+  // ]);
   isHidden: boolean = true;
-  dataSource = new MatTableDataSource<Loan>();
+  dataSource = new MatTableDataSource<Lead>();
   loading$: Observable<boolean>;
   errorMsg = '';
   fromDate = new FormControl('');
@@ -73,12 +71,12 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     "actions",
   ];
   userDetails$: Observable<User>;
-  showCurrentOrgsLoans: boolean = true;
+  showCurrentOrgsLeads: boolean = true;
   private adharNumberSubject = new BehaviorSubject<string>(null);
   private adharNumberSubscription: Subscription;
   private _adharNumber: string;
   errormsg:string='';
-  selectedLoan: Loan | null = null;
+  selectedLead: Lead | null = null;
   currentDate = new Date();
   columns = new FormControl([]);
   // displayedColumns: string[] = [];
@@ -86,7 +84,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
 
   constructor(
     private dialog: MatDialog,
-    private loanService: LoanEntityService,
+    // private loanService: LoanEntityService,
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private printingService: PrintingService,
@@ -114,29 +112,29 @@ export class LeadslistComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
 
-    this.userDetails$ = this.store.pipe(select(selectUserDetails));
-    this.adharNumberSubscription = this.adharNumberSubject
-      .pipe(
-        switchMap((adharNumber) => {
-          if (adharNumber) {
-            return this.loanService.getWithAdhar(adharNumber);
-          } else {
-            return this.store.pipe(
-              select(selectUserDetails),
-              switchMap((user) => {
-                return this.loanService.getWithOrganization(
-                  user.organizationCode,
-                );
-              }),
-            );
-          }
-        }),
-      )
-      .subscribe((loans) => {
-        this.dataSource.data = loans;
-        this.selectedLoan = loans && loans.length > 0 ? loans[0] : null;
-      }
-    );
+//     this.userDetails$ = this.store.pipe(select(selectUserDetails));
+//     this.adharNumberSubscription = this.adharNumberSubject
+//       .pipe(
+//         switchMap((adharNumber) => {
+//           if (adharNumber) {
+//             return this.loanService.getWithAdhar(adharNumber);
+//           } else {
+//             return this.store.pipe(
+//               select(selectUserDetails),
+//               switchMap((user) => {
+//                 return this.loanService.getWithOrganization(
+//                   user.organizationCode,
+//                 );
+//               }),
+//             );
+//           }
+//         }),
+//       )
+//       .subscribe((loans) => {
+//         this.dataSource.data = loans;
+//         this.selectedLoan = loans && loans.length > 0 ? loans[0] : null;
+//       }
+//     );
 
   }
 
@@ -163,7 +161,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     };
 
     this.dialog
-      .open(EditLoanDialogComponent, dialogConfig)
+      .open(LeadslistComponent, dialogConfig)
       .afterClosed()
       .subscribe((response) => {
         this.adharNumberSubject.next(this._adharNumber);
@@ -188,10 +186,10 @@ export class LeadslistComponent implements OnInit, OnDestroy {
 
   onCheck(checked: boolean) {
     if (checked) {
-      this.showCurrentOrgsLoans = true;
+      this.showCurrentOrgsLeads = true;
       this.adharNumberSubject.next(null);
     } else {
-      this.showCurrentOrgsLoans = false;
+      this.showCurrentOrgsLeads = false;
       // this.displayedColumns.splice(this.displayedColumns.length - 2, 0, 'organizationName');
       if (this) this.adharNumberSubject.next(this._adharNumber);
     }
