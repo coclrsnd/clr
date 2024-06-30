@@ -56,7 +56,6 @@ export class EditLoanDialogComponent implements OnInit {
   btnname:string='';
   mortagefield:boolean= false;
   vehicalfield:boolean=false;
-  loanpermission:string[]=["Approved","Pendind"];
   pancard:string='';
   voterid:string='';
   constructor(
