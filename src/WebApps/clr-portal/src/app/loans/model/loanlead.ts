@@ -1,4 +1,4 @@
-export interface Lead {
+export interface LoanLead {
     
     leadstatus: string;
     organizationCode: string;
@@ -15,7 +15,7 @@ export interface Lead {
     
   }
   
-  export function compareLoans(c1: Lead, c2: Lead) {
+  export function compareLoans(c1: LoanLead, c2: LoanLead) {
     const compare = c1.id - c2.id;
   
     if (compare > 0) {

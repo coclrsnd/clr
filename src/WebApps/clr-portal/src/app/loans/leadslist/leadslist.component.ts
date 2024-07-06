@@ -31,7 +31,7 @@ import { LoansModule } from "../loans.module";
 import { ToastrService } from "ngx-toastr";
 import { MatSelectChange } from "@angular/material/select";
 import { MaskAadharPipe } from "../../mask-aadhar.pipe";
-import { Lead } from "../model/lead";
+import { LoanLead } from "../model/loanlead";
 
 
 
@@ -55,7 +55,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
 
   // ]);
   isHidden: boolean = true;
-  dataSource = new MatTableDataSource<Lead>();
+  dataSource = new MatTableDataSource<LoanLead>();
   loading$: Observable<boolean>;
   errorMsg = '';
   fromDate = new FormControl('');
@@ -76,7 +76,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
   private adharNumberSubscription: Subscription;
   private _adharNumber: string;
   errormsg:string='';
-  selectedLead: Lead | null = null;
+  selectedLead: LoanLead | null = null;
   currentDate = new Date();
   columns = new FormControl([]);
   // displayedColumns: string[] = [];

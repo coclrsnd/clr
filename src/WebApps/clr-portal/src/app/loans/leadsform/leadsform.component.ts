@@ -37,6 +37,7 @@ import { ToastrService } from "ngx-toastr";
 import { CommonModule } from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { MaterialModule } from "../../material.module";
+import { LoanLead } from "../model/loanlead";
 
 @Component({
   selector: 'leadsform',
@@ -48,7 +49,7 @@ import { MaterialModule } from "../../material.module";
 })
 export class LeadsformComponent implements OnInit {
   dialogTitle: string;
-  loan: Loan;
+  loanlead: LoanLead;
   mode: "create" | "update";
   loading$: Observable<boolean>;
   loanForm: FormGroup;
@@ -66,6 +67,7 @@ export class LeadsformComponent implements OnInit {
   leadstatus:string[]=["Disbursed","NotApproved","Pending"];
   pancard:string='';
   voterid:string='';
+  loanleadService: any;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<LeadsformComponent>,
@@ -79,7 +81,7 @@ export class LeadsformComponent implements OnInit {
 
   ) {
     this.dialogTitle = data.dialogTitle;
-    this.loan = data.Loan;
+    this.loanlead = data.LoanLead;
     this.mode = data.mode;
     this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
     this.btnname = this.mode === 'create' ? 'AddLead' : 'Update';
@@ -131,13 +133,13 @@ export class LeadsformComponent implements OnInit {
   }
 
   onSave() {
-    const Loan: Loan = {
-      ...this.loan,
+    const LoanLead: LoanLead = {
+      ...this.loanlead,
       ...this.loanForm.value
     };
 
     if (this.mode == "update") {
-      this.loansService.update(Loan)
+      this.loansService.update(LoanLead)
         .subscribe(() => {
           this.result = "Updated successfully!";
           this.btnname = "update";
@@ -156,8 +158,8 @@ export class LeadsformComponent implements OnInit {
         });
     } else if (this.mode == "create") {
       this.btnname = "save";
-      this.loansService.add(Loan).subscribe((newLoan) => {
-        console.log("New Loan", newLoan);
+      this.loanleadService.add(LoanLead).subscribe((newLoanLead) => {
+        console.log("New Loan", newLoanLead);
         this.result = "Created successfully!"
         this.dialogSaveStatus$ = of(true); // Update save status to true
         this.dialogRef.close();
@@ -170,7 +172,7 @@ export class LeadsformComponent implements OnInit {
 
    // Initialize form and field visibility directly in the constructor
    
-  initializeForm(loanData: Loan) {
+  initializeForm(loanData: LoanLead) {
     this.loanForm = this.fb.group({
       loanType: [loanData?.loanType || '', Validators.required],
       // Set up additional form controls here
