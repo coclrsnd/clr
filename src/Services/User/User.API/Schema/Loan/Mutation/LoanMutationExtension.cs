@@ -19,6 +19,8 @@ using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Linq;
 using HotChocolate.Authorization;
+using ConferencePlanner.GraphQL.Types;
+using User.Application.Models.UserManagment;
 
 namespace User.GraphQL.Schema.Loan.Mutation
 {
@@ -60,6 +62,38 @@ namespace User.GraphQL.Schema.Loan.Mutation
                 throw new Exception("Error While Signing up");
             }
         }
+
+        [UseApplicationDbContext]
+
+        public async Task<int> SaveLoanLead([ScopedService] UserContext context, LoanLeadRequestModel loanLeadRequestInput, CancellationToken cancellationToken)
+        {
+            try
+            {
+                if(loanLeadRequestInput.Id<=0)
+                {
+                    var loanleadmodel = _mapper.Map<LoanLead>(loanLeadRequestInput);
+
+                    var entity = context.LoanLeads.Add(loanleadmodel);
+                    await context.SaveChangesAsync();
+                    return entity.Entity.Id;
+                }
+                else
+                {
+                    var loanleadmodel = _mapper.Map<LoanLead>(loanLeadRequestInput);
+
+                    var entity = context.LoanLeads.Update(loanleadmodel);
+                    await context.SaveChangesAsync();
+                    return entity.Entity.Id;
+                }
+              
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Error While Signing up");
+            }
+        }
+
 
         [UseApplicationDbContext]
         public async Task<int> AddSociety([ScopedService] UserContext context, OrganizationRequest organizationRequest)

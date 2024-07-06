@@ -14,6 +14,7 @@ namespace User.Infrastructure.Persistence
         }
             
         public DbSet<User.Domain.Entities.User> Users { get; set; }
+        public DbSet<LoanLead> LoanLeads { get; set; }
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<OrganizationConfiguration> OrganizationConfigurations { get; set; }
         public DbSet<OrganizationUserMapping> OrganizationUserMappings { get; set; }
