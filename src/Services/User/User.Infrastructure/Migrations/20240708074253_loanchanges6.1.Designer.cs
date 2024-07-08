@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using User.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using User.Infrastructure.Persistence;
 namespace User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240708074253_loanchanges6.1")]
+    partial class loanchanges61
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -294,6 +297,14 @@ namespace User.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("OrganizationCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Pancard")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Voterid")
                         .IsRequired()
                         .HasColumnType("text");
 

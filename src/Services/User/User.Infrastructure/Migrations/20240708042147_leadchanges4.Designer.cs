@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using User.Infrastructure.Persistence;
@@ -11,9 +12,11 @@ using User.Infrastructure.Persistence;
 namespace User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20240708042147_leadchanges4")]
+    partial class leadchanges4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -297,6 +300,14 @@ namespace User.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Pancard")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Voterid")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("leadstage")
                         .IsRequired()
                         .HasColumnType("text");
@@ -390,12 +401,6 @@ namespace User.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("VehicleNo")
-                        .HasColumnType("text");
-
-                    b.Property<string>("pancardnumber")
-                        .HasColumnType("text");
-
-                    b.Property<string>("voterid")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

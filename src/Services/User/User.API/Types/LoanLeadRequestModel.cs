@@ -10,9 +10,10 @@ namespace ConferencePlanner.GraphQL.Types
         public string AdharNumber { get; set; }
         public string OrganizationCode { get; set; }
         public string LoanType { get; set; }
-        public string Voterid { get; set; }
-
-        public string Pancard { get; set; }
+        public string leadstage { get; set; }
+        public string leadstatus { get; set; }
+        public string leadstatusremarks { get; set; }
 
     }
 }
+
