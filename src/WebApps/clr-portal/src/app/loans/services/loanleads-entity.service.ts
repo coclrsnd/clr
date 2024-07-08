@@ -3,14 +3,14 @@ import {
   EntityCollectionServiceBase,
   EntityCollectionServiceElementsFactory,
 } from "@ngrx/data";
-import { Loan } from "../model/loan";
+import { LoanLead } from "../model/loanlead";
 import { Observable, throwError } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { catchError, map, tap } from "rxjs/operators";
 import { environment } from "../../../environments/environment";
 
 @Injectable()
-export class LoanLeadEntityService extends EntityCollectionServiceBase<Loan> {
+export class LoanLeadEntityService extends EntityCollectionServiceBase<LoanLead> {
   constructor(
     serviceElementsFactory: EntityCollectionServiceElementsFactory,
     private http: HttpClient,
@@ -21,53 +21,45 @@ export class LoanLeadEntityService extends EntityCollectionServiceBase<Loan> {
   
 
   FIND_LOAN_LEAD_BY_ORG = `query FindLoansByAdhar($organizationCode: String!) {
-    loans(
+    loanlead(
       where: {
         or: [
           { organizationCode: { contains: $organizationCode } }
         ]
       }
     ) {
-      amount
-      status
-      organizationCode
-      organizationName
-      adharNumber
       loanDate
       loanBorrower
+      adharNumber
+      organizationName
+      organizationCode
       loanType
-      repaymentStatus
-      remarks
-      id
-      securityReports
-      vehicleNo
-      suretyholder1Adhar
-      suretyholder2Adhar
-      suretyholder1
-      suretyholder2
+      leadstage
+      leadstatus
+      leadstatusremarks
     }
   }
   `;
   
 
-  getWithOrganization(organizationCode: string): Observable<Loan[]> {
+  getWithOrganization(organizationCode: string): Observable<LoanLead[]> {
     return this.http
       .post<{
-        data: { loans: Loan[] };
+        data: { loanlead: LoanLead[] };
       }>(environment.apiUrl, {
         query: this.FIND_LOAN_LEAD_BY_ORG,
         variables: { organizationCode: organizationCode },
       })
       .pipe(
         tap((response) => {
-          if (response?.data?.loans) {
-            this.addAllToCache(response?.data?.loans);
+          if (response?.data?.loanlead) {
+            this.addAllToCache(response?.data?.loanlead);
           }
         }),
         map((response) => {
-          if (response.data.loans) {
-            console.log(response.data.loans);
-            return response.data.loans;
+          if (response.data.loanlead) {
+            console.log(response.data.loanlead);
+            return response.data.loanlead;
           } else {
             throw new Error("something went wrong");
           }

@@ -45,6 +45,8 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       suretyholder2Adhar
       suretyholder1
       suretyholder2
+      voterid
+      pancardnumber
     }
   }
   `;
@@ -74,6 +76,8 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       suretyholder2Adhar
       suretyholder1
       suretyholder2
+      voterid
+      pancardnumber
     }
   }
   `;

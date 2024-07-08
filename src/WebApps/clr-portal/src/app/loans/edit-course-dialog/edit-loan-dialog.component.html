@@ -79,10 +79,10 @@
      <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Pancard Number</mat-label>
-        <input matInput formControlName="pancard" (input)="convertToUpperCase($event)"/>
+        <input matInput formControlName="pancardnumber" (input)="convertToUpperCase($event)"/>
       </mat-form-field>
-      <div class="err" *ngIf="loanForm.get('pancard').invalid">
-        <div class="errormsg" *ngIf="loanForm.get('pancard').hasError('pattern')" >Not a valid pan number</div >
+      <div class="err" *ngIf="loanForm.get('pancardnumber').invalid">
+        <div class="errormsg" *ngIf="loanForm.get('pancardnumber').hasError('pattern')" >Not a valid pan number</div >
        </div>
     </div>
     

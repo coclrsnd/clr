@@ -56,7 +56,7 @@ export class EditLoanDialogComponent implements OnInit {
   btnname:string='';
   mortagefield:boolean= false;
   vehicalfield:boolean=false;
-  pancard:string='';
+  pancardnumber:string='';
   voterid:string='';
   constructor(
     private fb: FormBuilder,

@@ -75,7 +75,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "suretyholder2",
     "suretyholder2Adhar",
     "voterid",
-    "pancard",
+    "pancardnumber",
     "actions",
   ];
   userDetails$: Observable<User>;
@@ -104,7 +104,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     { key: 'suretyholder2', displayName: '2nd Surety' },
     { key: 'suretyholder2Adhar', displayName: '2nd Surety Adhar' },
     { key: 'voterid', displayName: 'Voter Id' },
-    { key: 'pancard', displayName: 'Pancard Number' },
+    { key: 'pancardnumber', displayName: 'Pancard Number' },
     { key: 'actions', displayName: 'Actions' }
   ];
   // displayedColumns: string[] = [];

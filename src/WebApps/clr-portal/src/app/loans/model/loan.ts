@@ -16,6 +16,8 @@ export interface Loan {
   suretyholder2Adhar:string;
   suretyholder1:string;
   suretyholder2:string;
+  voterid:string;
+  pancardnumber:string;
 }
 
 export function compareLoans(c1: Loan, c2: Loan) {

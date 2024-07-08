@@ -1,17 +1,17 @@
 export interface LoanLead {
     
-    leadstatus: string;
     organizationCode: string;
     organizationName: string;
     adharNumber: string;
     loanDate: Date;
     loanBorrower: string;
     loanType: string;
-    remarks:string;
     id: number;
     securityReports:string;
     vehicleNo:string;
     leadstage:string;
+    leadstatus: string;
+    leadstatusremarks:string;
     
   }
   

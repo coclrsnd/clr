@@ -6,7 +6,7 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from "@angular/material/dialog";
-import { Loan } from "../model/loan";
+// import { Loan } from "../model/loan";
 import {
   FormBuilder,
   FormGroup,
@@ -19,7 +19,7 @@ import {
   ReactiveFormsModule
 } from "@angular/forms";
 import { Observable } from "rxjs";
-import { LoanEntityService } from "../services/loan-entity.service";
+// import { LoanEntityService } from "../services/loan-entity.service";
 import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { Store } from "@ngrx/store";
@@ -38,6 +38,7 @@ import { CommonModule } from "@angular/common";
 import { MatDialog } from "@angular/material/dialog";
 import { MaterialModule } from "../../material.module";
 import { LoanLead } from "../model/loanlead";
+import { LoanLeadEntityService } from "../services/loanleads-entity.service";
 
 @Component({
   selector: 'leadsform',
@@ -52,7 +53,7 @@ export class LeadsformComponent implements OnInit {
   loanlead: LoanLead;
   mode: "create" | "update";
   loading$: Observable<boolean>;
-  loanForm: FormGroup;
+  loanleadForm: FormGroup;
   loanTypes: string[] = ["Surety Loan","Mortgage Loan","Business Loan", "Vehicle Loan","Loan on Fixed Deposite","Loan on Pigme","Pledge Loan","Housing Loan","Gold Purchase Loan"];
   loanStatuType: string[] = ["Active","In-Active","Closed","OTS"];
   userDetails$: Observable<User>;
@@ -65,14 +66,13 @@ export class LeadsformComponent implements OnInit {
   vehicalfield:boolean=false;
   leadstage:string[]=["Approached","Notapproached"];
   leadstatus:string[]=["Disbursed","NotApproved","Pending"];
-  pancard:string='';
-  voterid:string='';
+  leadstatusremarks:any="";
   loanleadService: any;
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<LeadsformComponent>,
     @Inject(MAT_DIALOG_DATA) data,
-    private loansService: LoanEntityService,
+    private loanleadservice: LoanLeadEntityService,
     private store: Store<AppState>,
     private _snackBar: MatSnackBar,
     private toastr: ToastrService,
@@ -85,9 +85,9 @@ export class LeadsformComponent implements OnInit {
     this.mode = data.mode;
     this.disableAdhar = data.disableAdhar ||false; // Default to false if not provided
     this.btnname = this.mode === 'create' ? 'AddLead' : 'Update';
-    this.initializeForm(data.Loan);
+    this.initializeForm(data.LoanLead);
 
-    this.loanForm = this.fb.group({
+    this.loanleadForm = this.fb.group({
       id: [0],
       amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
       status: ["", Validators.required],
@@ -101,13 +101,12 @@ export class LeadsformComponent implements OnInit {
       remarks:[""],
       securityReports:[""],
       vehicleNo:[""],
-      pancard:["", Validators.pattern(/^[A-Z0-9]{10}$/)],
-      voterid:["",[Validators.required, Validators.pattern(/^[A-Z0-9]{10}$/)]]
+      
     });
 
     if (this.mode === "update") {
-      this.loanForm.patchValue({ ...data.Loan });
-      this.loanForm.get('adharNumber').disable();
+      this.loanleadForm.patchValue({ ...data.Loan });
+      this.loanleadForm.get('adharNumber').disable();
     }
   }
 
@@ -124,7 +123,7 @@ export class LeadsformComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(selectUserDetails).subscribe((user) => {
-      this.loanForm.get("organizationCode").patchValue(user.organizationCode);
+      this.loanleadForm.get("organizationCode").patchValue(user.organizationCode);
     });
   }
 
@@ -135,11 +134,11 @@ export class LeadsformComponent implements OnInit {
   onSave() {
     const LoanLead: LoanLead = {
       ...this.loanlead,
-      ...this.loanForm.value
+      ...this.loanleadForm.value
     };
 
     if (this.mode == "update") {
-      this.loansService.update(LoanLead)
+      this.loanleadservice.update(LoanLead)
         .subscribe(() => {
           this.result = "Updated successfully!";
           this.btnname = "update";
@@ -172,14 +171,14 @@ export class LeadsformComponent implements OnInit {
 
    // Initialize form and field visibility directly in the constructor
    
-  initializeForm(loanData: LoanLead) {
-    this.loanForm = this.fb.group({
-      loanType: [loanData?.loanType || '', Validators.required],
+  initializeForm(loanleadData: LoanLead) {
+    this.loanleadForm = this.fb.group({
+      loanType: [loanleadData?.loanType || '', Validators.required],
       // Set up additional form controls here
     });
 
     // Immediately determine field visibility based on existing data
-    this.determineFieldVisibility(loanData?.loanType);
+    this.determineFieldVisibility(loanleadData?.loanType);
   }
 
   determineFieldVisibility(loanType: string | undefined) {

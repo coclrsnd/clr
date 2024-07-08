@@ -7,8 +7,8 @@ import { Store, select } from "@ngrx/store";
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { switchMap, tap } from "rxjs/operators";
 import { defaultDialogConfig } from "../shared/default-dialog-config";
-import { Loan } from "../model/loan";
-import { LoanEntityService } from "../services/loan-entity.service";
+// import { Loan } from "../model/loan";
+// import { LoanEntityService } from "../services/loan-entity.service";
 import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { selectUserDetails } from "../../auth/auth.selectors";
@@ -32,6 +32,8 @@ import { ToastrService } from "ngx-toastr";
 import { MatSelectChange } from "@angular/material/select";
 import { MaskAadharPipe } from "../../mask-aadhar.pipe";
 import { LoanLead } from "../model/loanlead";
+import { LoanLeadEntityService } from "../services/loanleads-entity.service";
+
 
 
 
@@ -49,11 +51,6 @@ import { LoanLead } from "../model/loanlead";
 })
 
 export class LeadslistComponent implements OnInit, OnDestroy {
-  // filterControl = new FormControl("", [
-  //   Validators.required,
-  //   Validators.pattern(/^[0-9]{12}$/),
-
-  // ]);
   isHidden: boolean = true;
   dataSource = new MatTableDataSource<LoanLead>();
   loading$: Observable<boolean>;
@@ -66,25 +63,25 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     "adharNumber",
     "organizationName",
     "loanType",
-    "voterid",
-    "pancard",
+    "leadstage",
+    "leadstatus",
+    "leadstatusremarks",
     "actions",
   ];
   userDetails$: Observable<User>;
   showCurrentOrgsLeads: boolean = true;
   private adharNumberSubject = new BehaviorSubject<string>(null);
-  private adharNumberSubscription: Subscription;
   private _adharNumber: string;
   errormsg:string='';
   selectedLead: LoanLead | null = null;
   currentDate = new Date();
   columns = new FormControl([]);
-  // displayedColumns: string[] = [];
   columnsToDisplay: string[] = [];
+  private subscriptions = new Subscription();
 
   constructor(
     private dialog: MatDialog,
-    // private loanService: LoanEntityService,
+    private loanleadService: LoanLeadEntityService,
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private printingService: PrintingService,
@@ -111,37 +108,16 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-
-//     this.userDetails$ = this.store.pipe(select(selectUserDetails));
-//     this.adharNumberSubscription = this.adharNumberSubject
-//       .pipe(
-//         switchMap((adharNumber) => {
-//           if (adharNumber) {
-//             return this.loanService.getWithAdhar(adharNumber);
-//           } else {
-//             return this.store.pipe(
-//               select(selectUserDetails),
-//               switchMap((user) => {
-//                 return this.loanService.getWithOrganization(
-//                   user.organizationCode,
-//                 );
-//               }),
-//             );
-//           }
-//         }),
-//       )
-//       .subscribe((loans) => {
-//         this.dataSource.data = loans;
-//         this.selectedLoan = loans && loans.length > 0 ? loans[0] : null;
-//       }
-//     );
-
+    this.subscriptions.add(this.loanleadService.getAll().subscribe(data => {
+      this.dataSource.data = data;
+      this.dataSource.sort = this.sort;
+    }));
   }
 
   ngOnDestroy() {
-    if (this.adharNumberSubscription) {
-      this.adharNumberSubscription.unsubscribe();
-    }
+   
+      this.subscriptions.unsubscribe();
+    
   }
 
   @Input()
@@ -151,12 +127,12 @@ export class LeadslistComponent implements OnInit, OnDestroy {
   }
 
 
-  editLoan(loan: Loan) {
+  editLoan(loanlead: LoanLead) {
     const dialogConfig = defaultDialogConfig();
 
     dialogConfig.data = {
-      dialogTitle: "Edit Loan",
-      Loan: loan,
+      dialogTitle: "Edit LoanLead",
+      LoanLead: loanlead,
       mode: "update",
     };
 
@@ -171,8 +147,8 @@ export class LeadslistComponent implements OnInit, OnDestroy {
   addLoan() {
     const dialogConfig = defaultDialogConfig();
     dialogConfig.data = {
-      dialogTitle: "Edit Loan",
-      loan: null,
+      dialogTitle: "Add LoanLead",
+      loanlead: null,
       mode: "create",
     };
 // LoanListComponent.dialog: MatDialog
@@ -184,16 +160,16 @@ export class LeadslistComponent implements OnInit, OnDestroy {
       });
   }
 
-  onCheck(checked: boolean) {
-    if (checked) {
-      this.showCurrentOrgsLeads = true;
-      this.adharNumberSubject.next(null);
-    } else {
-      this.showCurrentOrgsLeads = false;
-      // this.displayedColumns.splice(this.displayedColumns.length - 2, 0, 'organizationName');
-      if (this) this.adharNumberSubject.next(this._adharNumber);
-    }
-  }
+  // onCheck(checked: boolean) {
+  //   if (checked) {
+  //     this.showCurrentOrgsLeads = true;
+  //     this.adharNumberSubject.next(null);
+  //   } else {
+  //     this.showCurrentOrgsLeads = false;
+      
+  //     if (this) this.adharNumberSubject.next(this._adharNumber);
+  //   }
+  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
