@@ -67,11 +67,11 @@
      <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>VoterId</mat-label>
-        <input matInput formControlName="voterid" (input)="convertToUpperCase($event)"/>
+        <input matInput formControlName="voterId" (input)="convertToUpperCase($event)"/>
       </mat-form-field>
-      <div class="err" *ngIf="loanForm.get('voterid').invalid && (loanForm.get('voterid').dirty || loanForm.get('voterid').touched)">
-        <div class="errormsg" *ngIf="loanForm.get('voterid').hasError('required'); " >voterid required</div>
-        <div class="errormsg" *ngIf="loanForm.get('voterid').hasError('pattern')" >Not a valid voterid</div>
+      <div class="err" *ngIf="loanForm.get('voterId').invalid && (loanForm.get('voterId').dirty || loanForm.get('voterId').touched)">
+        <div class="errormsg" *ngIf="loanForm.get('voterId').hasError('required'); " >voterid required</div>
+        <div class="errormsg" *ngIf="loanForm.get('voterId').hasError('pattern')" >Not a valid voterid</div>
       </div>
     </div>
 
@@ -79,10 +79,10 @@
      <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Pancard Number</mat-label>
-        <input matInput formControlName="pancardnumber" (input)="convertToUpperCase($event)"/>
+        <input matInput formControlName="panCardNumber" (input)="convertToUpperCase($event)"/>
       </mat-form-field>
-      <div class="err" *ngIf="loanForm.get('pancardnumber').invalid">
-        <div class="errormsg" *ngIf="loanForm.get('pancardnumber').hasError('pattern')" >Not a valid pan number</div >
+      <div class="err" *ngIf="loanForm.get('panCardNumber').invalid">
+        <div class="errormsg" *ngIf="loanForm.get('panCardNumber').hasError('pattern')" >Not a valid pan number</div >
        </div>
     </div>
     

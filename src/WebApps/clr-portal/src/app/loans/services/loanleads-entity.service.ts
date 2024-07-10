@@ -20,23 +20,26 @@ export class LoanLeadEntityService extends EntityCollectionServiceBase<LoanLead>
 
   
 
-  FIND_LOAN_LEAD_BY_ORG = `query FindLoansByAdhar($organizationCode: String!) {
-    loanlead(
-      where: {
-        or: [
-          { organizationCode: { contains: $organizationCode } }
-        ]
-      }
-    ) {
+  FIND_LOAN_LEAD_BY_ORG = `query GetLoanLeads($organizationCode:String!){
+    loanLeads(where: {
+          or: [
+            { organizationCode: { contains: $organizationCode } }
+            
+          ]
+        }){
       loanDate
+      lastModifiedBy
+      lastModifiedDate
+      __typename
       loanBorrower
       adharNumber
-      organizationName
       organizationCode
       loanType
-      leadstage
-      leadstatus
-      leadstatusremarks
+      id
+      createdBy
+      leadStage
+      leadStatus
+      leadStatusRemarks
     }
   }
   `;

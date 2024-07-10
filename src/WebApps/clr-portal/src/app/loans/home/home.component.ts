@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   adharFormControl = new FormControl("", [Validators.required, adharOrVoterValidator()]);
 
   aadharNumber: string;
-  voterid:string='';
+  voterId:string='';
   loading = false;
   printbtn:boolean=false;
  cleanform:boolean=false;

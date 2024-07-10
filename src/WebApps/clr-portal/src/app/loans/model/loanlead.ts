@@ -9,9 +9,9 @@ export interface LoanLead {
     id: number;
     securityReports:string;
     vehicleNo:string;
-    leadstage:string;
-    leadstatus: string;
-    leadstatusremarks:string;
+    leadStage:string;
+    leadStatus: string;
+    leadStatusRemarks:string;
     
   }
   

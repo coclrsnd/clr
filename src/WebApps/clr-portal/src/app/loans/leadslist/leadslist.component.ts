@@ -63,9 +63,9 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     "adharNumber",
     "organizationName",
     "loanType",
-    "leadstage",
-    "leadstatus",
-    "leadstatusremarks",
+    "leadStage",
+    "leadStatus",
+    "leadStatusRemarks",
     "actions",
   ];
   userDetails$: Observable<User>;
@@ -108,10 +108,19 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    this.subscriptions.add(this.loanleadService.getAll().subscribe(data => {
-      this.dataSource.data = data;
-      this.dataSource.sort = this.sort;
-    }));
+    // this.subscriptions.add(this.loanleadService.getWithOrganization().subscribe(data => {
+    //   this.dataSource.data = data;
+    //   this.dataSource.sort = this.sort;
+    // }));
+    this.store.pipe(
+select(selectUserDetails),
+tap((userdetails)=>{
+  this.loanleadService.getWithOrganization(userdetails.organizationCode).subscribe(response=>{
+    console.log(response)
+  })
+
+})
+    )
   }
 
   ngOnDestroy() {

@@ -42,11 +42,10 @@ import { LoanLeadEntityService } from "../services/loanleads-entity.service";
 
 @Component({
   selector: 'leadsform',
-  standalone: true,
-  imports: [CommonModule,MatDialogModule,ReactiveFormsModule, MaterialModule],
+  
   templateUrl: './leadsform.component.html',
   styleUrl: './leadsform.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  
 })
 export class LeadsformComponent implements OnInit {
   dialogTitle: string;
@@ -64,9 +63,9 @@ export class LeadsformComponent implements OnInit {
   btnname:string='';
   mortagefield:boolean= false;
   vehicalfield:boolean=false;
-  leadstage:string[]=["Approached","Notapproached"];
-  leadstatus:string[]=["Disbursed","NotApproved","Pending"];
-  leadstatusremarks:any="";
+  leadStage:string[]=["Approached","Notapproached"];
+  leadStatus:string[]=["Disbursed","NotApproved","Pending"];
+  leadStatusRemarks:any="";
   loanleadService: any;
   constructor(
     private fb: FormBuilder,
@@ -87,23 +86,7 @@ export class LeadsformComponent implements OnInit {
     this.btnname = this.mode === 'create' ? 'AddLead' : 'Update';
     this.initializeForm(data.LoanLead);
 
-    this.loanleadForm = this.fb.group({
-      id: [0],
-      amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
-      status: ["", Validators.required],
-      organizationCode: ["", Validators.required],
-      adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
-      loanDate: ["", Validators.required],
-      loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
-      )), Validators.maxLength(30)]],
-      loanType: ["", Validators.required],
-      repaymentStatus: [""],
-      remarks:[""],
-      securityReports:[""],
-      vehicleNo:[""],
-      
-    });
-
+   
     if (this.mode === "update") {
       this.loanleadForm.patchValue({ ...data.Loan });
       this.loanleadForm.get('adharNumber').disable();
@@ -122,9 +105,9 @@ export class LeadsformComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.select(selectUserDetails).subscribe((user) => {
-      this.loanleadForm.get("organizationCode").patchValue(user.organizationCode);
-    });
+    // this.store.select(selectUserDetails).subscribe((user) => {
+    //   this.loanleadForm.get("organizationCode").patchValue(user.organizationCode);
+    // });
   }
 
   onClose() {
@@ -141,14 +124,14 @@ export class LeadsformComponent implements OnInit {
       this.loanleadservice.update(LoanLead)
         .subscribe(() => {
           this.result = "Updated successfully!";
-          this.btnname = "update";
+          // this.btnname = "update";
           this.dialogSaveStatus$ = of(true);
           this.dialogRef.close();
           this.toastr.success("Updated Successfully!","Success");
 
         }, error => {
           this.result = "Update failed!";
-          this.btnname = "update";
+          // this.btnname = "update";
           this.dialogSaveStatus$ = of(false); // Update save status to false
           this.dialogRef.close();
 
@@ -156,7 +139,7 @@ export class LeadsformComponent implements OnInit {
 
         });
     } else if (this.mode == "create") {
-      this.btnname = "save";
+      // this.btnname = "AddLead";
       this.loanleadService.add(LoanLead).subscribe((newLoanLead) => {
         console.log("New Loan", newLoanLead);
         this.result = "Created successfully!"
@@ -166,16 +149,29 @@ export class LeadsformComponent implements OnInit {
     }
   }
   toastrclick(){
-    this.toastr.success("add successfully",'Success');
+    this.toastr.success("added successfully",'Success');
   }
 
    // Initialize form and field visibility directly in the constructor
    
   initializeForm(loanleadData: LoanLead) {
     this.loanleadForm = this.fb.group({
-      loanType: [loanleadData?.loanType || '', Validators.required],
-      // Set up additional form controls here
+      id: [0],
+      amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
+      status: [""],
+      // organizationCode: ["", Validators.required],
+      adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
+      loanDate: ["", Validators.required],
+      loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
+      )), Validators.maxLength(30)]],
+      loanType: ["", Validators.required],
+      repaymentStatus: [""],
+      remarks:[""],
+      securityReports:[""],
+      vehicleNo:[""],
+      
     });
+
 
     // Immediately determine field visibility based on existing data
     this.determineFieldVisibility(loanleadData?.loanType);

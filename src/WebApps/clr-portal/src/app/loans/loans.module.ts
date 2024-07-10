@@ -92,7 +92,7 @@ const entityMetadata: EntityMetadataMap = {
     MatProgressSpinnerModule,
     MaskAadharPipe,
   ],
-  declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent, LeadslistComponent],
+  declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent, LeadslistComponent, LeadsformComponent, LeadslistComponent],
   exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent, LeadslistComponent],
   providers: [LoanEntityService, LoansDataService, LoansResolver, LoanLeadEntityService, LoanLeadDataService],
 })
@@ -101,8 +101,10 @@ export class LoansModule {
     private eds: EntityDefinitionService,
     private entityDataService: EntityDataService,
     private loanDataService: LoansDataService,
+    private loanLeadDataService: LoanLeadDataService
   ) {
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService("Loan", loanDataService);
+    entityDataService.registerService("LoanLead",loanLeadDataService)
   }
 }

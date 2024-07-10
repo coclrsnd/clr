@@ -56,8 +56,8 @@ export class EditLoanDialogComponent implements OnInit {
   btnname:string='';
   mortagefield:boolean= false;
   vehicalfield:boolean=false;
-  pancardnumber:string='';
-  voterid:string='';
+  pancardNumber:string='';
+  voterId:string='';
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLoanDialogComponent>,
@@ -97,8 +97,8 @@ export class EditLoanDialogComponent implements OnInit {
       securityReports:[""],
       vehicleNo:[""],
       
-      pancard:["", Validators.pattern(/^[A-Z0-9]{10}$/)],
-      voterid:["",[Validators.required, Validators.pattern(/^[A-Z0-9]{10}$/)]]
+      panCardNumber:["", Validators.pattern(/^[A-Z0-9]{10}$/)],
+      voterId:["",[Validators.required, Validators.pattern(/^[A-Z0-9]{10}$/)]]
 
     });
 

@@ -106,17 +106,17 @@
         </td>
      </ng-container>
      <!-- voterid -->
-     <ng-container matColumnDef="voterid">
+     <ng-container matColumnDef="voterId">
       <th mat-header-cell *matHeaderCellDef>VoterId</th>
       <td mat-cell *matCellDef="let element">
-        <span> {{ element.voterid }}</span>
+        <span> {{ element.voterId }}</span>
       </td>
    </ng-container>
    <!-- pancard -->
-   <ng-container matColumnDef="pancardnumber">
+   <ng-container matColumnDef="panCardNumber">
     <th mat-header-cell *matHeaderCellDef>Pancard Number</th>
     <td mat-cell *matCellDef="let element">
-      <span> {{ element.pancardnumber }}</span>
+      <span> {{ element.panCardNumber }}</span>
     </td>
  </ng-container>
       <!-- loantype -->
@@ -165,3 +165,4 @@
 
 </div>
 <div *ngIf="!dataSource.data || dataSource.data?.length<=0"> <p>No records found</p> </div>
+

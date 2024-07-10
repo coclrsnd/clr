@@ -95,22 +95,22 @@
         <div class="form-control" *ngIf="mode === 'update'">
             <mat-form-field appearance="outline">
               <mat-label>Lead Stage</mat-label>
-              <mat-select formControlName="leadstage" (selectionChange)="onStatusChange($event.value)">
-                <mat-option *ngFor="let stage of leadstage" [value]="stage">{{stage}}</mat-option>
+              <mat-select formControlName="leadStage" (selectionChange)="onStatusChange($event.value)">
+                <mat-option *ngFor="let stage of leadStage" [value]="stage">{{stage}}</mat-option>
               </mat-select>
             </mat-form-field>
-            <div class="err" *ngIf="loanleadForm.get('leadstage').invalid && (loanleadForm.get('leadstage').dirty || loanleadForm.get('leadstage').touched)">
+            <div class="err" *ngIf="loanleadForm.get('leadStage').invalid && (loanleadForm.get('leadstage').dirty || loanleadForm.get('leadstage').touched)">
               <div class="errormsg" *ngIf="loanleadForm.get('leadstage').hasError('required'); " >Lead required</div >
             </div>
           </div>
     
 
         <!-- Lead status-->
-        <div *ngIf="mode === 'update' && loanleadForm.get('leadstage').value === 'Approached'" class="form-control">
+        <div *ngIf="mode === 'update' && loanleadForm.get('leadStage').value === 'Approached'" class="form-control">
             <mat-form-field appearance="outline">
               <mat-label>Lead Status</mat-label>
-              <mat-select formControlName="leadstatus" (selectionChange)="onStatusChange($event.value)">
-                <mat-option *ngFor="let status of leadstatus" [value]="status">{{status}}</mat-option>
+              <mat-select formControlName="leadStatus" (selectionChange)="onStatusChange($event.value)">
+                <mat-option *ngFor="let status of leadStatus" [value]="status">{{status}}</mat-option>
               </mat-select>
             </mat-form-field>
             <div class="err" *ngIf="loanleadForm.get('loanType').invalid && (loanleadForm.get('loanType').dirty || loanleadForm.get('loanType').touched)">
@@ -123,7 +123,7 @@
             <div class="form-control" *ngIf="mode === 'update'">
               <mat-form-field appearance="outline">
                 <mat-label>Remarks</mat-label>
-                <textarea matInput formControlName="remarks" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
+                <textarea matInput formControlName="leadStatusRemarks" cdkTextareaAutosize #autosize="cdkTextareaAutosize"
                 cdkAutosizeMinRows="0.265" cdkAutosizeMaxRows="5"></textarea>
               </mat-form-field>
             </div>
@@ -144,3 +144,4 @@
   </button>
   <div class="successmsg" *ngIf="result">{{result}} </div>
 </mat-dialog-actions>
+
