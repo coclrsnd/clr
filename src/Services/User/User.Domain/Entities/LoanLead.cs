@@ -9,7 +9,7 @@ namespace User.Domain.Entities
 {
     public class LoanLead:EntityBase
     {
-        public DateTime LoanDate { get; set; }
+        public DateTime LoanDate {  get; set; }
         public string LoanBorrower { get; set; }
         public string AdharNumber { get; set; }
         public string OrganizationCode { get; set; }

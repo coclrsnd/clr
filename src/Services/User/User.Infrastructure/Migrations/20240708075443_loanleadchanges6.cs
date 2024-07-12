@@ -11,11 +11,11 @@ namespace User.Infrastructure.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Pancard",
+                name: "PanCardNumber",
                 table: "LoanLeads");
 
             migrationBuilder.DropColumn(
-                name: "Voterid",
+                name: "VoterId",
                 table: "LoanLeads");
         }
 
@@ -23,14 +23,14 @@ namespace User.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Pancard",
+                name: "PanCardNumber",
                 table: "LoanLeads",
                 type: "text",
                 nullable: false,
                 defaultValue: "");
 
             migrationBuilder.AddColumn<string>(
-                name: "Voterid",
+                name: "VoterId",
                 table: "LoanLeads",
                 type: "text",
                 nullable: false,
