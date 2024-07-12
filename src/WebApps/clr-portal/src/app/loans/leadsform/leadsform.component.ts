@@ -22,7 +22,7 @@ import { Observable } from "rxjs";
 // import { LoanEntityService } from "../services/loan-entity.service";
 import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
-import { Store } from "@ngrx/store";
+import { Store, UPDATE } from "@ngrx/store";
 import { selectUserDetails } from "../../auth/auth.selectors";
 import {ErrorStateMatcher} from '@angular/material/core';
 import { of } from "rxjs";
@@ -154,28 +154,29 @@ export class LeadsformComponent implements OnInit {
 
    // Initialize form and field visibility directly in the constructor
    
-  initializeForm(loanleadData: LoanLead) {
+   initializeForm(loanleadData: LoanLead) {
+    // Initialize the form with common fields
     this.loanleadForm = this.fb.group({
-      id: [0],
-      amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
-      status: [""],
-      // organizationCode: ["", Validators.required],
-      adharNumber: [{value:"",disabled:this.disableAdhar}, [Validators.required,Validators.pattern(/^[0-9]{12}$/)]],
-      loanDate: ["", Validators.required],
-      loanBorrower: ["", [Validators.required, Validators.pattern((/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/
-      )), Validators.maxLength(30)]],
-      loanType: ["", Validators.required],
-      repaymentStatus: [""],
-      remarks:[""],
-      securityReports:[""],
-      vehicleNo:[""],
-      
+      id: [loanleadData?.id || 0],
+      amount: [loanleadData?.amount || '', [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
+      adharNumber: [{ value: loanleadData?.adharNumber || '', disabled: this.disableAdhar }, [Validators.required, Validators.pattern(/^[0-9]{12}$/)]],
+      loanDate: [loanleadData?.loanDate || '', Validators.required],
+      loanBorrower: [loanleadData?.loanBorrower || '', [Validators.required, Validators.pattern(/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/), Validators.maxLength(30)]],
+      loanType: [loanleadData?.loanType || '', Validators.required],
+      securityReports: [loanleadData?.securityReports || ''],
+      vehicleNo: [loanleadData?.vehicleNo || ''],
     });
 
+    // Add fields conditionally if the mode is 'update'
+    if (this.mode === 'update') {
+      this.loanleadForm.addControl('leadStage', this.fb.control(loanleadData?.leadStage || '', Validators.required));
+      this.loanleadForm.addControl('leadStatus', this.fb.control(loanleadData?.leadStatus || ''));
+      this.loanleadForm.addControl('leadStatusRemarks', this.fb.control(loanleadData?.leadStatusRemarks || ''));
+    }
 
     // Immediately determine field visibility based on existing data
     this.determineFieldVisibility(loanleadData?.loanType);
-  }
+}
 
   determineFieldVisibility(loanType: string | undefined) {
     this.mortagefield = loanType === 'Mortgage Loan';

@@ -1,5 +1,5 @@
 export interface LoanLead {
-    
+    amount: string;
     organizationCode: string;
     organizationName: string;
     adharNumber: string;
