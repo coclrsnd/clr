@@ -25,7 +25,9 @@ flex-direction: column;}
   display: flex;
   flex-direction: column;
  }
-
+.tableOptions{
+  margin-top: 1%;
+}
 .tableOptions[_ngcontent-ng-c1339349165] {
   width: 100%;
 }

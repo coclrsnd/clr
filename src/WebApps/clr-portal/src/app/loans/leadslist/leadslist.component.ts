@@ -1,3 +1,4 @@
+
 import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
@@ -6,8 +7,8 @@ import { Store, select } from "@ngrx/store";
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { switchMap, tap } from "rxjs/operators";
 import { defaultDialogConfig } from "../shared/default-dialog-config";
-import { Loan } from "../model/loan";
-import { LoanEntityService } from "../services/loan-entity.service";
+// import { Loan } from "../model/loan";
+// import { LoanEntityService } from "../services/loan-entity.service";
 import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { selectUserDetails } from "../../auth/auth.selectors";
@@ -30,15 +31,16 @@ import { LoansModule } from "../loans.module";
 import { ToastrService } from "ngx-toastr";
 import { MatSelectChange } from "@angular/material/select";
 import { MaskAadharPipe } from "../../mask-aadhar.pipe";
-interface TableColumn {
-  key: string;
-  displayName: string;
-}
+import { LoanLead } from "../model/loanlead";
+import { LoanLeadEntityService } from "../services/loanleads-entity.service";
+
+
+
 
 @Component({
-  selector: "loan-list",
-  templateUrl: "./loan-list.component.html",
-  styleUrls: ["./loan-list.component.css"],
+  selector: 'leadslist',
+  templateUrl: './leadslist.component.html',
+  styleUrl: './leadslist.component.css',
   animations: [
     trigger('expandCollapse', [
       state('collapsed', style({ height: '0px', overflow: 'scroll' })),
@@ -48,15 +50,9 @@ interface TableColumn {
   ],
 })
 
-
-export class LoanListComponent implements OnInit, OnDestroy {
-  filterControl = new FormControl("", [
-    Validators.required,
-    Validators.pattern(/^[0-9]{12}$/),
-
-  ]);
+export class LeadslistComponent implements OnInit, OnDestroy {
   isHidden: boolean = true;
-  dataSource = new MatTableDataSource<Loan>();
+  dataSource = new MatTableDataSource<LoanLead>();
   loading$: Observable<boolean>;
   errorMsg = '';
   fromDate = new FormControl('');
@@ -67,52 +63,25 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "adharNumber",
     "organizationName",
     "loanType",
-    "amount",
-    "status",
-    "repaymentStatus",
-    "suretyholder1",
-    "suretyholder1Adhar",
-    "suretyholder2",
-    "suretyholder2Adhar",
-    "voterId",
-    "panCardNumber",
+    "leadStage",
+    "leadStatus",
+    "leadStatusRemarks",
     "actions",
   ];
   userDetails$: Observable<User>;
-  showCurrentOrgsLoans: boolean = true;
+  showCurrentOrgsLeads: boolean = true;
   private adharNumberSubject = new BehaviorSubject<string>(null);
-  private adharNumberSubscription: Subscription;
   private _adharNumber: string;
   errormsg:string='';
-  selectedLoan: Loan | null = null;
+  selectedLead: LoanLead | null = null;
   currentDate = new Date();
-
- 
-  defaultColumns: string[] = ["loanDate",'loanBorrower','adharNumber','organizationName','loanType','amount','status','repaymentStatus','actions'];
   columns = new FormControl([]);
-  columnsList: TableColumn[] = [
-    { key: 'loanDate', displayName: 'Loan Date' },
-    { key: 'loanBorrower', displayName: 'Borrower' },
-    { key: 'adharNumber', displayName: 'Adhar Number' },
-    { key: 'organizationName', displayName: 'Organization' },
-    { key: 'loanType', displayName: 'Loan Type' },
-    { key: 'amount', displayName: 'Amount' },
-    { key: 'status', displayName: 'Status' },
-    { key: 'repaymentStatus', displayName: 'Repayment Status' },
-    { key: 'suretyholder1', displayName: '1st Surety' },
-    { key: 'suretyholder1Adhar', displayName: '1st Surety Adhar' },
-    { key: 'suretyholder2', displayName: '2nd Surety' },
-    { key: 'suretyholder2Adhar', displayName: '2nd Surety Adhar' },
-    { key: 'voterId', displayName: 'Voter Id' },
-    { key: 'panCardNumber', displayName: 'Pancard Number' },
-    { key: 'actions', displayName: 'Actions' }
-  ];
-  // displayedColumns: string[] = [];
   columnsToDisplay: string[] = [];
+  private subscriptions = new Subscription();
 
   constructor(
     private dialog: MatDialog,
-    private loanService: LoanEntityService,
+    private loanleadService: LoanLeadEntityService,
     private route: ActivatedRoute,
     private store: Store<AppState>,
     private printingService: PrintingService,
@@ -122,7 +91,6 @@ export class LoanListComponent implements OnInit, OnDestroy {
   ) {}
 
   @ViewChild(MatSort) sort: MatSort;
-  @ViewChild(MatPaginator) paginator:MatPaginator;
   @ViewChild(MatTable) table: MatTable<any>;
 
   ngAfterViewInit() {
@@ -140,40 +108,25 @@ export class LoanListComponent implements OnInit, OnDestroy {
     }
   }
   ngOnInit() {
-    this.columns.setValue(this.defaultColumns);  // Set default columns on load
-    this.updateDisplayedColumns();
+    // this.subscriptions.add(this.loanleadService.getWithOrganization().subscribe(data => {
+    //   this.dataSource.data = data;
+    //   this.dataSource.sort = this.sort;
+    // }));
+    this.store.pipe(
+select(selectUserDetails),
+tap((userdetails)=>{
+  this.loanleadService.getWithOrganization(userdetails.organizationCode).subscribe(response=>{
+    console.log(response)
+  })
 
-    this.userDetails$ = this.store.pipe(select(selectUserDetails));
-    this.adharNumberSubscription = this.adharNumberSubject
-      .pipe(
-        switchMap((adharNumber) => {
-          if (adharNumber) {
-            return this.loanService.getWithAdhar(adharNumber);
-          } else {
-            return this.store.pipe(
-              select(selectUserDetails),
-              switchMap((user) => {
-                return this.loanService.getWithOrganization(
-                  user.organizationCode,
-                );
-              }),
-            );
-          }
-        }),
-      )
-      .subscribe((loans) => {
-        this.dataSource.data = loans;
-        this.selectedLoan = loans && loans.length > 0 ? loans[0] : null;
-        this.dataSource.paginator=this.paginator;
-      }
-    );
-
+})
+    )
   }
 
   ngOnDestroy() {
-    if (this.adharNumberSubscription) {
-      this.adharNumberSubscription.unsubscribe();
-    }
+   
+      this.subscriptions.unsubscribe();
+    
   }
 
   @Input()
@@ -183,17 +136,17 @@ export class LoanListComponent implements OnInit, OnDestroy {
   }
 
 
-  editLoan(loan: Loan) {
+  editLoan(loanlead: LoanLead) {
     const dialogConfig = defaultDialogConfig();
 
     dialogConfig.data = {
-      dialogTitle: "Edit Loan",
-      Loan: loan,
+      dialogTitle: "Edit LoanLead",
+      LoanLead: loanlead,
       mode: "update",
     };
 
     this.dialog
-      .open(EditLoanDialogComponent, dialogConfig)
+      .open(LeadslistComponent, dialogConfig)
       .afterClosed()
       .subscribe((response) => {
         this.adharNumberSubject.next(this._adharNumber);
@@ -203,8 +156,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
   addLoan() {
     const dialogConfig = defaultDialogConfig();
     dialogConfig.data = {
-      dialogTitle: "Edit Loan",
-      loan: null,
+      dialogTitle: "Add LoanLead",
+      loanlead: null,
       mode: "create",
     };
 // LoanListComponent.dialog: MatDialog
@@ -216,16 +169,16 @@ export class LoanListComponent implements OnInit, OnDestroy {
       });
   }
 
-  onCheck(checked: boolean) {
-    if (checked) {
-      this.showCurrentOrgsLoans = true;
-      this.adharNumberSubject.next(null);
-    } else {
-      this.showCurrentOrgsLoans = false;
-      // this.displayedColumns.splice(this.displayedColumns.length - 2, 0, 'organizationName');
-      if (this) this.adharNumberSubject.next(this._adharNumber);
-    }
-  }
+  // onCheck(checked: boolean) {
+  //   if (checked) {
+  //     this.showCurrentOrgsLeads = true;
+  //     this.adharNumberSubject.next(null);
+  //   } else {
+  //     this.showCurrentOrgsLeads = false;
+      
+  //     if (this) this.adharNumberSubject.next(this._adharNumber);
+  //   }
+  // }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -270,42 +223,5 @@ export class LoanListComponent implements OnInit, OnDestroy {
   isHovering(elementId: string): boolean {
     return !!this.hoverStates[elementId];  // Ensure undefined states are treated as false
   }
-
-  selectedColumnsDisplay(): string {
-    // Filter out default columns from the display
-    const userSelectedColumns = this.columns.value.filter(col => !this.defaultColumns.includes(col));
-    return userSelectedColumns.length > 0 ?
-      this.columnsList.filter(col => userSelectedColumns.includes(col.key))
-        .map(col => col.displayName)
-        .join(', ') : 'Select columns';
-  }
-  
-
-  addColumn(event: MatSelectChange): void {
-    // Update FormControl to include only selected columns that are not default
-    this.columns.setValue([
-      ...this.defaultColumns,
-      ...event.value.filter(col => !this.defaultColumns.includes(col))
-    ]);
-    this.updateDisplayedColumns();
-    this.table.renderRows();  // Refresh the table to show changes
-  }
-  
-  updateDisplayedColumns(): void {
-    // Initialize an array to hold the current state of selected columns.
-    let updatedColumns = [];
-  
-    // Loop through the predefined order of columns.
-    this.displayedColumns.forEach(column => {
-      // Check if the column is included in the FormControl value (i.e., it has been selected by the user or is a default column).
-      if (this.columns.value.includes(column)) {
-        updatedColumns.push(column);  // Add it to the updatedColumns array in the correct order.
-      }
-    });
-  
-    // Update the columnsToDisplay with the correctly ordered columns.
-    this.columnsToDisplay = updatedColumns;
-  }
-  
   
 }

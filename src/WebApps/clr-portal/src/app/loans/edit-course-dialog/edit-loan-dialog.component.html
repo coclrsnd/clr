@@ -15,8 +15,10 @@
     </h3>
   </div>
 </div>
+
 <mat-dialog-content>
   <form [formGroup]="loanForm" (ngSubmit)="onSave()">
+    <!-- date -->
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Loan Date</mat-label>
@@ -35,16 +37,8 @@
         <div class="errormsg" *ngIf="loanForm.controls['loanDate'].hasError('required')" >Date required</div >
       </div>
     </div>
-    <div class="form-control">
-      <mat-form-field appearance="outline">
-        <mat-label>Adhar Number</mat-label>
-        <input matInput formControlName="adharNumber" (keypress)="numericOnly($event)"  />
-      </mat-form-field>
-      <div class="err" *ngIf="loanForm.get('adharNumber').invalid && (loanForm.get('adharNumber').dirty || loanForm.get('adharNumber').touched)">
-        <div class="errormsg" *ngIf="loanForm.get('adharNumber').hasError('required'); " >Aadhar required</div >
-        <div class="errormsg" *ngIf="loanForm.get('adharNumber').hasError('pattern')" >Not a valid Adhar number</div >
-      </div>
-    </div>
+
+    <!-- borrower -->
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Borrower</mat-label>
@@ -56,6 +50,58 @@
         <div class="errormsg" *ngIf="!loanForm.get('loanBorrower').hasError('pattern') && loanForm.get('loanBorrower').hasError('maxlength') " >Names too long</div >
       </div>
     </div>
+
+    <!-- aadhar -->
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Adhar Number</mat-label>
+        <input matInput formControlName="adharNumber" (keypress)="numericOnly($event)"  />
+      </mat-form-field>
+      <div class="err" *ngIf="loanForm.get('adharNumber').invalid && (loanForm.get('adharNumber').dirty || loanForm.get('adharNumber').touched)">
+        <div class="errormsg" *ngIf="loanForm.get('adharNumber').hasError('required'); " >Aadhar required</div >
+        <div class="errormsg" *ngIf="loanForm.get('adharNumber').hasError('pattern')" >Not a valid Adhar number</div >
+      </div>
+    </div>
+
+     <!-- voterid-->
+     <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>VoterId</mat-label>
+        <input matInput formControlName="voterId" (input)="convertToUpperCase($event)"/>
+      </mat-form-field>
+      <div class="err" *ngIf="loanForm.get('voterId').invalid && (loanForm.get('voterId').dirty || loanForm.get('voterId').touched)">
+        <div class="errormsg" *ngIf="loanForm.get('voterId').hasError('required'); " >voterid required</div>
+        <div class="errormsg" *ngIf="loanForm.get('voterId').hasError('pattern')" >Not a valid voterid</div>
+      </div>
+    </div>
+
+     <!-- pancard -->
+     <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Pancard Number</mat-label>
+        <input matInput formControlName="panCardNumber" (input)="convertToUpperCase($event)"/>
+      </mat-form-field>
+      <div class="err" *ngIf="loanForm.get('panCardNumber').invalid">
+        <div class="errormsg" *ngIf="loanForm.get('panCardNumber').hasError('pattern')" >Not a valid pan number</div >
+       </div>
+    </div>
+    
+    <!-- status -->
+      
+        <div class="form-control">
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+              <mat-select formControlName="status">
+               <mat-option *ngFor="let type of loanStatuType" [value]="type">{{type}}
+               </mat-option>
+             </mat-select>
+          </mat-form-field>
+          <div class="err" *ngIf="loanForm.get('status').invalid && (loanForm.get('status').dirty || loanForm.get('status').touched)">
+           <div class="errormsg" *ngIf="loanForm.get('status').hasError('required');">Status required</div>
+          </div>
+        </div>
+     
+    <!-- type -->
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Type</mat-label>
@@ -69,6 +115,7 @@
         <div class="errormsg" *ngIf="loanForm.get('loanType').hasError('required'); " >Loan type required</div >
       </div>
     </div>
+    <!-- amount -->
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Amount</mat-label>
@@ -85,18 +132,7 @@
         <div class="errormsg" *ngIf="loanForm.get('amount').hasError('pattern')" >Invalid amount range </div >
       </div>
       </div>
-    <div class="form-control">
-      <mat-form-field appearance="outline">
-        <mat-label>Status</mat-label>
-        <mat-select formControlName="status">
-          <mat-option *ngFor="let type of loanStatuType" [value]="type">{{type}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div class="err" *ngIf="loanForm.get('status').invalid && (loanForm.get('status').dirty || loanForm.get('status').touched)">
-        <div class="errormsg" *ngIf="loanForm.get('status').hasError('required'); " >Status required</div>
-      </div>
-    </div>
+      <!-- repayments -->
     <ng-container *ngIf="mode==='update'">
       <div class="form-control">
         <mat-form-field appearance="outline">
@@ -112,6 +148,7 @@
         </div>
       </div>
      </ng-container>
+     <!-- remarks -->
      <ng-container>
       <div class="form-control" *ngIf="mode === 'update'">
         <mat-form-field appearance="outline">
@@ -189,9 +226,7 @@
             <input matInput formControlName="vehicleNo"/>
           </mat-form-field>
         </div>
-      </ng-container>
-
-
+      </ng-container>   
   </form>
 </mat-dialog-content>
 

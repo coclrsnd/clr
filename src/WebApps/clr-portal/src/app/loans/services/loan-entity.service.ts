@@ -11,6 +11,7 @@ import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
+  
   constructor(
     serviceElementsFactory: EntityCollectionServiceElementsFactory,
     private http: HttpClient,
@@ -45,6 +46,8 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       suretyholder2Adhar
       suretyholder1
       suretyholder2
+      voterId
+      panCardNumber
     }
   }
   `;
@@ -74,6 +77,8 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
       suretyholder2Adhar
       suretyholder1
       suretyholder2
+      voterId
+      panCardNumber
     }
   }
   `;

@@ -56,6 +56,8 @@ export class EditLoanDialogComponent implements OnInit {
   btnname:string='';
   mortagefield:boolean= false;
   vehicalfield:boolean=false;
+  pancardNumber:string='';
+  voterId:string='';
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLoanDialogComponent>,
@@ -94,12 +96,16 @@ export class EditLoanDialogComponent implements OnInit {
       remarks:[""],
       securityReports:[""],
       vehicleNo:[""],
+      
+      panCardNumber:["", Validators.pattern(/^[A-Z0-9]{10}$/)],
+      voterId:["",[Validators.required, Validators.pattern(/^[A-Z0-9]{10}$/)]]
 
     });
 
 
     if (this.mode === "update") {
-      this.loanForm.patchValue({ ...data.Loan });
+      const statusdata = { status: 'Active' };
+      this.loanForm.patchValue({ ...data.Loan,...statusdata });
       this.loanForm.get('adharNumber').disable();
       if (data.Loan.suretyholder1Adhar && data.Loan.suretyholder1Adhar.trim() !== '') {
         this.loanForm.get('suretyholder1Adhar').disable();
@@ -111,6 +117,11 @@ export class EditLoanDialogComponent implements OnInit {
       } else {
         this.loanForm.get('suretyholder2Adhar').enable(); // Enable if empty
       }
+
+      this.loanForm.get('status').enable();
+    }
+    else{
+      this.loanForm.get('status').disable();
     }
 
 
@@ -176,9 +187,6 @@ export class EditLoanDialogComponent implements OnInit {
   }
 
    // Initialize form and field visibility directly in the constructor
-
-
-
   initializeForm(loanData: Loan) {
     this.loanForm = this.fb.group({
       loanType: [loanData?.loanType || '', Validators.required],
@@ -194,8 +202,6 @@ export class EditLoanDialogComponent implements OnInit {
     this.vehicalfield = loanType === 'Vehicle Loan';
   }
 
-
-
   onStatusChange(value: string) {
     if (value === 'Mortgage Loan') {
       this.mortagefield = true;
@@ -210,5 +216,10 @@ export class EditLoanDialogComponent implements OnInit {
       }
       this.determineFieldVisibility(value);
     this.cdr.detectChanges();
+  }
+
+  convertToUpperCase(event: any): void{
+    const input= event.target;
+    input.value= input.value.toUpperCase();
   }
 }

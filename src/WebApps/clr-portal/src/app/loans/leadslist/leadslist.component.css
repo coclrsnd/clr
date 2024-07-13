@@ -1,0 +1,248 @@
+
+.loanclass{width: 100%;
+    display: flex;
+    flex-direction: column;}
+    .course-card {
+        margin: 20px 10px;
+    }
+    
+    .course-actions {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .course-actions button {
+      margin-right: 5px;
+    }
+    
+    .addicon{
+      background-color: #03a4ed;
+      color: white;
+      border-radius: 50px;
+    }
+    
+     .tableprint{
+      display: flex;
+      flex-direction: column;
+     }
+    
+    button.mat-warn {
+      --mdc-icon-button-icon-color: #03a4ed;
+      --mat-icon-button-state-layer-color:#03a4ed;
+      --mat-icon-button-ripple-color: #03a3edea;;
+    }
+    
+    .tablestylesclass{
+      width: 100%;
+      flex-direction: column;
+      justify-content: center; 
+      align-items: center;
+    }
+    
+    table {
+      width: 100%;
+      position: relative;
+      border-collapse: collapse;
+      border: 1px solid #14a9ee;
+    }
+    
+    tr th{
+    width: 10%;
+    background-color: #03a4ed;
+    color: white;
+    font-weight: 500;
+    font-size: 1.3em;
+    box-shadow: 1px 1px 5px #03a4ed; 
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #14a9ee;
+    }
+    
+    .table-responsive {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+    }
+    
+    .mat-mdc-cell {
+    white-space: nowrap;
+    }
+    
+    
+    td {
+      padding: 8px;
+      border: 1px solid #03a4ed;
+    }
+    
+    .tableprint{ width: 100%;
+      display: flex; 
+    }
+    
+    .printbutton{
+      margin-left: 60%;
+    }
+    
+    .tableOptions{
+      display:flex;
+     
+      mat-checkbox{
+        margin-top:5px;
+      }
+      .form-control{
+        margin-right:5px;
+      }
+    } 
+    
+    .filterdatebtn{
+      background-color: transparent;
+      border: none ;
+      outline: none ;
+      margin-left: 10px;
+      font-size: 18px;
+    }
+    .filterdatebtn:hover{
+      color: #03a4ed;
+      transition: color 0.3s ease;
+    }
+    
+    .panel-container {
+      overflow: hidden;
+      transition: height 0.3s ease; 
+    }
+    
+    .panel-content {
+      margin: 2px;
+      padding: 2px;
+      background-color: #fdfbfb;
+    }
+     .visi{
+      font-size: 16px;
+    }
+    
+    .active{
+      font-size: medium;
+      background-color: #e8fadf !important;
+      color: #00a67e !important;
+      /* font-weight: 600;  */
+      text-wrap: nowrap;
+      border-radius: 5px;
+     padding: 5px;
+     text-shadow: 0.1px 0px 0px #69d84f;
+    }
+    
+    .inactive{
+      font-size: medium;
+      background-color: #ffe0db !important;
+     color:#ff3e1d !important;
+     border-color: #ffc5bb;
+     text-wrap: nowrap;
+     /* font-weight: 600; */
+     border-radius: 5px;
+     padding: 5px;
+     text-shadow: 0.1px 0px 0px rgb(255, 62, 62);
+    }
+    
+    .ots{
+    font-size: medium;
+     background-color: #e7d2fa !important;
+     color: #9b51e0 !important;
+     border-color: #8709fd;
+     text-wrap: nowrap;
+     font-weight: 600;
+     border-radius: 5px;
+     padding: 5px;
+    }
+    
+    .closed{
+      font-size: medium;
+     color: black;
+     background-color: #f0ecea !important;
+     border-color: #494240;
+     border-radius: 5px;
+     padding: 5px;
+     text-wrap: nowrap;
+    }
+     .mat-mdc-header-row {
+      background-color: #03a4ed;
+      position: sticky;
+      z-index: 100;
+      top:-5px;
+    }
+    
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto; 
+      height: fit-content;
+      max-height: 380px;
+    }
+    .spinner-container {
+      position: absolute;
+      top: 100;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: rgba(255, 255, 255, 0.8); 
+      z-index: 10;
+    }
+    .print-details{
+      display: none;
+      visibility: hidden;
+    }
+    
+    
+    @media print {
+      .tableprint {
+        visibility: hidden;
+      }
+      @page {
+        margin: 10mm;
+      }
+    
+    .table-responsive{
+      margin-top: 15mm;
+      visibility: visible;
+      overflow: visible;
+      height: fit-content;
+    }
+      .table-container {
+        width: 100%; 
+        max-width: none;
+      }
+      .print-details{
+        display: block;
+        visibility: visible;
+        margin-left: 0;
+        padding-bottom: 10px;
+        padding-left: 0;
+      }
+     
+      table {
+        margin: 1px;
+        display: flex;
+        justify-content: center;
+        border-spacing: 0;
+        border-collapse: collapse;
+        overflow: visible;
+        max-width: none;
+      }
+    
+      th, td {
+            padding: 8px;
+            overflow: hidden; 
+            white-space: nowrap; 
+            text-overflow: ellipsis; 
+      }
+      .action, .borrower, .adhar, mat-icon{
+        visibility: hidden;
+        display: none;
+      }
+    .table-responsive {
+      overflow: visible;
+    }
+    }
+    
+    
+    
