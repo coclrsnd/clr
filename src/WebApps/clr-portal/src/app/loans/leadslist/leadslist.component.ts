@@ -81,6 +81,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
   columns = new FormControl([]);
   columnsToDisplay: string[] = [];
   private subscriptions = new Subscription();
+  private adharNumberSubscription: Subscription;
 
   constructor(
     private dialog: MatDialog,
@@ -114,21 +115,32 @@ export class LeadslistComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.userDetails$ = this.store.pipe(select(selectUserDetails));
-
-    this.store.pipe(
-      select(selectUserDetails),
-      switchMap((user) => {
-        return this.loanleadService.getWithOrganization(
-          user.organizationCode,
-        );
+    this.adharNumberSubscription = this.adharNumberSubject
+    .pipe(
+      switchMap((adharNumber) => {
+        if (adharNumber) {
+          return this.loanleadService.getWithAdhar(adharNumber);
+        } else {
+          return this.store.pipe(
+            select(selectUserDetails),
+            switchMap((user) => {
+              return this.loanleadService.getWithOrganization(
+                user.organizationCode,
+              );
+            }),
+          );
+        }
       }),
-    ).subscribe((leads)=>{
-      this.dataSource.data = leads;
+    )
+    .subscribe((loans) => {
+      this.dataSource.data = loans;
     });
+
   }
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe();
+    this.adharNumberSubscription.unsubscribe();
   }
 
   @Input()
@@ -147,11 +159,11 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     };
 
     this.dialog
-      .open(LeadsformComponent, dialogConfig)
-      .afterClosed()
-      .subscribe((response) => {
-        this.adharNumberSubject.next(this._adharNumber);
-      });
+    .open(LeadsformComponent, dialogConfig)
+    .afterClosed()
+    .subscribe((response) => {
+      this.adharNumberSubject.next(this._adharNumber);
+    });
   }
 
   addLoan() {
@@ -163,7 +175,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     };
     // LoanListComponent.dialog: MatDialog
     this.dialog
-      .open(EditLoanDialogComponent, dialogConfig)
+      .open(LeadsformComponent, dialogConfig)
       .afterClosed()
       .subscribe((response) => {
         this.adharNumberSubject.next(this._adharNumber);

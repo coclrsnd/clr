@@ -13,6 +13,7 @@ namespace User.Domain.Entities
         public string LoanBorrower { get; set; }
         public string AdharNumber { get; set; }
         public string OrganizationCode { get; set; }
+        public string OrganizationName { get; set; }
         public string LoanType { get; set; }
         public string? LeadStage { get; set; }
         public string? LeadStatus { get; set; }

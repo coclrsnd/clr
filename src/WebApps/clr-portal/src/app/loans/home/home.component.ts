@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     adharOrVoterValidator(),
   ]);
 
-  aadharNumber: string;
+  adharNumber: string;
   voterId: string = "";
   loading = false;
   printbtn: boolean = false;
@@ -88,7 +88,7 @@ export class HomeComponent implements OnInit {
         .subscribe(
           (value) => {
             // this.cleanform=false;
-            this.aadharNumber = value;
+            this.adharNumber = value;
             this.loading = false;
             this.printbtn = true;
             this.cdr.markForCheck();

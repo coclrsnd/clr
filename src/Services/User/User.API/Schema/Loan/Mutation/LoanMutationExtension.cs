@@ -64,28 +64,44 @@ namespace User.GraphQL.Schema.Loan.Mutation
         }
 
         [UseApplicationDbContext]
-
-        public async Task<int> SaveLoanLead([ScopedService] UserContext context, LoanLeadRequestModel loanLeadRequestInput, CancellationToken cancellationToken)
+        public async Task<int> SaveLoanLead(
+            [ScopedService] UserContext context,
+            LoanLeadRequestModel loanLeadRequestInput,
+            CancellationToken cancellationToken)
         {
             try
             {
-                if(loanLeadRequestInput.Id<=0)
+                var orgName = context.Organizations
+                            .Where(org => org.Code == loanLeadRequestInput.OrganizationCode)
+                            .FirstOrDefault().Name;
+                if (loanLeadRequestInput.Id <= 0)
                 {
                     var loanleadmodel = _mapper.Map<LoanLead>(loanLeadRequestInput);
-
+                    loanleadmodel.LeadStage = "Approached";
+                    loanleadmodel.LeadStatus = "Pending";
+                    loanleadmodel.OrganizationName = orgName;
                     var entity = context.LoanLeads.Add(loanleadmodel);
                     await context.SaveChangesAsync();
                     return entity.Entity.Id;
                 }
                 else
-                {
+                {                    
                     var loanleadmodel = _mapper.Map<LoanLead>(loanLeadRequestInput);
-
+                    
+                    loanleadmodel.OrganizationName = orgName;
                     var entity = context.LoanLeads.Update(loanleadmodel);
+
+                    if (loanleadmodel.LeadStatus == "Disbursed")
+                    {
+                        var loan = _mapper.Map<Loans>(loanLeadRequestInput);
+                        loan.LoanDate = DateTime.UtcNow;
+                        loan.OrganizationName = orgName;
+                        loan.Status = "Active";
+                        context.Loans.Add(loan);
+                    }
                     await context.SaveChangesAsync();
                     return entity.Entity.Id;
                 }
-              
             }
 
             catch (Exception ex)
@@ -147,7 +163,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
                     Debug.WriteLine(json);
                 }
 
-                var organizationName = context.Organizations.Where(org=>org.Code == bulkUploadRequest.OrganizationCode).FirstOrDefault().Name;
+                var organizationName = context.Organizations.Where(org => org.Code == bulkUploadRequest.OrganizationCode).FirstOrDefault().Name;
 
                 var loans = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Loans>>(json);
                 loans.ForEach(loan =>

@@ -116,7 +116,9 @@ export class LeadsformComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.select(selectUserDetails).subscribe((user) => {
-      this.loanleadForm.get("organizationCode").patchValue(user.organizationCode);
+      this.loanleadForm
+        .get("organizationCode")
+        .patchValue(user.organizationCode);
     });
   }
 
@@ -125,12 +127,14 @@ export class LeadsformComponent implements OnInit {
   }
 
   onSave() {
-    const loanLead: LoanLead = {
-      ...this.loanlead,
-      ...this.loanleadForm.value,
-    };
+
 
     if (this.mode == "update") {
+      const loanLead: LoanLead = {
+        ...this.loanleadForm.value,
+      };
+      loanLead.adharNumber = this.loanleadForm
+      .get("adharNumber").value;
       this.loanLeadService.update(loanLead).subscribe(
         () => {
           this.result = "Updated successfully!";
@@ -149,6 +153,10 @@ export class LeadsformComponent implements OnInit {
         },
       );
     } else if (this.mode == "create") {
+      const loanLead: LoanLead = {
+        ...this.loanlead,
+        ...this.loanleadForm.value,
+      };
       // this.btnname = "AddLead";
       this.loanLeadService.add(loanLead).subscribe((newLoanLead) => {
         console.log("New Loan", newLoanLead);

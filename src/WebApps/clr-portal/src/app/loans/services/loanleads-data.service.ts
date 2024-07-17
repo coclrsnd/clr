@@ -45,8 +45,8 @@ export class LoanLeadDataService extends DefaultDataService<LoanLead> {
     return this.http.post<LoanLead>(environment.apiUrl, {
       query: this.CREATE_LOAN_LEAD_QUERY,
       variables: {
-        loanRequest: {
-          loanRequestInput: loan,
+        input: {
+          loanLeadRequestInput: loan,
         },
       },
     });
