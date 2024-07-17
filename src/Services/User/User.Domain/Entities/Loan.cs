@@ -20,7 +20,7 @@ namespace User.Domain.Entities
         public string?  Suretyholder1Adhar { get; set; }
         public string?  Suretyholder2 { get; set; }
         public string?  Suretyholder2Adhar { get; set; }
-        public string? voterid { get; set; }
-        public string? pancardnumber { get; set; }
+        public string? VoterId { get; set; }
+        public string? PanCardNumber { get; set; }
     }
 }

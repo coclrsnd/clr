@@ -1,11 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from "@angular/core";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormControl, Validators } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
-import { of } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { of } from "rxjs";
+import { delay } from "rxjs/operators";
 import { EventbusService } from "../../eventbus.service";
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn } from "@angular/forms";
 import { defaultDialogConfig } from "../shared/default-dialog-config";
 import { LeadsformComponent } from "../leadsform/leadsform.component";
 import { MatDialog } from "@angular/material/dialog";
@@ -13,13 +18,15 @@ import { MatDialog } from "@angular/material/dialog";
 export function adharOrVoterValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const adharPattern = /^[0-9]{12}$/;
-    const voterPattern = /^[A-Z0-9]{10}$/; 
+    const voterPattern = /^[A-Z0-9]{10}$/;
     if (!control.value) {
       return null; // consider empty value valid
     }
     const isValidAadhar = adharPattern.test(control.value);
     const isValidVoter = voterPattern.test(control.value);
-    return isValidAadhar || isValidVoter ? null : { invalidNumber: 'Invalid Aadhaar or Voter ID' };
+    return isValidAadhar || isValidVoter
+      ? null
+      : { invalidNumber: "Invalid Aadhaar or Voter ID" };
   };
 }
 
@@ -31,22 +38,25 @@ export function adharOrVoterValidator(): ValidatorFn {
 })
 export class HomeComponent implements OnInit {
   numberPattern = /^[0-9]{12}$/;
-  adharFormControl = new FormControl("", [Validators.required, adharOrVoterValidator()]);
+  adharFormControl = new FormControl("", [
+    Validators.required,
+    adharOrVoterValidator(),
+  ]);
 
   aadharNumber: string;
-  voterId:string='';
+  voterId: string = "";
   loading = false;
-  printbtn:boolean=false;
- cleanform:boolean=false;
- private _adharNumber: string;
- private _leadadharnumber:string;
- private adharNumberSubject = new BehaviorSubject<string>(null);
+  printbtn: boolean = false;
+  cleanform: boolean = false;
+  private _adharNumber: string;
+  private _leadadharnumber: string;
+  private adharNumberSubject = new BehaviorSubject<string>(null);
 
   constructor(
     private cdr: ChangeDetectorRef,
     private router: Router,
     private route: ActivatedRoute,
-    private eventBus: EventbusService, 
+    private eventBus: EventbusService,
     private dialog: MatDialog,
   ) {}
   // numericOnly(event): boolean {
@@ -59,7 +69,7 @@ export class HomeComponent implements OnInit {
   //   }
   //   return true;
   // }
-  // (keypress)="numericOnly($event)" 
+  // (keypress)="numericOnly($event)"
 
   ngOnInit(): void {
     this.route.params.subscribe((param) => {
@@ -71,30 +81,28 @@ export class HomeComponent implements OnInit {
     // this.aadharNumber = this.adharFormControl.value;
     if (this.adharFormControl.valid) {
       // this.cleanform=true;
-      this.printbtn = false; 
-      this.loading = true; 
+      this.printbtn = false;
+      this.loading = true;
       of(this.adharFormControl.value)
-        .pipe(delay(2000)) 
+        .pipe(delay(2000))
         .subscribe(
-          value => {
+          (value) => {
             // this.cleanform=false;
             this.aadharNumber = value;
             this.loading = false;
-            this.printbtn=true;
-            this.cdr.markForCheck(); 
+            this.printbtn = true;
+            this.cdr.markForCheck();
           },
-          error => {
-            console.error('An error occurred', error);
-            this.loading = false; 
-            this.cdr.markForCheck(); 
-          }
+          (error) => {
+            console.error("An error occurred", error);
+            this.loading = false;
+            this.cdr.markForCheck();
+          },
         );
-        
     }
-
   }
- 
-  printTable(): void { 
+
+  printTable(): void {
     this.eventBus.sidenavClose.emit();
     setTimeout(() => {
       window.print();
@@ -116,6 +124,4 @@ export class HomeComponent implements OnInit {
         this.adharNumberSubject.next(this._adharNumber);
       });
   }
-
-  
 }

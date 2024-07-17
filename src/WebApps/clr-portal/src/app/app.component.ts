@@ -18,7 +18,7 @@ import {
 import { login, loginSuccess, logout } from "./auth/auth.actions";
 import { User } from "./auth/model/user.model";
 import { FormBuilder } from "@angular/forms";
-import { NavigationExtras } from '@angular/router';
+import { NavigationExtras } from "@angular/router";
 import { EventbusService } from "./eventbus.service";
 import { MatSidenav } from "@angular/material/sidenav";
 @Component({
@@ -27,7 +27,7 @@ import { MatSidenav } from "@angular/material/sidenav";
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
-  @ViewChild('sidenav') sidenav: MatSidenav;
+  @ViewChild("sidenav") sidenav: MatSidenav;
   loading = true;
 
   isLoggedIn$: Observable<boolean>;
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store<AppState>,
-    private eventBus: EventbusService
+    private eventBus: EventbusService,
   ) {
     this.eventBus.sidenavClose.subscribe(() => {
       this.sidenav.close();
@@ -79,7 +79,7 @@ export class AppComponent implements OnInit {
     this.store.dispatch(logout());
   }
 
-refreshData() {
-  location.reload();
-}
+  refreshData() {
+    location.reload();
+  }
 }

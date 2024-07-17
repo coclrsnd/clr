@@ -85,7 +85,7 @@ const routes: Routes = [
       runtimeChecks: {
         strictStateImmutability: true,
         strictActionImmutability: true,
-        strictActionSerializability: true,
+        strictActionSerializability: false,
         strictStateSerializability: true,
       },
     }),

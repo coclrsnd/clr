@@ -25,7 +25,7 @@ export class LoansDataService extends DefaultDataService<Loan> {
   `;
 
   add(entity: Loan, options?: HttpOptions): Observable<Loan> {
-    delete entity['organizationName'];
+    delete entity["organizationName"];
     return this.http.post<Loan>(environment.apiUrl, {
       query: this.CREATE_LOAN_QUERY,
       variables: {
@@ -37,8 +37,7 @@ export class LoansDataService extends DefaultDataService<Loan> {
   }
 
   update(update: Update<Loan>, options?: HttpOptions): Observable<Loan> {
-
-    const loan= update.changes;
+    const loan = update.changes;
     return this.http.post<Loan>(environment.apiUrl, {
       query: this.CREATE_LOAN_QUERY,
       variables: {

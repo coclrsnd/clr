@@ -12,8 +12,8 @@ using User.Infrastructure.Persistence;
 namespace User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20240708061321_loanchanges6")]
-    partial class loanchanges6
+    [Migration("20240716073550_Lead_Changes_Adding_Amount_Field")]
+    partial class Lead_Changes_Adding_Amount_Field
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -273,6 +273,9 @@ namespace User.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int?>("Amount")
+                        .HasColumnType("integer");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
@@ -284,6 +287,18 @@ namespace User.Infrastructure.Migrations
 
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LeadStage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LeadStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LeadStatusRemarks")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("LoanBorrower")
                         .IsRequired()
@@ -300,23 +315,11 @@ namespace User.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Pancard")
+                    b.Property<string>("PanCardNumber")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("Voterid")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("leadstage")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("leadstatus")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("leadstatusremarks")
+                    b.Property<string>("VoterId")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -374,6 +377,9 @@ namespace User.Infrastructure.Migrations
                     b.Property<string>("OrganizationName")
                         .HasColumnType("text");
 
+                    b.Property<string>("PanCardNumber")
+                        .HasColumnType("text");
+
                     b.Property<string>("Remarks")
                         .HasColumnType("text");
 
@@ -403,12 +409,7 @@ namespace User.Infrastructure.Migrations
                     b.Property<string>("VehicleNo")
                         .HasColumnType("text");
 
-                    b.Property<string>("pancardnumber")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("voterid")
-                        .IsRequired()
+                    b.Property<string>("VoterId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

@@ -12,9 +12,7 @@ import { isDevSupport, selectUserDetails } from "../auth/auth.selectors";
 
 @Injectable()
 export class SignGuard {
-  constructor(
-    private store: Store<AppState>,
-  ) { }
+  constructor(private store: Store<AppState>) {}
 
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -25,8 +23,7 @@ export class SignGuard {
       tap((devSupport) => {
         if (devSupport) {
           return true;
-        }
-        else {
+        } else {
           return false;
         }
       }),

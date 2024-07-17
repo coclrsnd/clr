@@ -1,11 +1,23 @@
 <div class="loanclass">
-    <!-- head section -->
-    <div class="tableprint">
-    <div class="tablestylesclass mat-elevation-z8" matSort (matSortChange)="announceSortChange($event)">
-      <table mat-table [dataSource]="dataSource" class="table-responsive" >
-         <!-- date -->
+  <!-- head section -->
+  <div class="tableprint">
+    <div
+      class="tablestylesclass mat-elevation-z8"
+      matSort
+      (matSortChange)="announceSortChange($event)"
+    >
+      <table mat-table [dataSource]="dataSource" class="table-responsive">
+        <!-- date -->
         <ng-container matColumnDef="loanDate">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header="loanDate" class="loanDate" sortActionDescription="Sort by loanDate">Date</th>
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header="loanDate"
+            class="loanDate"
+            sortActionDescription="Sort by loanDate"
+          >
+            Date
+          </th>
           <td mat-cell *matCellDef="let element">
             {{ element.loanDate | date: "mediumDate" }}
           </td>
@@ -13,33 +25,62 @@
         <!-- Adhar -->
         <ng-container matColumnDef="adharNumber">
           <th mat-header-cell *matHeaderCellDef class="adhar">Adhar</th>
-          <td mat-cell *matCellDef="let element" class="adhar">{{ element.adharNumber| maskAadhar }}</td>
+          <td mat-cell *matCellDef="let element" class="adhar">
+            {{ element.adharNumber | maskAadhar }}
+          </td>
         </ng-container>
         <!-- Borrower -->
         <ng-container matColumnDef="loanBorrower">
-          <th mat-header-cell *matHeaderCellDef class="Borrower borrower">Borrower</th>
-          <td mat-cell *matCellDef="let element" class="loanborrower borrower">{{ element.loanBorrower}}</td>
+          <th mat-header-cell *matHeaderCellDef class="Borrower borrower">
+            Borrower
+          </th>
+          <td mat-cell *matCellDef="let element" class="loanborrower borrower">
+            {{ element.loanBorrower }}
+          </td>
         </ng-container>
         <!-- loantype -->
         <ng-container matColumnDef="loanType">
           <th mat-header-cell *matHeaderCellDef>Type</th>
           <td mat-cell *matCellDef="let element">
-            <div [ngStyle]="{'font-size':'medium', 'display':'flex','align-items':'center', 'justify-content':'space-between'}">
-              {{element.loanType}}
-                <button *ngIf="element.loanType === 'Mortgage Loan' || element.loanType === 'Vehicle Loan'" mat-icon-button class="eyeclass"
-                [matTooltip]="element.loanType === 'Mortgage Loan' ? element.securityReports : element['vehicleNo']"
-                matTooltipPosition="above">
-                <mat-icon [style]="{'color':'black','font-size':'16px'}" matTooltip="">
-                visibility
+            <div
+              [ngStyle]="{
+                'font-size': 'medium',
+                display: 'flex',
+                'align-items': 'center',
+                'justify-content': 'space-between'
+              }"
+            >
+              {{ element.loanType }}
+              <button
+                *ngIf="
+                  element.loanType === 'Mortgage Loan' ||
+                  element.loanType === 'Vehicle Loan'
+                "
+                mat-icon-button
+                class="eyeclass"
+                [matTooltip]="
+                  element.loanType === 'Mortgage Loan'
+                    ? element.securityReports
+                    : element['vehicleNo']
+                "
+                matTooltipPosition="above"
+              >
+                <mat-icon
+                  [style]="{ color: 'black', 'font-size': '16px' }"
+                  matTooltip=""
+                >
+                  visibility
                 </mat-icon>
-                </button>
-         </div>
-        </td>
+              </button>
+            </div>
+          </td>
         </ng-container>
         <!-- orgname -->
         <ng-container matColumnDef="organizationName">
           <th mat-header-cell *matHeaderCellDef>Society</th>
-          <td mat-cell *matCellDef="let element">{{ element.organizationName }}</td>
+          <td mat-cell *matCellDef="let element">
+            {{ element.organizationName }}
+          </td>
         </ng-container>
         <!-- editbutton -->
         <ng-container matColumnDef="actions" class="action">
@@ -47,17 +88,24 @@
           <td mat-cell *matCellDef="let element" class="action">
             <button
               mat-icon-button
-              [disabled]=
-              "(userDetails$ | async)?.organizationCode !== element.organizationCode"
-              (click)="editLoan(element)" class="action"
+              [disabled]="
+                (userDetails$ | async)?.organizationCode !==
+                element.organizationCode
+              "
+              (click)="editLoan(element)"
+              class="action"
             >
               <mat-icon>edit</mat-icon>
             </button>
           </td>
         </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
+        <tr
+          mat-header-row
+          *matHeaderRowDef="columnsToDisplay; sticky: true"
+        ></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
       </table>
     </div>
   </div>
+</div>

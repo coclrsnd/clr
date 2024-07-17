@@ -11,7 +11,6 @@ import { environment } from "../../../environments/environment";
 
 @Injectable()
 export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
-  
   constructor(
     serviceElementsFactory: EntityCollectionServiceElementsFactory,
     private http: HttpClient,

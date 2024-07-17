@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from "@angular/core/testing";
 
-import { ResetpasswordService } from './resetpassword.service';
+import { ResetpasswordService } from "./resetpassword.service";
 
-describe('ResetpasswordService', () => {
+describe("ResetpasswordService", () => {
   let service: ResetpasswordService;
 
   beforeEach(() => {
@@ -10,7 +10,7 @@ describe('ResetpasswordService', () => {
     service = TestBed.inject(ResetpasswordService);
   });
 
-  it('should be created', () => {
+  it("should be created", () => {
     expect(service).toBeTruthy();
   });
 });

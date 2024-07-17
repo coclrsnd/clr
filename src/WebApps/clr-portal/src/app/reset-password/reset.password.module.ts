@@ -6,9 +6,14 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { ResetPasswordService } from "./reset.-password.service";
 @NgModule({
-  imports: [CommonModule, MaterialModule, ReactiveFormsModule, RouterModule.forChild([{ path: '', component: ResetPasswordComponent }])],
+  imports: [
+    CommonModule,
+    MaterialModule,
+    ReactiveFormsModule,
+    RouterModule.forChild([{ path: "", component: ResetPasswordComponent }]),
+  ],
   exports: [],
   declarations: [ResetPasswordComponent],
   providers: [ResetPasswordService],
 })
-export class ResetPasswordModule { }
+export class ResetPasswordModule {}

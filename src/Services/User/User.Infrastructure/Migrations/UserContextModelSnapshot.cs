@@ -270,6 +270,9 @@ namespace User.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Amount")
+                        .HasColumnType("integer");
+
                     b.Property<string>("CreatedBy")
                         .HasColumnType("text");
 
@@ -281,6 +284,15 @@ namespace User.Infrastructure.Migrations
 
                     b.Property<DateTime?>("LastModifiedDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LeadStage")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LeadStatus")
+                        .HasColumnType("text");
+
+                    b.Property<string>("LeadStatusRemarks")
+                        .HasColumnType("text");
 
                     b.Property<string>("LoanBorrower")
                         .IsRequired()
@@ -297,16 +309,10 @@ namespace User.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("leadstage")
-                        .IsRequired()
+                    b.Property<string>("PanCardNumber")
                         .HasColumnType("text");
 
-                    b.Property<string>("leadstatus")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("leadstatusremarks")
-                        .IsRequired()
+                    b.Property<string>("VoterId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -363,6 +369,9 @@ namespace User.Infrastructure.Migrations
                     b.Property<string>("OrganizationName")
                         .HasColumnType("text");
 
+                    b.Property<string>("PanCardNumber")
+                        .HasColumnType("text");
+
                     b.Property<string>("Remarks")
                         .HasColumnType("text");
 
@@ -392,10 +401,7 @@ namespace User.Infrastructure.Migrations
                     b.Property<string>("VehicleNo")
                         .HasColumnType("text");
 
-                    b.Property<string>("pancardnumber")
-                        .HasColumnType("text");
-
-                    b.Property<string>("voterid")
+                    b.Property<string>("VoterId")
                         .HasColumnType("text");
 
                     b.HasKey("Id");

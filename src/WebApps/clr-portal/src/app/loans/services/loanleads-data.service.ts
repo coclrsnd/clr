@@ -21,26 +21,27 @@ export class LoanLeadDataService extends DefaultDataService<LoanLead> {
     saveLoanLead(input:$input)
     {
         int
-
     }
 }
   `;
 
   add(entity: LoanLead, options?: HttpOptions): Observable<LoanLead> {
-    delete entity['organizationName'];
+    delete entity["organizationName"];
     return this.http.post<LoanLead>(environment.apiUrl, {
       query: this.CREATE_LOAN_LEAD_QUERY,
       variables: {
-        loanRequest: {
-          loanRequestInput: entity,
+        input: {
+          loanLeadRequestInput: entity,
         },
       },
     });
   }
 
-  update(update: Update<LoanLead>, options?: HttpOptions): Observable<LoanLead> {
-
-    const loan= update.changes;
+  update(
+    update: Update<LoanLead>,
+    options?: HttpOptions,
+  ): Observable<LoanLead> {
+    const loan = update.changes;
     return this.http.post<LoanLead>(environment.apiUrl, {
       query: this.CREATE_LOAN_LEAD_QUERY,
       variables: {

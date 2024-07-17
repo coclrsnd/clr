@@ -1,5 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { Observable } from "rxjs";
 import { Organization } from "../../sign-up/model/organization";
 import { SignupComponentStore } from "../../sign-up/signup.component.store";
@@ -7,7 +12,7 @@ import { startWith, tap } from "rxjs/operators";
 import { UploadFileRequest } from "../models/upload";
 import { FileUploadService } from "../service/upload.service";
 import { UploadStore } from "./upload-loans.store";
-import { HttpEventType } from '@angular/common/http';
+import { HttpEventType } from "@angular/common/http";
 
 @Component({
   selector: "upload-loans",
@@ -17,7 +22,7 @@ import { HttpEventType } from '@angular/common/http';
 export class UploadLoansComponent implements OnInit {
   filteredOrganizations$: Observable<Organization[]>;
   selectedFile: File | undefined;
-  errormsg:string='';
+  errormsg: string = "";
 
   organization = new FormControl("", [Validators.required]);
   uploadStatus$: Observable<boolean> | undefined;
@@ -25,7 +30,7 @@ export class UploadLoansComponent implements OnInit {
   constructor(
     private signupStore: SignupComponentStore,
     private uploadStore: UploadStore,
-    private uploadService: FileUploadService
+    private uploadService: FileUploadService,
   ) {}
 
   ngOnInit() {
@@ -33,7 +38,7 @@ export class UploadLoansComponent implements OnInit {
     this.organization.valueChanges
       .pipe(
         startWith(""),
-        tap((value) => this.signupStore.filterOrganizations(value))
+        tap((value) => this.signupStore.filterOrganizations(value)),
       )
       .subscribe();
 
@@ -46,24 +51,21 @@ export class UploadLoansComponent implements OnInit {
 
   onSubmit() {
     console.log(this.organization.value);
-    
 
-    if (!this.selectedFile || !this.organization.value['code']) {
-      console.error('File or Organization code is missing');
+    if (!this.selectedFile || !this.organization.value["code"]) {
+      console.error("File or Organization code is missing");
       return;
     }
 
     let uploadFileRequest: UploadFileRequest = {
       file: this.selectedFile,
-      OrgCode: this.organization.value['code'],
+      OrgCode: this.organization.value["code"],
     };
 
-    this.uploadStore.upload(uploadFileRequest)
-   
+    this.uploadStore.upload(uploadFileRequest);
   }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
-   
   }
 }

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { Observable, throwError } from "rxjs";
 import { catchError, map, tap } from "rxjs/operators";
@@ -6,13 +6,11 @@ import { ResetPassword } from "../model/resetpassword";
 
 import { environment } from "../../../environments/environment";
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class ResetpasswordService {
-
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
   RESETPASSWORDQUERY = `mutation ResetPassword($input: ResetPasswordInput!) {
     resetPassword(input: $input) {
       boolean
@@ -27,7 +25,7 @@ export class ResetpasswordService {
           input: {
             email: resetpasswordRequest.email,
             currentPassword: resetpasswordRequest.currentPassword,
-            newPassword: resetpasswordRequest.newPassword
+            newPassword: resetpasswordRequest.newPassword,
           },
         },
       })
@@ -36,12 +34,12 @@ export class ResetpasswordService {
           if (response?.data?.resetPassword?.success) {
             return true; // Reset password successful
           } else {
-            throw new Error('Incorrect password');
+            throw new Error("Incorrect password");
           }
         }),
         catchError((error) => {
           return throwError(error); // Handle error
-        })
+        }),
       );
   }
 }

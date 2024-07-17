@@ -11,12 +11,15 @@ import { AppState } from "../reducers";
   styleUrl: "reset-password.component.scss",
 })
 export class ResetPasswordComponent {
-
   resetForm: FormGroup;
-  userMessage: string = '';
-  newpserror:string='';
+  userMessage: string = "";
+  newpserror: string = "";
 
-  constructor(private fb: FormBuilder, private resetPasswordService: ResetPasswordService, private store: Store<AppState>) {
+  constructor(
+    private fb: FormBuilder,
+    private resetPasswordService: ResetPasswordService,
+    private store: Store<AppState>,
+  ) {
     this.resetForm = this.fb.group({
       password: ["", Validators.required],
       newPassword: ["", [Validators.required]],
@@ -26,20 +29,22 @@ export class ResetPasswordComponent {
 
   resetPassword() {
     let resetPasswordRequest: ResetPasswordRequestInput = this.resetForm.value;
-    this.resetPasswordService.resetPassword(resetPasswordRequest).subscribe(response => {
-      if (response) {
-        this.userMessage = 'Password updated successfully';
-      }
-      else {
-        this.userMessage = 'Error while updating password';
-      }
-    },error=>{
-      this.userMessage = 'Error while updating password';
-    })
+    this.resetPasswordService.resetPassword(resetPasswordRequest).subscribe(
+      (response) => {
+        if (response) {
+          this.userMessage = "Password updated successfully";
+        } else {
+          this.userMessage = "Error while updating password";
+        }
+      },
+      (error) => {
+        this.userMessage = "Error while updating password";
+      },
+    );
   }
   showNewPasswordError: boolean = false;
   newps() {
-    const newPasswordControl = this.resetForm.get('newPassword');
+    const newPasswordControl = this.resetForm.get("newPassword");
     if (newPasswordControl.value.length < 6) {
       newPasswordControl.setErrors({ minlength: true });
     } else {
@@ -48,16 +53,14 @@ export class ResetPasswordComponent {
   }
 
   confirmps() {
-    const newPassword = this.resetForm.get('newPassword')?.value;
-    const confirmPassword = this.resetForm.get('confirmPassword')?.value;
-    
-    const confirmPasswordControl = this.resetForm.get('confirmPassword');
+    const newPassword = this.resetForm.get("newPassword")?.value;
+    const confirmPassword = this.resetForm.get("confirmPassword")?.value;
+
+    const confirmPasswordControl = this.resetForm.get("confirmPassword");
     if (newPassword !== confirmPassword) {
       confirmPasswordControl.setErrors({ mismatch: true });
     } else {
       confirmPasswordControl.setErrors(null); // Clear any previous errors
     }
   }
-  
-  
 }

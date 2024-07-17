@@ -1,8 +1,7 @@
 // reset-password.model.ts
 
 export interface ResetPassword {
-    email: string;
-    currentPassword: string,
-    newPassword: string
-  }
-  
+  email: string;
+  currentPassword: string;
+  newPassword: string;
+}

@@ -1,0 +1,497 @@
+<div class="formbody">
+  <div>
+    <h2 mat-dialog-title>
+      <span [style]="{ 'font-size': '1.2em', color: '#03a4ed' }">{{
+        this.mode == "create" ? "Create" : "Update"
+      }}</span>
+      <span [style]="{ 'font-size': '1em', color: '#0ba6ed8d' }">Loan</span>
+    </h2>
+  </div>
+  <div>
+    <h3 *ngIf="dialogSaveStatus$ | async" style="color: green">
+      Saved Successfully
+    </h3>
+    <h3 *ngIf="(dialogSaveStatus$ | async) === false" style="color: red">
+      Error while Saving
+    </h3>
+  </div>
+</div>
+
+<mat-dialog-content>
+  <form [formGroup]="loanForm" (ngSubmit)="onSave()">
+    <!-- date -->
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Loan Date</mat-label>
+        <input
+          matInput
+          [matDatepicker]="loanDatepicker"
+          formControlName="loanDate"
+        />
+        <mat-datepicker-toggle
+          matSuffix
+          [for]="loanDatepicker"
+          style="color: blue"
+        ></mat-datepicker-toggle>
+        <mat-datepicker #loanDatepicker></mat-datepicker>
+      </mat-form-field>
+      <div
+        class="err"
+        *ngIf="
+          loanForm.controls['loanDate'].invalid &&
+          (loanForm.controls['loanDate'].dirty ||
+            loanForm.controls['loanDate'].touched)
+        "
+      >
+        <div
+          class="errormsg"
+          *ngIf="loanForm.controls['loanDate'].hasError('required')"
+        >
+          Date required
+        </div>
+      </div>
+    </div>
+
+    <!-- borrower -->
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Borrower</mat-label>
+        <input matInput formControlName="loanBorrower" />
+      </mat-form-field>
+      <div
+        class="err"
+        *ngIf="
+          loanForm.get('loanBorrower').invalid &&
+          (loanForm.get('loanBorrower').dirty ||
+            loanForm.get('loanBorrower').touched)
+        "
+      >
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('loanBorrower').hasError('required')"
+        >
+          Name required
+        </div>
+        <div
+          class="errormsg"
+          *ngIf="
+            !loanForm.get('loanBorrower').hasError('required') &&
+            loanForm.get('loanBorrower').hasError('pattern')
+          "
+        >
+          Not a valid name
+        </div>
+        <div
+          class="errormsg"
+          *ngIf="
+            !loanForm.get('loanBorrower').hasError('pattern') &&
+            loanForm.get('loanBorrower').hasError('maxlength')
+          "
+        >
+          Names too long
+        </div>
+      </div>
+    </div>
+
+    <!-- aadhar -->
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Adhar Number</mat-label>
+        <input
+          matInput
+          formControlName="adharNumber"
+          (keypress)="numericOnly($event)"
+        />
+      </mat-form-field>
+      <div
+        class="err"
+        *ngIf="
+          loanForm.get('adharNumber').invalid &&
+          (loanForm.get('adharNumber').dirty ||
+            loanForm.get('adharNumber').touched)
+        "
+      >
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('adharNumber').hasError('required')"
+        >
+          Aadhar required
+        </div>
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('adharNumber').hasError('pattern')"
+        >
+          Not a valid Adhar number
+        </div>
+      </div>
+    </div>
+
+    <!-- voterid-->
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>VoterId</mat-label>
+        <input
+          matInput
+          formControlName="voterId"
+          (input)="convertToUpperCase($event)"
+        />
+      </mat-form-field>
+      <div
+        class="err"
+        *ngIf="
+          loanForm.get('voterId').invalid &&
+          (loanForm.get('voterId').dirty || loanForm.get('voterId').touched)
+        "
+      >
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('voterId').hasError('required')"
+        >
+          voterid required
+        </div>
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('voterId').hasError('pattern')"
+        >
+          Not a valid voterid
+        </div>
+      </div>
+    </div>
+
+    <!-- pancard -->
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Pancard Number</mat-label>
+        <input
+          matInput
+          formControlName="panCardNumber"
+          (input)="convertToUpperCase($event)"
+        />
+      </mat-form-field>
+      <div class="err" *ngIf="loanForm.get('panCardNumber').invalid">
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('panCardNumber').hasError('pattern')"
+        >
+          Not a valid pan number
+        </div>
+      </div>
+    </div>
+
+    <!-- status -->
+
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let type of loanStatuType" [value]="type"
+            >{{ type }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div
+        class="err"
+        *ngIf="
+          loanForm.get('status').invalid &&
+          (loanForm.get('status').dirty || loanForm.get('status').touched)
+        "
+      >
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('status').hasError('required')"
+        >
+          Status required
+        </div>
+      </div>
+    </div>
+
+    <!-- type -->
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Type</mat-label>
+        <mat-select
+          formControlName="loanType"
+          (selectionChange)="onStatusChange($event.value)"
+        >
+          <mat-option *ngFor="let type of loanTypes" [value]="type">{{
+            type
+          }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div
+        class="err"
+        *ngIf="
+          loanForm.get('loanType').invalid &&
+          (loanForm.get('loanType').dirty || loanForm.get('loanType').touched)
+        "
+      >
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('loanType').hasError('required')"
+        >
+          Loan type required
+        </div>
+      </div>
+    </div>
+    <!-- amount -->
+    <div class="form-control">
+      <mat-form-field appearance="outline">
+        <mat-label>Amount</mat-label>
+        <input
+          matInput
+          type="number"
+          placeholder="Ex. 123"
+          formControlName="amount"
+          min="0"
+          max="10000000"
+        />
+      </mat-form-field>
+      <div
+        class="err"
+        *ngIf="
+          loanForm.get('amount').invalid &&
+          (loanForm.get('amount').dirty || loanForm.get('amount').touched)
+        "
+      >
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('amount').hasError('required')"
+        >
+          Amount required
+        </div>
+        <div
+          class="errormsg"
+          *ngIf="loanForm.get('amount').hasError('pattern')"
+        >
+          Invalid amount range
+        </div>
+      </div>
+    </div>
+    <!-- repayments -->
+    <ng-container *ngIf="mode === 'update'">
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Repayment</mat-label>
+          <mat-select formControlName="repaymentStatus">
+            <mat-option
+              *ngFor="let type of loanrepaymentstatus"
+              [value]="type"
+              >{{ type }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+        <div
+          class="err"
+          *ngIf="
+            loanForm.get('repaymentStatus').invalid &&
+            (loanForm.get('repaymentStatus').dirty ||
+              loanForm.get('repaymentStatus').touched)
+          "
+        >
+          <div
+            class="errormsg"
+            *ngIf="loanForm.get('repaymentStatus').hasError('required')"
+          >
+            RepaymentStatus required
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <!-- remarks -->
+    <ng-container>
+      <div class="form-control" *ngIf="mode === 'update'">
+        <mat-form-field appearance="outline">
+          <mat-label>Remarks</mat-label>
+          <textarea
+            matInput
+            formControlName="remarks"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="0.265"
+            cdkAutosizeMaxRows="5"
+          ></textarea>
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Surety holder1</mat-label>
+          <input matInput formControlName="suretyholder1" />
+        </mat-form-field>
+        <div
+          class="err"
+          *ngIf="
+            loanForm.get('suretyholder1').invalid &&
+            (loanForm.get('suretyholder1').dirty ||
+              loanForm.get('suretyholder1').touched)
+          "
+        >
+          <div
+            class="errormsg"
+            *ngIf="loanForm.get('suretyholder1').hasError('required')"
+          >
+            Name required
+          </div>
+          <div
+            class="errormsg"
+            *ngIf="
+              !loanForm.get('suretyholder1').hasError('required') &&
+              loanForm.get('suretyholder1').hasError('pattern')
+            "
+          >
+            Not a valid name
+          </div>
+          <div
+            class="errormsg"
+            *ngIf="
+              !loanForm.get('suretyholder1').hasError('pattern') &&
+              loanForm.get('suretyholder1').hasError('maxlength')
+            "
+          >
+            Names too long
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>SH1 AdharNumber</mat-label>
+          <input
+            matInput
+            formControlName="suretyholder1Adhar"
+            (keypress)="numericOnly($event)"
+          />
+        </mat-form-field>
+        <div
+          class="err"
+          *ngIf="
+            loanForm.get('suretyholder1Adhar').invalid &&
+            (loanForm.get('suretyholder1Adhar').dirty ||
+              loanForm.get('suretyholder1Adhar').touched)
+          "
+        >
+          <div
+            class="errormsg"
+            *ngIf="loanForm.get('suretyholder1Adhar').hasError('required')"
+          >
+            Aadhar required
+          </div>
+          <div
+            class="errormsg"
+            *ngIf="loanForm.get('suretyholder1Adhar').hasError('pattern')"
+          >
+            Not a valid Adhar number
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Surety holder2</mat-label>
+          <input matInput formControlName="suretyholder2" />
+        </mat-form-field>
+        <div
+          class="err"
+          *ngIf="
+            loanForm.get('suretyholder2').invalid &&
+            (loanForm.get('suretyholder2').dirty ||
+              loanForm.get('suretyholder2').touched)
+          "
+        >
+          <div
+            class="errormsg"
+            *ngIf="loanForm.get('suretyholder2').hasError('required')"
+          >
+            Name required
+          </div>
+          <div
+            class="errormsg"
+            *ngIf="
+              !loanForm.get('suretyholder2').hasError('required') &&
+              loanForm.get('suretyholder2').hasError('pattern')
+            "
+          >
+            Not a valid name
+          </div>
+          <div
+            class="errormsg"
+            *ngIf="
+              !loanForm.get('suretyholder2').hasError('pattern') &&
+              loanForm.get('suretyholder2').hasError('maxlength')
+            "
+          >
+            Names too long
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>SH2 AdharNumber</mat-label>
+          <input
+            matInput
+            formControlName="suretyholder2Adhar"
+            (keypress)="numericOnly($event)"
+          />
+        </mat-form-field>
+        <div
+          class="err"
+          *ngIf="
+            loanForm.get('suretyholder2Adhar').invalid &&
+            (loanForm.get('suretyholder2Adhar').dirty ||
+              loanForm.get('suretyholder2Adhar').touched)
+          "
+        >
+          <div
+            class="errormsg"
+            *ngIf="loanForm.get('suretyholder2Adhar').hasError('required')"
+          >
+            Aadhar required
+          </div>
+          <div
+            class="errormsg"
+            *ngIf="loanForm.get('suretyholder2Adhar').hasError('pattern')"
+          >
+            Not a valid Adhar number
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- mortageloan option -->
+    <ng-container *ngIf="mortagefield">
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Security Reports</mat-label>
+          <input matInput formControlName="securityReports" />
+        </mat-form-field>
+      </div>
+    </ng-container>
+    <!-- vehical option -->
+    <ng-container *ngIf="vehicalfield">
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Vehical No/ RC No</mat-label>
+          <input matInput formControlName="vehicleNo" />
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="dialog-actions">
+  <button
+    class="savebtn"
+    mat-raised-button
+    color="primary"
+    (click)="onSave()"
+    [disabled]="loanForm.invalid"
+  >
+    {{ btnname }}
+  </button>
+  <div class="successmsg" *ngIf="result">{{ result }}</div>
+</mat-dialog-actions>

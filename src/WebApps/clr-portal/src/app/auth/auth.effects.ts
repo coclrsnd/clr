@@ -28,7 +28,7 @@ export class AuthEffects {
         ofType(loginSuccess),
         tap((action) => {
           localStorage.setItem("user", JSON.stringify(action.user));
-          if(localStorage.getItem("user")){
+          if (localStorage.getItem("user")) {
             localStorage.setItem("Token", JSON.stringify(action.user.token));
           }
           if (this.router.routerState.snapshot.url === "/login") {

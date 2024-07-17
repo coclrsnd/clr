@@ -1,10 +1,9 @@
-import { EventEmitter, Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from "@angular/core";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class EventbusService {
-
-  constructor() { }
+  constructor() {}
   public sidenavClose: EventEmitter<void> = new EventEmitter();
 }

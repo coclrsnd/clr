@@ -1,6 +1,5 @@
-
-  <div class="content">
-    <div style="display: flex;">
+<div class="content">
+  <div style="display: flex">
     <div class="form-control">
       <mat-form-field appearance="outline">
         <mat-label>Adhar Number/ VoterId</mat-label>
@@ -8,7 +7,6 @@
           matInput
           [formControl]="adharFormControl"
           placeholder="123456789"
-          
         />
       </mat-form-field>
       <error-tooltip
@@ -25,20 +23,20 @@
       Search
     </button>
     <div class="spinner-container" *ngIf="loading">
-      <mat-spinner  class="back-spinner" diameter="100"></mat-spinner>
-      
+      <mat-spinner class="back-spinner" diameter="100"></mat-spinner>
     </div>
-    <ng-container *ngIf="printbtn" >
+    <ng-container *ngIf="printbtn">
       <button mat-icon-button (click)="printTable()" class="printbutton">
         <mat-icon>print</mat-icon>
       </button>
-     
-    </ng-container>  
+    </ng-container>
   </div>
-    <div>
-      <button class="lead" mat-raised-button color="primary" (click)="addlead()">New Lead</button>
-    </div>
+  <div>
+    <button class="lead" mat-raised-button color="primary" (click)="addlead()">
+      New Lead
+    </button>
   </div>
+</div>
 
 <!-- <ng-container *ngIf="!loading"> -->
 <div>

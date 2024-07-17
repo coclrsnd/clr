@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace User.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class Initial_Changes : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -71,18 +71,55 @@ namespace User.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LoanLeads",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    LoanDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LoanBorrower = table.Column<string>(type: "text", nullable: false),
+                    AdharNumber = table.Column<string>(type: "text", nullable: false),
+                    OrganizationCode = table.Column<string>(type: "text", nullable: false),
+                    LoanType = table.Column<string>(type: "text", nullable: false),
+                    LeadStage = table.Column<string>(type: "text", nullable: false),
+                    LeadStatus = table.Column<string>(type: "text", nullable: false),
+                    LeadStatusRemarks = table.Column<string>(type: "text", nullable: false),
+                    VoterId = table.Column<string>(type: "text", nullable: false),
+                    PanCardNumber = table.Column<string>(type: "text", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LoanLeads", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Loans",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Amount = table.Column<decimal>(type: "numeric(18,2)", nullable: false),
-                    Status = table.Column<int>(type: "integer", maxLength: 12, nullable: false),
+                    Status = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
                     OrganizationCode = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
+                    OrganizationName = table.Column<string>(type: "text", nullable: true),
                     AdharNumber = table.Column<string>(type: "character varying(12)", maxLength: 12, nullable: false),
                     LoanDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LoanBorrower = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     LoanType = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    RepaymentStatus = table.Column<string>(type: "text", nullable: true),
+                    Remarks = table.Column<string>(type: "text", nullable: true),
+                    SecurityReports = table.Column<string>(type: "text", nullable: true),
+                    VehicleNo = table.Column<string>(type: "text", nullable: true),
+                    Suretyholder1 = table.Column<string>(type: "text", nullable: true),
+                    Suretyholder1Adhar = table.Column<string>(type: "text", nullable: true),
+                    Suretyholder2 = table.Column<string>(type: "text", nullable: true),
+                    Suretyholder2Adhar = table.Column<string>(type: "text", nullable: true),
+                    VoterId = table.Column<string>(type: "text", nullable: true),
+                    PanCardNumber = table.Column<string>(type: "text", nullable: true),
                     CreatedBy = table.Column<string>(type: "text", nullable: true),
                     CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastModifiedBy = table.Column<string>(type: "text", nullable: true),
@@ -316,7 +353,12 @@ namespace User.Infrastructure.Migrations
                 columns: table => new
                 {
                     OrganizationId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    CreatedBy = table.Column<string>(type: "text", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "text", nullable: true),
+                    LastModifiedDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -451,6 +493,9 @@ namespace User.Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "LoanLeads");
 
             migrationBuilder.DropTable(
                 name: "Loans");
