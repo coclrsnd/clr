@@ -3,7 +3,7 @@ export interface LoanLead {
   organizationCode: string;
   organizationName: string;
   adharNumber: string;
-  loanDate: Date;
+  loanDate: string;
   loanBorrower: string;
   loanType: string;
   id: number;

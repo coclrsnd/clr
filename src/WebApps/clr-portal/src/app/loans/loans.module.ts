@@ -36,6 +36,8 @@ import { LeadslistComponent } from "./leadslist/leadslist.component";
 import { LeadsformComponent } from "./leadsform/leadsform.component";
 import { LoanLeadEntityService } from "./services/loanleads-entity.service";
 import { LoanLeadDataService } from "./services/loanleads-data.service";
+import { Loan } from "./model/loan";
+import { LoanLead } from "./model/loanlead";
 
 export const loansRoutes: Routes = [
   {
@@ -60,8 +62,18 @@ export const loansRoutes: Routes = [
 ];
 
 const entityMetadata: EntityMetadataMap = {
-  Loan: {},
-  LoanLead: {},
+  Loan: {
+    selectId: (loan: Loan) => loan.id,
+    entityDispatcherOptions: {
+      optimisticAdd: true
+    }
+  },
+  LoanLead: {
+    selectId: (loanLead: LoanLead) => loanLead.id,
+    entityDispatcherOptions: {
+      optimisticAdd: true
+    }
+  },
 };
 
 @NgModule({

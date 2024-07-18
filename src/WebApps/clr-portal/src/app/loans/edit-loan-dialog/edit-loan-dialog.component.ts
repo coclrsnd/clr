@@ -189,13 +189,13 @@ export class EditLoanDialogComponent implements OnInit {
   }
 
   onSave() {
-    const Loan: Loan = {
+    const loan: Loan = {
       ...this.loan,
       ...this.loanForm.value,
     };
 
     if (this.mode == "update") {
-      this.loansService.update(Loan).subscribe(
+      this.loansService.update(loan).subscribe(
         () => {
           this.result = "Updated successfully!";
           this.btnname = "update";
@@ -208,13 +208,14 @@ export class EditLoanDialogComponent implements OnInit {
           this.btnname = "update";
           this.dialogSaveStatus$ = of(false); // Update save status to false
           this.dialogRef.close();
-
           this.toastr.error("Update failed! Please try again.", "Error");
         },
       );
     } else if (this.mode == "create") {
       this.btnname = "save";
-      this.loansService.add(Loan).subscribe((newLoan) => {
+      loan.status = "Active";
+      loan.loanDate = new Date(loan.loanDate).toISOString();
+      this.loansService.add(loan).subscribe((newLoan) => {
         console.log("New Loan", newLoan);
         this.result = "Created successfully!";
         this.dialogSaveStatus$ = of(true); // Update save status to true

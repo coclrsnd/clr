@@ -127,45 +127,51 @@ export class LeadsformComponent implements OnInit {
   }
 
   onSave() {
-
-
-    if (this.mode == "update") {
+    if (this.mode === "update") {
       const loanLead: LoanLead = {
         ...this.loanleadForm.value,
+        adharNumber: this.loanleadForm.get("adharNumber").value,
       };
-      loanLead.adharNumber = this.loanleadForm
-      .get("adharNumber").value;
+
       this.loanLeadService.update(loanLead).subscribe(
         () => {
           this.result = "Updated successfully!";
-          // this.btnname = "update";
           this.dialogSaveStatus$ = of(true);
           this.dialogRef.close();
           this.toastr.success("Updated Successfully!", "Success");
         },
         (error) => {
           this.result = "Update failed!";
-          // this.btnname = "update";
-          this.dialogSaveStatus$ = of(false); // Update save status to false
+          this.dialogSaveStatus$ = of(false);
           this.dialogRef.close();
-
           this.toastr.error("Update failed! Please try again.", "Error");
-        },
+        }
       );
-    } else if (this.mode == "create") {
+    } else if (this.mode === "create") {
       const loanLead: LoanLead = {
         ...this.loanlead,
         ...this.loanleadForm.value,
+        loanDate: new Date(this.loanleadForm.get("loanDate").value).toISOString(),
       };
-      // this.btnname = "AddLead";
-      this.loanLeadService.add(loanLead).subscribe((newLoanLead) => {
-        console.log("New Loan", newLoanLead);
-        this.result = "Created successfully!";
-        this.dialogSaveStatus$ = of(true); // Update save status to true
-        this.dialogRef.close();
-      });
+
+      this.loanLeadService.add(loanLead).subscribe(
+        (newLoanLead) => {
+          console.log("New Loan", newLoanLead);
+          this.result = "Created successfully!";
+          this.dialogSaveStatus$ = of(true);
+          this.dialogRef.close();
+          this.toastr.success("Created Successfully!", "Success");
+        },
+        (error) => {
+          this.result = "Creation failed!";
+          this.dialogSaveStatus$ = of(false);
+          this.dialogRef.close();
+          this.toastr.error("Creation failed! Please try again.", "Error");
+        }
+      );
     }
   }
+
   toastrclick() {
     this.toastr.success("added successfully", "Success");
   }

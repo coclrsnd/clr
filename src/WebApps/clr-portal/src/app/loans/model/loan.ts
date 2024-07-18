@@ -4,7 +4,7 @@ export interface Loan {
   organizationCode: string;
   organizationName: string;
   adharNumber: string;
-  loanDate: Date;
+  loanDate: string;
   loanBorrower: string;
   loanType: string;
   repaymentStatus: string;
