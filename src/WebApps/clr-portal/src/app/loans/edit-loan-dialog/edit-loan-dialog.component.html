@@ -133,7 +133,7 @@
         <input
           matInput
           formControlName="voterId"
-          (input)="convertToUpperCase($event)"
+          (input)="convertToUpperCase($event,'voterId')"
         />
       </mat-form-field>
       <div
@@ -165,7 +165,7 @@
         <input
           matInput
           formControlName="panCardNumber"
-          (input)="convertToUpperCase($event)"
+          (input)="convertToUpperCase($event,'panCardNumber')"
         />
       </mat-form-field>
       <div class="err" *ngIf="loanForm.get('panCardNumber').invalid">

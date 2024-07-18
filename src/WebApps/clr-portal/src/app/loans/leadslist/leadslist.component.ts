@@ -67,8 +67,11 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     "loanDate",
     "loanBorrower",
     "adharNumber",
-    "organizationName",
+    
     "loanType",
+    "leadStage",
+    "leadStatus",
+    "leadStatusRemarks",
     "actions",
   ];
   userDetails$: Observable<User>;

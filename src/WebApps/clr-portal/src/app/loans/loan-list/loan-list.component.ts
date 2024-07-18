@@ -98,7 +98,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "loanDate",
     "loanBorrower",
     "adharNumber",
-    "organizationName",
+    
     "loanType",
     "amount",
     "status",

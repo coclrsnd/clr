@@ -67,7 +67,8 @@ export class EditLoanDialogComponent implements OnInit {
   mortagefield: boolean = false;
   vehicalfield: boolean = false;
   pancardNumber: string = "";
-  voterId: string = "";
+  // voterId: string = "";
+  voterId = new FormControl('');
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<EditLoanDialogComponent>,
@@ -136,7 +137,7 @@ export class EditLoanDialogComponent implements OnInit {
       panCardNumber: ["", Validators.pattern(/^[A-Z0-9]{10}$/)],
       voterId: [
         "",
-        [Validators.required, Validators.pattern(/^[A-Z0-9]{10}$/)],
+        [Validators.required, Validators.pattern(/^[0-9A-Z]{10}$/)],
       ],
     });
 
@@ -258,8 +259,18 @@ export class EditLoanDialogComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
-  convertToUpperCase(event: any): void {
-    const input = event.target;
-    input.value = input.value.toUpperCase();
+  
+  // convertToUpperCase(event: any): void {
+  //   const inputElement = event.target;
+  //   const upperCaseValue = inputElement.value.toUpperCase();
+  //   this.loanForm.get('voterId').setValue(upperCaseValue, {emitEvent: true});
+  // }
+  convertToUpperCase(event: any, controlName: string): void {
+    const inputElement = event.target;
+    const upperCaseValue = inputElement.value.toUpperCase();
+    
+    // Use the controlName parameter to update the correct form control
+    this.loanForm.get(controlName).setValue(upperCaseValue, { emitEvent: true });
   }
+  
 }
