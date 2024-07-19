@@ -76,7 +76,7 @@ export class LeadsformComponent implements OnInit {
   btnname: string = "";
   mortagefield: boolean = false;
   vehicalfield: boolean = false;
-  leadStage: string[] = ["Approached", "Notapproached"];
+  
   leadStatus: string[] = ["Disbursed", "NotApproved", "Pending"];
   leadStatusRemarks: any = "";
   constructor(

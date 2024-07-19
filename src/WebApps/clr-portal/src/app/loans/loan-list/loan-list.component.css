@@ -34,7 +34,7 @@ flex-direction: column;}
 
 mat-paginator{
   width: 100%;
-  padding: 0% 1% 0% 1%;
+  
 }
 
 button.mat-warn {
@@ -75,7 +75,7 @@ border: 1px solid #14a9ee;
 }
 
 .table-responsive {
-  display: block;
+  /* display: block; */
   width: 100%;
   overflow-x: auto;
 }

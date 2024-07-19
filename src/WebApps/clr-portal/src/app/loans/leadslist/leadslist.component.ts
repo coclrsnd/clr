@@ -69,7 +69,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     "adharNumber",
     
     "loanType",
-    "leadStage",
+    
     "leadStatus",
     "leadStatusRemarks",
     "actions",
@@ -167,6 +167,17 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     .subscribe((response) => {
       this.adharNumberSubject.next(this._adharNumber);
     });
+    // .subscribe((updatedLoanLead) => {
+    //   if (updatedLoanLead) {
+    //     // Find the index of the loan lead that was edited
+    //     const index = this.dataSource.data.findIndex(lead => lead.id === updatedLoanLead.id);
+    //     if (index !== -1) {
+    //       this.dataSource.data[index] = updatedLoanLead;
+    //       this.dataSource._updateChangeSubscription(); // Refresh the table
+    //     }
+    //   }
+    //   this.adharNumberSubject.next(this._adharNumber);
+    // });
   }
 
   addLoan() {
@@ -183,6 +194,13 @@ export class LeadslistComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.adharNumberSubject.next(this._adharNumber);
       });
+      // .subscribe((newLoanLead) => {
+      //   if (newLoanLead) {
+      //     this.dataSource.data.push(newLoanLead);
+      //     this.dataSource._updateChangeSubscription(); // Refresh the table
+      //   }
+      //   this.adharNumberSubject.next(this._adharNumber);
+      // });
   }
 
   // onCheck(checked: boolean) {
@@ -213,23 +231,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     this.toastr.success("add successfully", "Success");
   }
 
-  getStatusClass(status: any) {
-    switch (status) {
-      case "Active":
-        return "active dotgreen";
-
-      case "In-Active":
-        return "inactive";
-      case "In-active":
-        return "inactive";
-      case "Closed":
-        return "closed";
-      case "OTS":
-        return "ots";
-      default:
-        return "";
-    }
-  }
+  
   hoverStates: { [key: string]: boolean } = {};
 
   setHoverState(elementId: string, state: boolean) {

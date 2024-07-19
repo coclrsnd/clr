@@ -192,44 +192,13 @@
       </div>
     </div>
 
-    <!-- Lead stage -->
-    <div class="form-control" *ngIf="mode === 'update'">
-      <mat-form-field appearance="outline">
-        <mat-label>Lead Stage</mat-label>
-        <mat-select
-          formControlName="leadStage"
-          (selectionChange)="onStatusChange($event.value)"
-        >
-          <mat-option *ngFor="let stage of leadStage" [value]="stage">{{
-            stage
-          }}</mat-option>
-        </mat-select>
-      </mat-form-field>
-      <div
-        class="err"
-        *ngIf="
-          loanleadForm.get('leadStage').invalid &&
-          (loanleadForm.get('leadStage').dirty ||
-            loanleadForm.get('leadStage').touched)
-        "
-      >
-        <div
-          class="errormsg"
-          *ngIf="loanleadForm.get('leadstage').hasError('required')"
-        >
-          Lead required
-        </div>
-      </div>
-    </div>
-
+   
     <!-- Lead status-->
     <div
-      *ngIf="
-        mode === 'update' &&
-        loanleadForm.get('leadStage').value === 'Approached'
-      "
+      
       class="form-control"
     >
+   
       <mat-form-field appearance="outline">
         <mat-label>Lead Status</mat-label>
         <mat-select

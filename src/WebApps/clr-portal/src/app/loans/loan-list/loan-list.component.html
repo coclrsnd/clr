@@ -43,12 +43,12 @@
         : {{ currentDate | date: "mediumDate" }}
       </p>
     </div>
-
+    <h2 style="color:#238ef8">LOANS</h2>
     <div
       class="tablestylesclass mat-elevation-z8"
       matSort
       (matSortChange)="announceSortChange($event)"
-    >
+    > 
       <table mat-table [dataSource]="dataSource" class="table-responsive">
         <!-- date -->
         <ng-container matColumnDef="loanDate">

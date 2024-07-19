@@ -39,12 +39,13 @@
 </div>
 
 <!-- <ng-container *ngIf="!loading"> -->
-  <h2 style="color:#238ef8">LOANS</h2>
-<div>
+  
+<!-- <div> -->
   <loan-list [adharNumber]="adharNumber"></loan-list>
-</div>
+<!-- </div> -->
 <!-- </ng-container> -->
-<h2 style="color:#238ef8">LEADS</h2>
-<div>
-  <leadslist [adharNumber]="adharNumber"></leadslist>
-</div>
+ 
+     <!-- <h2 class="leadhide" style="color:#238ef8">LEADS</h2> -->
+    <div class="leadhide">
+      <leadslist [adharNumber]="adharNumber"></leadslist>
+    </div>
