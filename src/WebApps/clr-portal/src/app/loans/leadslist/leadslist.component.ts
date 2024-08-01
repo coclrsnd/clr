@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { FormControl, Validators } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { ActivatedRoute } from "@angular/router";
@@ -65,7 +65,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     "loanDate",
     "loanBorrower",
     "adharNumber",
-    
+    "organizationName",
     "loanType",
     
     "leadStatus",
@@ -93,6 +93,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     private _liveAnnouncer: LiveAnnouncer,
     private ngZone: NgZone,
     private toastr: ToastrService,
+    // private cdr: ChangeDetectorRef,
   ) {
     this.columnsToDisplay = this.displayedColumns;
   }
@@ -136,7 +137,13 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     .subscribe((loans) => {
       this.dataSource.data = loans;
     });
-
+    // this.subscriptions.add(
+    //   this.loanleadService.leads$.subscribe(data => {
+    //     this.dataSource.data = data;
+    //     this.dataSource.sort = this.sort;
+    //   })
+    // );
+    this.loanleadService.getAll();
   }
 
   ngOnDestroy() {
@@ -191,6 +198,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
       .afterClosed()
       .subscribe((response) => {
         this.adharNumberSubject.next(this._adharNumber);
+        
       });
       // .subscribe((newLoanLead) => {
       //   if (newLoanLead) {
@@ -239,4 +247,8 @@ export class LeadslistComponent implements OnInit, OnDestroy {
   isHovering(elementId: string): boolean {
     return !!this.hoverStates[elementId]; // Ensure undefined states are treated as false
   }
+
+  
+  
+      
 }

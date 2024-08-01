@@ -34,7 +34,9 @@ export class LoanLeadDataService extends DefaultDataService<LoanLead> {
           loanLeadRequestInput: entity,
         },
       },
-    });
+    }).pipe(
+      catchError(error => throwError({ message: error.message }))  // Ensure errors are serializable
+  );
   }
 
   update(

@@ -39,6 +39,7 @@ export class LoanLeadEntityService extends EntityCollectionServiceBase<LoanLead>
     loanBorrower
     adharNumber
     organizationCode
+    organizationName
     loanType
     id
     createdBy
@@ -100,6 +101,7 @@ export class LoanLeadEntityService extends EntityCollectionServiceBase<LoanLead>
       loanBorrower
       adharNumber
       organizationCode
+      organizationName
       loanType
       id
       createdBy
