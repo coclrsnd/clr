@@ -6,8 +6,6 @@ import { Store, select } from "@ngrx/store";
 import { BehaviorSubject, Observable, Subscription } from "rxjs";
 import { switchMap, tap } from "rxjs/operators";
 import { defaultDialogConfig } from "../shared/default-dialog-config";
-// import { Loan } from "../model/loan";
-// import { LoanEntityService } from "../services/loan-entity.service";
 import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { selectUserDetails } from "../../auth/auth.selectors";

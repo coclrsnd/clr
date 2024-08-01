@@ -161,6 +161,7 @@ export class LeadsformComponent implements OnInit {
           this.dialogSaveStatus$ = of(true);
           this.dialogRef.close();
           this.toastr.success("Created Successfully!", "Success");
+          
         },
         (error) => {
           this.result = "Creation failed!";
@@ -168,6 +169,7 @@ export class LeadsformComponent implements OnInit {
           this.dialogRef.close();
           this.toastr.error("Creation failed! Please try again.", "Error");
         }
+        
       );
     }
   }
@@ -205,10 +207,7 @@ export class LeadsformComponent implements OnInit {
 
     // Add fields conditionally if the mode is 'update'
     if (this.mode === "update") {
-      this.loanleadForm.addControl(
-        "leadStage",
-        this.fb.control(loanleadData?.leadStage || "", Validators.required),
-      );
+     
       this.loanleadForm.addControl(
         "leadStatus",
         this.fb.control(loanleadData?.leadStatus || ""),

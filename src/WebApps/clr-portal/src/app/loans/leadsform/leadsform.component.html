@@ -194,11 +194,7 @@
 
    
     <!-- Lead status-->
-    <div
-      
-      class="form-control"
-    >
-   
+    <div class="form-control" *ngIf="mode === 'update'">
       <mat-form-field appearance="outline">
         <mat-label>Lead Status</mat-label>
         <mat-select
@@ -213,14 +209,14 @@
       <div
         class="err"
         *ngIf="
-          loanleadForm.get('loanType').invalid &&
-          (loanleadForm.get('loanType').dirty ||
-            loanleadForm.get('loanType').touched)
+          loanleadForm.get('leadStatus').invalid &&
+          (loanleadForm.get('leadStatus').dirty ||
+          loanleadForm.get('leadStatus').touched)
         "
       >
         <div
           class="errormsg"
-          *ngIf="loanleadForm.get('loanType').hasError('required')"
+          *ngIf="loanleadForm.get('leadStatus').hasError('required')"
         >
           Lead required
         </div>

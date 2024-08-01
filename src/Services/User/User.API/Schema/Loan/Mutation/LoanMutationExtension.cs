@@ -118,14 +118,14 @@ namespace User.GraphQL.Schema.Loan.Mutation
             {
                 var orgaRequest = _mapper.Map<Organization>(organizationRequest);
                 var res = await context.Organizations.AddAsync(orgaRequest);
-
+                await context.SaveChangesAsync();
                 await context.OrganizationConfigurations.AddAsync(new OrganizationConfiguration()
                 {
                     LogoPath = $"..assets/images/{orgaRequest.Code}.png",
                     OrganizationId = res.Entity.Id,
                 });
 
-                context.SaveChangesAsync();
+                await context.SaveChangesAsync();
                 return res.Entity.Id;
 
             }
