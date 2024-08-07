@@ -26,7 +26,7 @@
         <input
           matInput
           [matDatepicker]="loanDatepicker"
-          formControlName="loanDate"
+          formControlName="loanDate"  [max]="todayDate"
         />
         <mat-datepicker-toggle
           matSuffix
