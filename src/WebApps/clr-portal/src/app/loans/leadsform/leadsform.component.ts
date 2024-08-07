@@ -76,6 +76,7 @@ export class LeadsformComponent implements OnInit {
   btnname: string = "";
   mortagefield: boolean = false;
   vehicalfield: boolean = false;
+  todayDate: string;
   
   leadStatus: string[] = ["Disbursed", "NotApproved", "Pending"];
   leadStatusRemarks: any = "";
@@ -101,6 +102,9 @@ export class LeadsformComponent implements OnInit {
       this.loanleadForm.patchValue({ ...data.LoanLead });
       this.loanleadForm.get("adharNumber").disable();
     }
+
+    const today = new Date();
+    this.todayDate = today.toISOString().split('T')[0];
   }
 
   numericOnly(event): boolean {
@@ -192,7 +196,7 @@ export class LeadsformComponent implements OnInit {
         { value: loanleadData?.adharNumber || "", disabled: this.disableAdhar },
         [Validators.required, Validators.pattern(/^[0-9]{12}$/)],
       ],
-      loanDate: [loanleadData?.loanDate || "", Validators.required],
+      loanDate: [this.todayDate, Validators.required],
       loanBorrower: [
         loanleadData?.loanBorrower || "",
         [
@@ -207,7 +211,10 @@ export class LeadsformComponent implements OnInit {
 
     // Add fields conditionally if the mode is 'update'
     if (this.mode === "update") {
-     
+      this.loanleadForm.addControl(
+        "leadStage",
+        this.fb.control(loanleadData?.leadStage || "", Validators.required),
+      );
       this.loanleadForm.addControl(
         "leadStatus",
         this.fb.control(loanleadData?.leadStatus || ""),

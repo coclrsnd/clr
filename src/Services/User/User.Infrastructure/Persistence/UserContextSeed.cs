@@ -7,47 +7,7 @@ namespace User.Infrastructure.Persistence
     {
         public static async Task SeedAsync(UserContext userContext, ILogger<UserContextSeed> logger)
         {
-            if (!userContext.Organizations.Any())
-            {
-                userContext.Organizations.AddRange(GetOrganization());
-                await userContext.SaveChangesAsync();
-                logger.LogInformation("Seed database associated with context {DbContextName}", typeof(UserContext).Name);
-            }
-
-            if (!userContext.OrganizationConfigurations.Any())
-            {
-                var organizationConfiguration = new List<OrganizationConfiguration>()
-                {
-                    new OrganizationConfiguration()
-                    {
-                        OrganizationId = 1,
-                        LogoPath = "../assets/images/APSSNS.png"
-                    },
-                     new OrganizationConfiguration()
-                    {
-                         OrganizationId = 2,
-                         LogoPath = "../assets/images/KPSSNS.png"
-                    },
-                     new OrganizationConfiguration()
-                    {
-                         OrganizationId = 3,
-                         LogoPath = "../assets/images/BPSSNS.png"
-                    },
-                     new OrganizationConfiguration()
-                    {
-                         OrganizationId = 4,
-                         LogoPath = "../assets/images/SPSSNS.png"
-                    },
-                     new OrganizationConfiguration()
-                    {
-                         OrganizationId = 5,
-                         LogoPath = "../assets/images/KPSSNS.png"
-                    }
-                };
-                userContext.OrganizationConfigurations.AddRange(organizationConfiguration);
-                await userContext.SaveChangesAsync();
-                logger.LogInformation("Seed database associated with context {DbContextName}", typeof(UserContext).Name);
-            }
+            
 
             if (!userContext.AppFeatures.Any())
             {
