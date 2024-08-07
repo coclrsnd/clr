@@ -20,5 +20,12 @@ namespace User.GraphQL.Schema.Loan.Queries
            [ScopedService] UserContext context, CancellationToken cancellationToken) =>
            await context.Loans.ToListAsync(cancellationToken);
 
+        [UseApplicationDbContext]
+        [UseFiltering]
+        public async Task<IEnumerable<LoanLead>> GetLoanLeads(
+           [ScopedService] UserContext context, CancellationToken cancellationToken) =>
+           await context.LoanLeads.ToListAsync(cancellationToken);
+
+
     }
 }

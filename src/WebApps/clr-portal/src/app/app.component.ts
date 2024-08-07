@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { select, Store } from "@ngrx/store";
 import { Observable } from "rxjs";
 import { distinctUntilChanged, map } from "rxjs/operators";
@@ -18,13 +18,16 @@ import {
 import { login, loginSuccess, logout } from "./auth/auth.actions";
 import { User } from "./auth/model/user.model";
 import { FormBuilder } from "@angular/forms";
-
+import { NavigationExtras } from "@angular/router";
+import { EventbusService } from "./eventbus.service";
+import { MatSidenav } from "@angular/material/sidenav";
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
   styleUrls: ["./app.component.css"],
 })
 export class AppComponent implements OnInit {
+  @ViewChild("sidenav") sidenav: MatSidenav;
   loading = true;
 
   isLoggedIn$: Observable<boolean>;
@@ -36,7 +39,12 @@ export class AppComponent implements OnInit {
   constructor(
     private router: Router,
     private store: Store<AppState>,
-  ) {}
+    private eventBus: EventbusService,
+  ) {
+    this.eventBus.sidenavClose.subscribe(() => {
+      this.sidenav.close();
+    });
+  }
 
   ngOnInit() {
     const userProfile = JSON.parse(localStorage.getItem("user")) as User;
@@ -69,5 +77,9 @@ export class AppComponent implements OnInit {
 
   logout() {
     this.store.dispatch(logout());
+  }
+
+  refreshData() {
+    location.reload();
   }
 }

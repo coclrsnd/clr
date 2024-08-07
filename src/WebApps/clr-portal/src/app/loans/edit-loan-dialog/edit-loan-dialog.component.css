@@ -1,0 +1,39 @@
+
+.formbody{
+  display: flex; }
+textarea {
+  height: 100px;
+  resize: vertical;
+}
+.createtext{font-size: 1.1em;}
+.loantext{font-size: 0.9em; color: gray;}
+.savebtn{
+  margin-left: 80%;
+}
+.form-control{
+  display: flex;
+  flex-direction: column;
+}
+.err{ margin-bottom:15px;
+margin-top: -5px;}
+.example-full-width {
+  width: 95%;
+}
+.successsnackbar{
+  margin-top: 100px ;
+  /* margin-left: 500px; */
+}
+
+
+
+@media screen and (max-width: 560px) {
+  .formbody{min-height:200%; overflow-y: scroll;}
+  .savebtn{
+    margin-left: 56%;
+  }
+  mat-label{font-size: small;}
+  mat-datepicker-toggle{font-size: small; }
+}
+
+
+

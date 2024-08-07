@@ -1,37 +1,51 @@
 <div class="content">
-  <form class="form-container">
-    <div>
+  <div style="display: flex">
+    <div class="form-control">
       <mat-form-field appearance="outline">
-        <mat-label>Adhar Number</mat-label>
+        <mat-label>Adhar Number/ VoterId</mat-label>
         <input
           matInput
           [formControl]="adharFormControl"
           placeholder="123456789"
         />
-        @if (
-          adharFormControl.hasError("pattern") &&
-          !adharFormControl.hasError("required")
-        ) {
-          <mat-error>Please enter a valid Adhar</mat-error>
-        }
-        @if (adharFormControl.hasError("required")) {
-          <mat-error>Adhar is <strong>required</strong></mat-error>
-        }
       </mat-form-field>
+      <error-tooltip
+        *ngIf="adharFormControl.touched || adharFormControl.dirty"
+        [errors]="adharFormControl.errors"
+      ></error-tooltip>
     </div>
-    <div>
-      <button
-        mat-flat-button
-        color="primary"
-        [disabled]="adharFormControl.invalid"
-        (click)="onSubmit()"
-        type="button"
-      >
-        Search
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onSubmit()"
+      [disabled]="adharFormControl.invalid"
+    >
+      Search
+    </button>
+    <div class="spinner-container" *ngIf="loading">
+      <mat-spinner class="back-spinner" diameter="100"></mat-spinner>
+    </div>
+    <ng-container *ngIf="printbtn">
+      <button mat-icon-button (click)="printTable()" class="printbutton">
+        <mat-icon>print</mat-icon>
       </button>
+    </ng-container>
+  </div>
+  <div>
+    <button class="lead" mat-raised-button color="primary" (click)="addlead()">
+      New Lead
+    </button>
+  </div>
+</div>
+
+<!-- <ng-container *ngIf="!loading"> -->
+  
+<!-- <div> -->
+  <loan-list [adharNumber]="adharNumber"></loan-list>
+<!-- </div> -->
+<!-- </ng-container> -->
+ 
+     <!-- <h2 class="leadhide" style="color:#238ef8">LEADS</h2> -->
+    <div class="leadhide">
+      <leadslist [adharNumber]="adharNumber"></leadslist>
     </div>
-  </form>
-</div>
-<div>
-  <router-outlet></router-outlet>
-</div>

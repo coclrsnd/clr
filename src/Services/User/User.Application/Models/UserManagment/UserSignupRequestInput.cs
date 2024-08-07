@@ -6,11 +6,13 @@
         string Email,
         string Password,
         string OrganizationCode,
-        UserRoles SigninAs = UserRoles.Admin);
+        UserRoles SigninAs = UserRoles.DevSupport);
 
     public enum UserRoles
     {
         DevSupport,
-        Admin
+        Admin,
+        SuperAdmin,
+        Officers
     }
 }

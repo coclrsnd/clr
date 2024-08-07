@@ -95,8 +95,9 @@ using (var scope = app.Services.CreateScope())
     // Map GraphQL
     app.UseHttpsRedirection();
     app.UseRouting();
-    app.UseCors("AllowAll");   
-
+    app.UseCors("AllowAll");
+    //app.UseAuthentication();
+    //app.UseAuthorization();
     app.UseEndpoints(endpoints =>
     {
         endpoints.MapBananaCakePop("/graphql/ui").AllowAnonymous();

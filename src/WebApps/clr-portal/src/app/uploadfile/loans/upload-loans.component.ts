@@ -1,35 +1,48 @@
-
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { Organization } from '../../sign-up/model/organization';
-import { SignupComponentStore } from '../../sign-up/signup.component.store';
-import { startWith, tap } from 'rxjs/operators';
-import { UploadFileRequest } from '../models/upload';
-import { FileUploadService } from '../service/upload.service';
+import { Component, OnInit } from "@angular/core";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
+import { Observable } from "rxjs";
+import { Organization } from "../../sign-up/model/organization";
+import { SignupComponentStore } from "../../sign-up/signup.component.store";
+import { startWith, tap } from "rxjs/operators";
+import { UploadFileRequest } from "../models/upload";
+import { FileUploadService } from "../service/upload.service";
+import { UploadStore } from "./upload-loans.store";
+import { HttpEventType } from "@angular/common/http";
 
 @Component({
-  selector: 'upload-loans',
-  templateUrl: 'upload-loans.component.html',
-  styleUrl: 'upload-loans.component.css'
+  selector: "upload-loans",
+  templateUrl: "./upload-loans.component.html",
+  styleUrls: ["./upload-loans.component.css"],
 })
-
 export class UploadLoansComponent implements OnInit {
   filteredOrganizations$: Observable<Organization[]>;
-  selectedFile: any;
-  adharFormControl = new FormControl("", [
-    Validators.required,
-  ]);
-  constructor(private signupStore: SignupComponentStore, private uploadService: FileUploadService) { }
+  selectedFile: File | undefined;
+  errormsg: string = "";
+
+  organization = new FormControl("", [Validators.required]);
+  uploadStatus$: Observable<boolean> | undefined;
+
+  constructor(
+    private signupStore: SignupComponentStore,
+    private uploadStore: UploadStore,
+    private uploadService: FileUploadService,
+  ) {}
 
   ngOnInit() {
     this.filteredOrganizations$ = this.signupStore.filteredOrganizations$;
-    this.adharFormControl
-      .valueChanges.pipe(
+    this.organization.valueChanges
+      .pipe(
         startWith(""),
         tap((value) => this.signupStore.filterOrganizations(value)),
       )
       .subscribe();
+
+    this.uploadStatus$ = this.uploadStore.uploadStatus$;
   }
 
   displayOrganizationFn(organization?: any): string | undefined {
@@ -37,21 +50,22 @@ export class UploadLoansComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.adharFormControl.value)
-    let uploadFileRequest: UploadFileRequest = {
-      file: this.selectedFile,
-      OrgCode: this.adharFormControl.value['code']
+    console.log(this.organization.value);
+
+    if (!this.selectedFile || !this.organization.value["code"]) {
+      console.error("File or Organization code is missing");
+      return;
     }
 
-    this.uploadService.uploadLoanFile(uploadFileRequest).subscribe(res => {
-      console.log(res);
-    },
-  err=>{
-    console.log(err)
-  })
+    let uploadFileRequest: UploadFileRequest = {
+      file: this.selectedFile,
+      OrgCode: this.organization.value["code"],
+    };
+
+    this.uploadStore.upload(uploadFileRequest);
   }
 
-  onFileSelected($event: any) {
-    this.selectedFile = $event.target.files[0];
+  onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
   }
 }

@@ -1,54 +1,252 @@
-<div class="tableOptions">
-  <button mat-icon-button color="warn" (click)="addLoan()">
-    <mat-icon>add</mat-icon>
-  </button>
-</div>
-<div class="spinner-container" *ngIf="loading$ | async">
-  <mat-spinner></mat-spinner>
-</div>
-<table mat-table [dataSource]="loans$ | async" class="mat-elevation-z8">
-  <ng-container matColumnDef="loanDate">
-    <th mat-header-cell *matHeaderCellDef>Date</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.loanDate | date: "mediumDate" }}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="adharNumber">
-    <th mat-header-cell *matHeaderCellDef>Adhar</th>
-    <td mat-cell *matCellDef="let element">{{ element.adharNumber }}</td>
-  </ng-container>
-  <ng-container matColumnDef="amount">
-    <th mat-header-cell *matHeaderCellDef>Amount</th>
-    <td mat-cell *matCellDef="let element">
-      {{ element.amount | currency: "INR" }}
-    </td>
-  </ng-container>
-  <ng-container matColumnDef="loanBorrower">
-    <th mat-header-cell *matHeaderCellDef>Borrower</th>
-    <td mat-cell *matCellDef="let element">{{ element.loanBorrower }}</td>
-  </ng-container>
-  <ng-container matColumnDef="status">
-    <th mat-header-cell *matHeaderCellDef>Status</th>
-    <td mat-cell *matCellDef="let element">{{ element.status }}</td>
-  </ng-container>
-  <ng-container matColumnDef="loanType">
-    <th mat-header-cell *matHeaderCellDef>Type</th>
-    <td mat-cell *matCellDef="let element">{{ element.loanType }}</td>
-  </ng-container>
-  <ng-container matColumnDef="actions">
-    <th mat-header-cell *matHeaderCellDef></th>
-    <td mat-cell *matCellDef="let element">
-      <button
-        mat-icon-button
-        [disabled]="
-          (userDetails$ | async)?.organizationCode !== element.organizationCode
-        "
-        (click)="editLoan(element)"
-      >
-        <mat-icon>edit</mat-icon>
+<div class="loanclass">
+  <!-- head section -->
+  <div class="tableprint">
+    <div class="tableOptions">
+      <button mat-icon-button color="warn" (click)="addLoan()">
+        <mat-icon class="addicon">add</mat-icon>
       </button>
-    </td>
-  </ng-container>
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+      <div class="form-control">
+        <mat-form-field appearance="outline">
+          <mat-label>Search....</mat-label>
+          <input
+            matInput
+            placeholder="Type here...."
+            (keyup)="applyFilter($event)"
+          />
+        </mat-form-field>
+      </div>
+      <!-- columns -->
+      <mat-form-field>
+        <mat-label>Add columns</mat-label>
+        <mat-select
+          [formControl]="columns"
+          multiple
+          (selectionChange)="addColumn($event)"
+        >
+          <mat-select-trigger>
+            {{ selectedColumnsDisplay() }}
+          </mat-select-trigger>
+          <mat-option *ngFor="let column of columnsList" [value]="column.key">
+            {{ column.displayName }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div *ngIf="selectedLoan" class="print-details">
+      <p>
+        Applicant Name&nbsp;&nbsp;&nbsp;&nbsp; : {{ selectedLoan.loanBorrower }}
+      </p>
+      <p>Aadhar Number&nbsp;&nbsp;&nbsp; : {{ selectedLoan.adharNumber }}</p>
+      <p>
+        Date&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        : {{ currentDate | date: "mediumDate" }}
+      </p>
+    </div>
+    <h2 style="color:#238ef8">LOANS</h2>
+    <div
+      class="tablestylesclass mat-elevation-z8"
+      matSort
+      (matSortChange)="announceSortChange($event)"
+    > 
+      <table mat-table [dataSource]="dataSource" class="table-responsive">
+        <!-- date -->
+        <ng-container matColumnDef="loanDate">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header="loanDate"
+            class="loanDate"
+            sortActionDescription="Sort by loanDate"
+          >
+            Date
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.loanDate | date: "mediumDate" }}
+          </td>
+        </ng-container>
+        <!-- Adhar -->
+        <ng-container matColumnDef="adharNumber">
+          <th mat-header-cell *matHeaderCellDef class="adhar">Adhar</th>
+          <td mat-cell *matCellDef="let element" class="adhar">
+            {{ element.adharNumber | maskAadhar }}
+          </td>
+        </ng-container>
+        <!-- amount -->
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.amount | currency: "INR" }}
+          </td>
+        </ng-container>
+        <!-- Borrower -->
+        <ng-container matColumnDef="loanBorrower">
+          <th mat-header-cell *matHeaderCellDef class="Borrower borrower">
+            Borrower
+          </th>
+          <td mat-cell *matCellDef="let element" class="loanborrower borrower">
+            {{ element.loanBorrower }}
+          </td>
+        </ng-container>
+        <!-- suretyholder1 -->
+        <ng-container matColumnDef="suretyholder1">
+          <th mat-header-cell *matHeaderCellDef>1st Surety</th>
+          <td mat-cell *matCellDef="let element" class="suretyholder1">
+            {{ element.suretyholder1 }}
+          </td>
+        </ng-container>
+        <!-- shAdhar1 -->
+        <ng-container matColumnDef="suretyholder1Adhar">
+          <th mat-header-cell *matHeaderCellDef>Adhar</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.suretyholder1Adhar | maskAadhar }}
+          </td>
+        </ng-container>
+        <!-- suretyholder2 -->
+        <ng-container matColumnDef="suretyholder2">
+          <th mat-header-cell *matHeaderCellDef>2nd surety</th>
+          <td mat-cell *matCellDef="let element" class="suretyholder2">
+            {{ element.suretyholder2 }}
+          </td>
+        </ng-container>
+        <!-- shAdhar2 -->
+        <ng-container matColumnDef="suretyholder2Adhar">
+          <th mat-header-cell *matHeaderCellDef>Adhar</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.suretyholder2Adhar | maskAadhar }}
+          </td>
+        </ng-container>
+        <!-- Repayment -->
+        <ng-container matColumnDef="repaymentStatus">
+          <th mat-header-cell *matHeaderCellDef>Repayment</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              [ngStyle]="{
+                color:
+                  element.repaymentStatus === 'Poor' ? '#ff3e1d' : '#049e32',
+                'font-weight': '595',
+                'font-size': 'medium',
+                display: 'flex',
+                'align-items': 'center',
+                'justify-content': 'space-between'
+              }"
+            >
+              {{ element.repaymentStatus || "Healthy" }}
+
+              <button
+                mat-icon-button
+                class="eyeclass"
+                [matTooltip]="element.remarks"
+                matTooltipPosition="above"
+              >
+                <mat-icon
+                  [style]="{ color: 'black', 'font-size': '16px' }"
+                  matTooltip=""
+                >
+                  visibility
+                </mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <!-- Status -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            <span [ngClass]="getStatusClass(element.status)">
+              &#9679; {{ element.status }}</span
+            >
+          </td>
+        </ng-container>
+        <!-- voterid -->
+        <ng-container matColumnDef="voterId">
+          <th mat-header-cell *matHeaderCellDef>VoterId</th>
+          <td mat-cell *matCellDef="let element">
+            <span> {{ element.voterId }}</span>
+          </td>
+        </ng-container>
+        <!-- pancard -->
+        <ng-container matColumnDef="panCardNumber">
+          <th mat-header-cell *matHeaderCellDef>Pancard Number</th>
+          <td mat-cell *matCellDef="let element">
+            <span> {{ element.panCardNumber }}</span>
+          </td>
+        </ng-container>
+        <!-- loantype -->
+        <ng-container matColumnDef="loanType">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let element">
+            <div
+              [ngStyle]="{
+                'font-size': 'medium',
+                display: 'flex',
+                'align-items': 'center',
+                'justify-content': 'space-between'
+              }"
+            >
+              {{ element.loanType }}
+              <button
+                *ngIf="
+                  element.loanType === 'Mortgage Loan' ||
+                  element.loanType === 'Vehicle Loan'
+                "
+                mat-icon-button
+                class="eyeclass"
+                [matTooltip]="
+                  element.loanType === 'Mortgage Loan'
+                    ? element.securityReports
+                    : element['vehicleNo']
+                "
+                matTooltipPosition="above"
+              >
+                <mat-icon
+                  [style]="{ color: 'black', 'font-size': '16px' }"
+                  matTooltip=""
+                >
+                  visibility
+                </mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="organizationName">
+          <th mat-header-cell *matHeaderCellDef>Society</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.organizationName }}
+          </td>
+        </ng-container>
+        <!-- editbutton -->
+        <ng-container matColumnDef="actions" class="action">
+          <th mat-header-cell *matHeaderCellDef class="action"></th>
+          <td mat-cell *matCellDef="let element" class="action">
+            <button
+              mat-icon-button
+              [disabled]="
+                (userDetails$ | async)?.organizationCode !==
+                element.organizationCode
+              "
+              (click)="editLoan(element)"
+              class="action"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <!-- <tr mat-header-row *matHeaderRowDef="displayedColumns" ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> -->
+        <tr
+          mat-header-row
+          *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20, 50]"
+        showFirstLastButtons=""
+      ></mat-paginator>
+    </div>
+  </div>
+  <div *ngIf="!dataSource.data || dataSource.data?.length <= 0">
+    <p>No records found</p>
+  </div>
+</div>

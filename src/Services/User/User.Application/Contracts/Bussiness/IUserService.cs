@@ -9,5 +9,7 @@ namespace User.Application.Contracts.Bussiness
         Task<LoginResponseVm> Login(LoginRequestInput loginRequestInput);
 
         Task<bool> SignUp(UserSignupRequestInput signupRequestInput);
+
+        Task<bool> ResetPassword(ResetPasswordRequest signupRequestInput);
     }
 }

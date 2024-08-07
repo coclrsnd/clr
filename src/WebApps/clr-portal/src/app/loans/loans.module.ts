@@ -25,8 +25,19 @@ import {
 } from "@ngrx/data";
 import { LoanEntityService } from "./services/loan-entity.service";
 import { LoansDataService } from "./services/loan-data.service";
-import { EditLoanDialogComponent } from "./edit-course-dialog/edit-loan-dialog.component";
+import { EditLoanDialogComponent } from "./edit-loan-dialog/edit-loan-dialog.component";
 import { LoansResolver } from "./services/loan.resolver";
+import { SharedModule } from "../shared/shared.module";
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatGridListModule } from "@angular/material/grid-list";
+import { MaterialModule } from "../material.module";
+import { MaskAadharPipe } from "../mask-aadhar.pipe";
+import { LeadslistComponent } from "./leadslist/leadslist.component";
+import { LeadsformComponent } from "./leadsform/leadsform.component";
+import { LoanLeadEntityService } from "./services/loanleads-entity.service";
+import { LoanLeadDataService } from "./services/loanleads-data.service";
+import { Loan } from "./model/loan";
+import { LoanLead } from "./model/loanlead";
 
 export const loansRoutes: Routes = [
   {
@@ -42,12 +53,27 @@ export const loansRoutes: Routes = [
         path: ":adharNumber",
         component: LoanListComponent,
       },
+      {
+        path: "leadadharnumber",
+        component: LeadslistComponent,
+      },
     ],
   },
 ];
 
 const entityMetadata: EntityMetadataMap = {
-  Loan: {},
+  Loan: {
+    selectId: (loan: Loan) => loan.id,
+    entityDispatcherOptions: {
+      optimisticAdd: true
+    }
+  },
+  LoanLead: {
+    selectId: (loanLead: LoanLead) => loanLead.id,
+    entityDispatcherOptions: {
+      optimisticAdd: true
+    }
+  },
 };
 
 @NgModule({
@@ -68,19 +94,45 @@ const entityMetadata: EntityMetadataMap = {
     MatDatepickerModule,
     MatMomentDateModule,
     ReactiveFormsModule,
+    MatCheckboxModule,
+    SharedModule,
     RouterModule.forChild(loansRoutes),
+    MatGridListModule,
+    MaterialModule,
+    MatProgressSpinnerModule,
+    MaskAadharPipe,
   ],
-  declarations: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
-  exports: [HomeComponent, LoanListComponent, EditLoanDialogComponent],
-  providers: [LoanEntityService, LoansDataService, LoansResolver],
+  declarations: [
+    HomeComponent,
+    LoanListComponent,
+    EditLoanDialogComponent,
+    LeadslistComponent,
+    LeadsformComponent,
+    LeadslistComponent,
+  ],
+  exports: [
+    HomeComponent,
+    LoanListComponent,
+    EditLoanDialogComponent,
+    LeadslistComponent,
+  ],
+  providers: [
+    LoanEntityService,
+    LoansDataService,
+    LoansResolver,
+    LoanLeadEntityService,
+    LoanLeadDataService,
+  ],
 })
 export class LoansModule {
   constructor(
     private eds: EntityDefinitionService,
     private entityDataService: EntityDataService,
     private loanDataService: LoansDataService,
+    private loanLeadDataService: LoanLeadDataService,
   ) {
     eds.registerMetadataMap(entityMetadata);
     entityDataService.registerService("Loan", loanDataService);
+    entityDataService.registerService("LoanLead", loanLeadDataService);
   }
 }

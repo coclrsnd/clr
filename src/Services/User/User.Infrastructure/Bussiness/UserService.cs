@@ -7,6 +7,7 @@ using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security;
 using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
 using System.Transactions;
 using User.Application.Contracts.Bussiness;
@@ -76,7 +77,7 @@ namespace User.Infrastructure.Bussiness
                     var roles = (await _userRoleMappingRepository.GetAsync(r => r.UserId == user.Id)).ToList();
 
                     var organizationUserMapping = (await _organizationUserMappingRepository.GetAsync(exp => exp.UserId == user.Id)).FirstOrDefault();
-                    var organization = (await _organizationRepository.GetAsync(org => org.Id == organizationUserMapping.OrganizationId)).FirstOrDefault();                    
+                    var organization = (await _organizationRepository.GetAsync(org => org.Id == organizationUserMapping.OrganizationId)).FirstOrDefault();
 
                     var authClaims = new List<Claim>
                     {
@@ -118,16 +119,26 @@ namespace User.Infrastructure.Bussiness
 
                     var loginResponse = new LoginResponseVm();
                     loginResponse.Token = tokenString;
-                    loginResponse.RoleName = rolesString;
                     loginResponse.UserId = user.Id;
-                    loginResponse.RoleId = 1;
-                    loginResponse.OrganizationId = organization.Id;
-                    loginResponse.OrganizationCode = organization.Code;
-                    loginResponse.OrganizationName = organization.Name;
+                    if (rolesString.ToLower().Contains(UserRoles.SuperAdmin.ToString().ToLower()))
+                    {
+                        loginResponse.OrganizationId = 0;
+                        loginResponse.OrganizationCode = "SUPERGROUP";
+                        loginResponse.OrganizationName = "SuperGroup";
+                        loginResponse.RoleName = UserRoles.SuperAdmin.ToString();
+
+                    }
+                    else
+                    {
+                        loginResponse.OrganizationId = organization.Id;
+                        loginResponse.OrganizationCode = organization.Code;
+                        loginResponse.OrganizationName = organization.Name;
+                        loginResponse.RoleName = rolesString;
+                    }
                     loginResponse.EmailId = user.Email;
                     loginResponse.Name = user.UserName;
                     loginResponse.CurrentRole = currentRole;
-                    loginResponse.UserName = user.UserName;                    
+                    loginResponse.UserName = user.UserName;
                     loginResponse.LogoPath = (await _organizationConfigurationRepository.GetAsync(oc => oc.OrganizationId == organization.Id)).FirstOrDefault().LogoPath;
                     return loginResponse;
                 }
@@ -182,8 +193,13 @@ namespace User.Infrastructure.Bussiness
                     var userRole = (await _userRoleRepository.GetAsync(ur => ur.Name == signupRequestInput.SigninAs.ToString())).FirstOrDefault();
 
                     //Adding new Role incase if role not exists in UserRole
-                    if (userRole.Id <= 0)
+                    if (userRole == null)
                     {
+                        userRole = new UserRole()
+                        {
+                            Name = signupRequestInput.SigninAs.ToString(),
+                            Description = string.Empty,
+                        };
                         userRole = (await _userRoleRepository.AddAsync(userRole));
                     }
 
@@ -251,6 +267,31 @@ namespace User.Infrastructure.Bussiness
             return encryptedJWT;
         }
 
+
+        public async Task<bool> ResetPassword(ResetPasswordRequest model)
+        {
+            var aspNetUser = await _userManager.FindByNameAsync(model.UserName);
+            if (aspNetUser != null && (await _userManager.CheckPasswordAsync(aspNetUser, model.Password)))
+            {
+                string resetToken = await _userManager.GeneratePasswordResetTokenAsync(aspNetUser);
+
+                IdentityResult resetPasswordResult = await _userManager.ResetPasswordAsync(aspNetUser, resetToken, model.NewPassword);
+                if (resetPasswordResult != null && resetPasswordResult.Errors.Any())
+                {
+                    StringBuilder errorMessage = new();
+                    foreach (var err in resetPasswordResult.Errors)
+                    {
+                        errorMessage.Append(err.Description + " ");
+                    }
+                    throw new Exception(errorMessage.ToString());
+                }
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
     }
 }

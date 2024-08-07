@@ -1,0 +1,114 @@
+
+/* print-styles.css */
+
+
+.course-card {
+    margin: 20px 10px;
+}
+
+.course-actions {
+    display: flex;
+    justify-content: center;
+}
+
+.course-actions button {
+  margin-right: 5px;
+}
+
+.addicon{
+  background-color: #03a3ed;
+  color: white;
+  border-radius: 50px;
+}
+
+
+button.mat-warn {
+  --mdc-icon-button-icon-color: #03a3ed;
+  --mat-icon-button-state-layer-color: #03a3ed;
+  --mat-icon-button-ripple-color: #03a3edf4;
+}
+
+.tablestylesclass{
+  width: 100%;
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
+
+table {
+  width: 90%;
+  border-collapse: collapse;
+  margin: 1px 10px;
+  border: 2px solid #03a3ed;
+}
+tr th{background-color: #03a3edc9;
+color: white;
+font-weight: 500;
+font-size: 1.3em;
+box-shadow: 1px 1px 5px #01aeff;
+}
+
+th, td {
+  padding: 8px;
+  border: 1px solid #03a3ed89;
+}
+
+/* Adjust padding for borrower cells */
+/* Adjust padding for borrower cells */
+.mat-cell.loanborrower {
+  white-space: nowrap; /* Prevent text wrapping */
+  overflow: hidden; /* Hide overflow text */
+  text-overflow: ellipsis; /* Show ellipsis for overflow text */
+  padding-right: 0px !important;
+}
+.tableprint{ width: 100%;
+  display: flex; 
+}
+
+.print-button{
+  margin-left: 60%;
+ 
+  
+}
+
+.tableOptions{
+  display:flex;
+ 
+  mat-checkbox{
+    margin-top:5px;
+  }
+  .form-control{
+    margin-right:5px;
+  }
+}
+
+
+/* Hide non-essential elements */
+body * {
+    display: none;
+  }
+  
+  /* Show only the table and its contents */
+  table, th, td {
+    display: table !important;
+  }
+  
+  /* Adjust styles for the table */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+  }
+  
+  th, td {
+    padding: 8px;
+    border: 1px solid #000;
+  }
+  
+  /* Show the table header row */
+  th {
+    background-color: #03a4ed;
+    color: #fffefe;
+    font-weight: bold;
+  }
+    

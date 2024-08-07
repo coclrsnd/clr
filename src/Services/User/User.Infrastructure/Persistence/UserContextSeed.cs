@@ -21,12 +21,27 @@ namespace User.Infrastructure.Persistence
                     new OrganizationConfiguration()
                     {
                         OrganizationId = 1,
-                        LogoPath = "../assets/images/logo.png"
+                        LogoPath = "../assets/images/APSSNS.png"
                     },
                      new OrganizationConfiguration()
                     {
                          OrganizationId = 2,
-                         LogoPath = "../assets/images/logo.png"
+                         LogoPath = "../assets/images/KPSSNS.png"
+                    },
+                     new OrganizationConfiguration()
+                    {
+                         OrganizationId = 3,
+                         LogoPath = "../assets/images/BPSSNS.png"
+                    },
+                     new OrganizationConfiguration()
+                    {
+                         OrganizationId = 4,
+                         LogoPath = "../assets/images/SPSSNS.png"
+                    },
+                     new OrganizationConfiguration()
+                    {
+                         OrganizationId = 5,
+                         LogoPath = "../assets/images/KPSSNS.png"
                     }
                 };
                 userContext.OrganizationConfigurations.AddRange(organizationConfiguration);
@@ -82,8 +97,11 @@ namespace User.Infrastructure.Persistence
         {
             return new List<Organization>
             {
-                new Organization() {Name = "Org 1", Code = "ORG1" },
-                new Organization() {Name = "Org 2", Code = "ORG2" }
+                new Organization() {Name = "Arunagiri PSSN Sindhanur", Code = "APSSNS" },
+                new Organization() {Name = "Karnataka PSSN Sindhanur", Code = "KPSSNS" },
+                new Organization() {Name = "Bharathiya PSSN Sindhanur", Code = "BPSSNS" },
+                new Organization() {Name = "Sindhanur PSSN Sindhanur", Code = "SPSSNS" },
+                new Organization() {Name = "Tungabhadra PSSN Sindhanur", Code = "KPSSNS" },
             };
         }
 

@@ -17,22 +17,34 @@ export class LoansDataService extends DefaultDataService<Loan> {
     super("Loan", http, httpUrlGenerator);
   }
 
-  CREATE_LOAN_QUERY = `mutation SaveLoan($loanRequestModel: LoanRequestModelInput!) {
-    saveLoan(loanRequestInput: $loanRequestModel)
+  CREATE_LOAN_QUERY = `mutation SaveLoan($loanRequest:SaveLoanInput!){
+    saveLoan(input: $loanRequest){
+      int
+    }
   }
   `;
 
   add(entity: Loan, options?: HttpOptions): Observable<Loan> {
+    delete entity["organizationName"];
     return this.http.post<Loan>(environment.apiUrl, {
       query: this.CREATE_LOAN_QUERY,
-      variables: { loanRequestModel: entity },
+      variables: {
+        loanRequest: {
+          loanRequestInput: entity,
+        },
+      },
     });
   }
 
   update(update: Update<Loan>, options?: HttpOptions): Observable<Loan> {
+    const loan = update.changes;
     return this.http.post<Loan>(environment.apiUrl, {
       query: this.CREATE_LOAN_QUERY,
-      variables: { loanRequestModel: update.changes },
+      variables: {
+        loanRequest: {
+          loanRequestInput: loan,
+        },
+      },
     });
   }
 }

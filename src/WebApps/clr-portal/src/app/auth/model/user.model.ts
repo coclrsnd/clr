@@ -7,6 +7,7 @@ export interface User {
   token: string;
   organizationId: number;
   organizationCode: string;
+  organizationName: string;
   logoPath: string;
   roleId: number;
   roleName: string;

@@ -2,11 +2,22 @@ export interface Loan {
   amount: number;
   status: string;
   organizationCode: string;
+  organizationName: string;
   adharNumber: string;
-  loanDate: Date;
+  loanDate: string;
   loanBorrower: string;
   loanType: string;
+  repaymentStatus: string;
+  remarks: string;
   id: number;
+  securityReports: string;
+  vehicleNo: string;
+  suretyholder1Adhar: string;
+  suretyholder2Adhar: string;
+  suretyholder1: string;
+  suretyholder2: string;
+  voterId: string;
+  panCardNumber: string;
 }
 
 export function compareLoans(c1: Loan, c2: Loan) {

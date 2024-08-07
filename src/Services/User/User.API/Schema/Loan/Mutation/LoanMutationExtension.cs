@@ -17,6 +17,10 @@ using User.GraphQL.Extensions;
 using User.Infrastructure.Persistence;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Linq;
+using HotChocolate.Authorization;
+using ConferencePlanner.GraphQL.Types;
+using User.Application.Models.UserManagment;
 
 namespace User.GraphQL.Schema.Loan.Mutation
 {
@@ -29,7 +33,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
         {
             _mapper = mapper;
         }
-
+        //[Authorize]
         [UseApplicationDbContext]
         public async Task<int> SaveLoan([ScopedService] UserContext context, LoanRequestModel loanRequestInput, CancellationToken cancellationToken)
         {
@@ -38,6 +42,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
                 if (loanRequestInput.Id <= 0)
                 {
                     var loan = _mapper.Map<Loans>(loanRequestInput);
+                    loan.OrganizationName = context.Organizations.Where(org => org.Code == loanRequestInput.OrganizationCode).FirstOrDefault().Name;
                     var loanEntity = await context.Loans.AddAsync(loan);
                     await context.SaveChangesAsync();
                     return loanEntity.Entity.Id;
@@ -45,6 +50,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
                 else
                 {
                     var loan = _mapper.Map<Loans>(loanRequestInput);
+                    loan.OrganizationName = context.Organizations.Where(org => org.Code == loanRequestInput.OrganizationCode).FirstOrDefault().Name;
                     var loanEntity = context.Loans.Update(loan);
                     await context.SaveChangesAsync();
                     return loanEntity.Entity.Id;
@@ -54,6 +60,78 @@ namespace User.GraphQL.Schema.Loan.Mutation
             catch (Exception ex)
             {
                 throw new Exception("Error While Signing up");
+            }
+        }
+
+        [UseApplicationDbContext]
+        public async Task<int> SaveLoanLead(
+            [ScopedService] UserContext context,
+            LoanLeadRequestModel loanLeadRequestInput,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var orgName = context.Organizations
+                            .Where(org => org.Code == loanLeadRequestInput.OrganizationCode)
+                            .FirstOrDefault().Name;
+                if (loanLeadRequestInput.Id <= 0)
+                {
+                    var loanleadmodel = _mapper.Map<LoanLead>(loanLeadRequestInput);
+                    loanleadmodel.LeadStage = "Approached";
+                    loanleadmodel.LeadStatus = "Pending";
+                    loanleadmodel.OrganizationName = orgName;
+                    var entity = context.LoanLeads.Add(loanleadmodel);
+                    await context.SaveChangesAsync();
+                    return entity.Entity.Id;
+                }
+                else
+                {                    
+                    var loanleadmodel = _mapper.Map<LoanLead>(loanLeadRequestInput);
+                    
+                    loanleadmodel.OrganizationName = orgName;
+                    var entity = context.LoanLeads.Update(loanleadmodel);
+
+                    if (loanleadmodel.LeadStatus == "Disbursed")
+                    {
+                        var loan = _mapper.Map<Loans>(loanLeadRequestInput);
+                        loan.LoanDate = DateTime.UtcNow;
+                        loan.OrganizationName = orgName;
+                        loan.Status = "Active";
+                        context.Loans.Add(loan);
+                    }
+                    await context.SaveChangesAsync();
+                    return entity.Entity.Id;
+                }
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception("Error While Signing up");
+            }
+        }
+
+
+        [UseApplicationDbContext]
+        public async Task<int> AddSociety([ScopedService] UserContext context, OrganizationRequest organizationRequest)
+        {
+            try
+            {
+                var orgaRequest = _mapper.Map<Organization>(organizationRequest);
+                var res = await context.Organizations.AddAsync(orgaRequest);
+                await context.SaveChangesAsync();
+                await context.OrganizationConfigurations.AddAsync(new OrganizationConfiguration()
+                {
+                    LogoPath = $"..assets/images/{orgaRequest.Code}.png",
+                    OrganizationId = res.Entity.Id,
+                });
+
+                await context.SaveChangesAsync();
+                return res.Entity.Id;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error While saving organization");
             }
         }
 
@@ -85,10 +163,13 @@ namespace User.GraphQL.Schema.Loan.Mutation
                     Debug.WriteLine(json);
                 }
 
+                var organizationName = context.Organizations.Where(org => org.Code == bulkUploadRequest.OrganizationCode).FirstOrDefault().Name;
+
                 var loans = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Loans>>(json);
                 loans.ForEach(loan =>
                 {
                     loan.OrganizationCode = bulkUploadRequest.OrganizationCode;
+                    loan.OrganizationName = organizationName;
                     loan.LoanDate = DateTime.SpecifyKind(loan.LoanDate, DateTimeKind.Utc);
                 });
 

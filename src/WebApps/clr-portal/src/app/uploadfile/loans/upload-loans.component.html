@@ -1,20 +1,48 @@
-<div class="content"></div>
-<form>
-  <mat-form-field class="grid-form-field">
-    <input matInput [formControl]="adharFormControl" placeholder="Organization Code" [matAutocomplete]="auto" />
-    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayOrganizationFn">
-      <mat-option *ngFor="let organization of filteredOrganizations$ | async" [value]="organization">
-        {{ organization.name }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
+<div class="content">
+  <form>
+    <div class="form-control">
+      <mat-form-field>
+        <input
+          matInput
+          [formControl]="organization"
+          placeholder="Organization Code"
+          [matAutocomplete]="auto"
+        />
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          [displayWith]="displayOrganizationFn"
+        >
+          <mat-option
+            *ngFor="let organization of filteredOrganizations$ | async"
+            [value]="organization"
+          >
+            {{ organization.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <error-tooltip
+        *ngIf="organization.touched || organization.dirty"
+        [errors]="organization.errors"
+      ></error-tooltip>
+    </div>
+    <div class="file-input-container">
+      <input type="file" id="fileInput" (change)="onFileSelected($event)" />
+    </div>
+  </form>
+  <button
+    mat-raised-button
+    color="primary"
+    type="button"
+    (click)="onSubmit()"
+    class="upload-button"
+  >
+    Upload
+  </button>
+  <div *ngIf="(uploadStatus$ | async) === true">
+    <div class="successmsg">Upload success!</div>
+  </div>
 
-  <div class="file-input-container">
-    <mat-icon>attach_file</mat-icon>
-    <input type="file" id="fileInput" (change)="onFileSelected($event)">
+  <div *ngIf="(uploadStatus$ | async) === false">
+    <div class="errormsg">Error while uploading</div>
   </div>
-  <div>
-    {{selectedFile?.name ?? ''}}
-  </div>
-  <button mat-raised-button color="primary" type="button" (click)="onSubmit()">Upload</button>
-</form>
+</div>

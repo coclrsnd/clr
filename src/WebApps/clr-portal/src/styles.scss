@@ -1,7 +1,15 @@
 @use '@angular/material' as mat;
+@import 'ngx-toastr/toastr';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 
 @include mat.core();
@@ -11,36 +19,37 @@ $dark-primary-text: rgba(black, 0.87);
 $light-primary-text: white;
 
 $mat-primary: (
-  50: #fff3e0,
-  100: #ffe0b2,
-  200: #ffcc80,
-  300: #ffb74d,
-  400: #ffa726,
-  500: rgba(255, 152, 0, 0.8),
-  600: #fb8c00,
-  700: #f57c00,
-  800: #ef6c00,
-  900: #e65100,
-  A100: #ffd180,
-  A200: #ffab40,
-  A400: #ff9100,
-  A700: #ff6d00,
+50: #e0f4ff,
+100: #b3e0ff, 
+200: #80ccff, 
+300: #4db8ff, 
+400: #26a7ff, 
+500: #03a4ed,  
+600: #0083cc, 
+700: #0072b3, 
+800: #0061a0, 
+900: #004080, 
+A100: #80d7ff,
+A200: #40c4ff,
+A400: #00b0ff,
+A700: #0091e6,
   contrast: (
-    50: rgba(black, 0.87),
-    100: rgba(black, 0.87),
-    200: rgba(black, 0.87),
-    300: rgba(black, 0.87),
-    400: rgba(black, 0.87),
-    500: white,
+    50: rgba(0, 0, 0, 0.87), /* Updated contrast color */
+    100: rgba(0, 0, 0, 0.87),
+    200: rgba(0, 0, 0, 0.87),
+    300: rgba(0, 0, 0, 0.87),
+    400: rgba(0, 0, 0, 0.87),
+    500: white, /* Updated contrast color */
     600: white,
     700: white,
     800: white,
     900: white,
-    A100: rgba(black, 0.87),
+    A100: rgba(0, 0, 0, 0.87),
     A200: white,
     A400: white,
     A700: white
-  )
+    )
+  
 );
 
 $mat-accent: (
@@ -58,8 +67,7 @@ $mat-accent: (
   A200: #ff4081,
   A400: #f50057,
   A700: #c51162,
-  contrast: (
-    50: $dark-primary-text,
+  contrast: (50: $dark-primary-text,
     100: $dark-primary-text,
     200: $dark-primary-text,
     300: $dark-primary-text,
@@ -76,18 +84,20 @@ $mat-accent: (
   )
 );
 
+error-tooltip{
+  color: red; font-size: 0.8em;
+}
+.successmsg{color: green; font-size: 0.8em;}
 $primary: mat.define-palette($mat-primary, 500);
 
 $accent: mat.define-palette($mat-accent, A200, A100, A400);
 
-$theme: mat.define-light-theme((
-  color: (
-    primary: $primary,
-    accent: $accent,
-  ),
-  typography: mat.define-typography-config(),
-  density: 0,
-));
+$theme: mat.define-light-theme((color: (primary: $primary,
+        accent: $accent,
+      ),
+      typography: mat.define-typography-config(),
+      density: 0,
+    ));
 
 @include mat.all-component-themes($theme);
 
@@ -110,4 +120,76 @@ $theme: mat.define-light-theme((
   z-index: 1;
   opacity: 0.5;
   justify-content: center;
+}
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+
+  .form-control {
+    display: flex;
+    width: 48%;
+    margin-left: 5px;
+    margin-right: 5px;
+
+    mat-form-field {
+      width: 90%;
+    }
+
+    mat-icon {
+      padding-top: 16px;
+      
+    }
+  }
+}
+
+.mat-mdc-raised-button.mat-primary {
+  --mdc-protected-button-container-color: #03a4ed;
+  --mdc-protected-button-label-text-color: #faf6f6;
+  --mat-protected-button-state-layer-color: white;
+  --mat-protected-button-ripple-color: rgba(246, 241, 241, 0.1);
+}
+
+.errormsg{
+  color:red;
+  font-size: 0.8em;
+  margin-top: 3px; 
+  text-shadow: 0px 0px 0.15px red;
+}
+ .successmsg{
+  color:rgb(31, 235, 68);
+  font-size: 0.8em;
+  margin-top: 3px;
+  text-shadow: 0px 0px 0.15px rgb(79, 252, 31);
+ }
+ 
+ html .successsnackbar{
+  --mdc-snackbar-container-color: #333333;
+  --mdc-snackbar-supporting-text-color: rgba(46, 235, 21, 0.87);
+  --mat-snack-bar-button-color: #fdfcfd;
+}
+
+html {
+  --mdc-snackbar-container-color: #333333;
+  --mdc-snackbar-supporting-text-color: rgba(255, 37, 37, 0.87);
+  --mat-snack-bar-button-color: #fdfbfc;
+  --mdc-snackbar-supporting-font-weight:bold ;
+}
+
+/* Global styles for snackbar */
+.errorsnackbar, .successsnackbar{
+  // background-color: #F44336 !important; /* Red color for error */
+  // color: white !important;
+  margin-top: 90px !important;
+  /* Custom positioning by moving to the right */
+  text-align: center;
+  border-radius: 5px;
+  // box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.snackbar-container-custom {
+  position: fixed;
+  right: 0;         /* Aligns snackbar to the right side */
+  top: 50px;        /* Adds a margin from the top */
+  z-index: 9999;    /* Ensures it is above other elements */
 }

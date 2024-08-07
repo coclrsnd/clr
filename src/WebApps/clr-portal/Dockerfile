@@ -1,24 +1,32 @@
-# Stage 1: Build the Angular application
-FROM node:14 AS build
+# Use Node.js 18.13 as the base image for the build stage
+FROM node:18.13 AS build
 
+# Set the working directory in the container
 WORKDIR /app
 
-COPY package.json package-lock.json ./
+# Copy the package.json and package-lock.json files
+COPY package*.json ./
 
+# Install dependencies
 RUN npm install
 
+# Copy the entire project directory into the working directory
 COPY . .
 
-RUN npm run build -- --prod
+# Build the Angular app
+RUN npm run build --prod
 
-# Stage 2: Serve the Angular application using nginx
+# Serve the Angular app using Nginx
 FROM nginx:alpine
 
-COPY --from=build /app/dist/your-angular-app /usr/share/nginx/html
+# Copy custom nginx.conf to the container
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Copy the default nginx configuration
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy the built Angular app from the build stage to the NGINX web root directory
+COPY --from=build /app/dist /usr/share/nginx/html
 
+# Expose port 80 to the outside world
 EXPOSE 80
 
+# Start NGINX when the container starts
 CMD ["nginx", "-g", "daemon off;"]

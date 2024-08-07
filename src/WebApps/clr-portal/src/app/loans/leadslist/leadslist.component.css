@@ -1,0 +1,182 @@
+
+.loanclass{width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+    .course-card {
+        margin: 20px 10px;
+    }
+    
+    .course-actions {
+        display: flex;
+        justify-content: center;
+    }
+    
+    .course-actions button {
+      margin-right: 5px;
+    }
+     .tableprint{
+      display: flex;
+      flex-direction: column;
+     }
+    
+    button.mat-warn {
+      --mdc-icon-button-icon-color: #03a4ed;
+      --mat-icon-button-state-layer-color:#03a4ed;
+      --mat-icon-button-ripple-color: #03a3edea;;
+    }
+    
+    .tablestylesclass{
+      width: 100%;
+      flex-direction: column;
+      justify-content: center; 
+      align-items: center;
+    }
+    
+    table {
+      width: 100%;
+      position: relative;
+      border-collapse: collapse;
+      border: 1px solid #14a9ee;
+      overflow-x: auto;
+    }
+    
+    tr th{
+    width: 10%;
+    background-color: #03a4ed;
+    color: white;
+    font-weight: 500;
+    font-size: 1.3em;
+    box-shadow: 1px 1px 5px #03a4ed; 
+    text-align: center;
+    padding: 8px;
+    border: 1px solid #14a9ee;
+    }
+    
+    .mat-mdc-cell {
+    white-space: nowrap;
+    }
+    
+    
+    td {
+      padding: 8px;
+      border: 1px solid #03a4ed;
+    }
+    
+    .tableprint{ width: 100%;
+      display: flex; 
+    }
+    
+    .printbutton{
+      margin-left: 60%;
+    }
+    
+    .tableOptions{
+      display:flex;
+     
+      mat-checkbox{
+        margin-top:5px;
+      }
+      .form-control{
+        margin-right:5px;
+      }
+    } 
+    
+    .filterdatebtn{
+      background-color: transparent;
+      border: none ;
+      outline: none ;
+      margin-left: 10px;
+      font-size: 18px;
+    }
+    .filterdatebtn:hover{
+      color: #03a4ed;
+      transition: color 0.3s ease;
+    }
+    
+    .panel-container {
+      overflow: hidden;
+      transition: height 0.3s ease; 
+    }
+    
+    .panel-content {
+      margin: 2px;
+      padding: 2px;
+      background-color: #fdfbfb;
+    }
+     .visi{
+      font-size: 16px;
+    }
+    
+    .mat-mdc-header-row {
+      background-color: #03a4ed;
+      position: sticky;
+      z-index: 100;
+      top:-5px;
+    }
+    
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto; 
+      height: fit-content;
+      max-height: 380px;
+    }
+   
+    .print-details{
+      display: none;
+      visibility: hidden;
+    }
+    
+    
+    @media print {
+      .tableprint {
+        visibility: hidden;
+      }
+      @page {
+        margin: 10mm;
+      }
+    
+    .table-responsive{
+      margin-top: 15mm;
+      visibility: visible;
+      overflow: visible;
+      height: fit-content;
+    }
+      .table-container {
+        width: 100%; 
+        max-width: none;
+      }
+      .print-details{
+        display: block;
+        visibility: visible;
+        margin-left: 0;
+        padding-bottom: 10px;
+        padding-left: 0;
+      }
+     
+      table {
+        margin: 1px;
+        display: flex;
+        justify-content: center;
+        border-spacing: 0;
+        border-collapse: collapse;
+        overflow: visible;
+        max-width: none;
+      }
+    
+      th, td {
+            padding: 8px;
+            overflow: hidden; 
+            white-space: nowrap; 
+            text-overflow: ellipsis; 
+      }
+      .action, .borrower, .adhar, mat-icon{
+        visibility: hidden;
+        display: none;
+      }
+    .table-responsive {
+      overflow: visible;
+    }
+    }
+    
+    

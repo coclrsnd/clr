@@ -12,8 +12,8 @@ using User.Infrastructure.Persistence;
 namespace User.Infrastructure.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20240329161657_UserMapping changes")]
-    partial class UserMappingchanges
+    [Migration("20240716073550_Lead_Changes_Adding_Amount_Field")]
+    partial class Lead_Changes_Adding_Amount_Field
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -261,6 +261,73 @@ namespace User.Infrastructure.Migrations
                     b.ToTable("AppFeatures");
                 });
 
+            modelBuilder.Entity("User.Domain.Entities.LoanLead", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("AdharNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("Amount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastModifiedDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LeadStage")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LeadStatus")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LeadStatusRemarks")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("LoanBorrower")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("LoanDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("LoanType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("OrganizationCode")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("PanCardNumber")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("VoterId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LoanLeads");
+                });
+
             modelBuilder.Entity("User.Domain.Entities.Loans", b =>
                 {
                     b.Property<int>("Id")
@@ -307,9 +374,43 @@ namespace User.Infrastructure.Migrations
                         .HasMaxLength(12)
                         .HasColumnType("character varying(12)");
 
-                    b.Property<int>("Status")
+                    b.Property<string>("OrganizationName")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PanCardNumber")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Remarks")
+                        .HasColumnType("text");
+
+                    b.Property<string>("RepaymentStatus")
+                        .HasColumnType("text");
+
+                    b.Property<string>("SecurityReports")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Status")
+                        .IsRequired()
                         .HasMaxLength(12)
-                        .HasColumnType("integer");
+                        .HasColumnType("character varying(12)");
+
+                    b.Property<string>("Suretyholder1")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Suretyholder1Adhar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Suretyholder2")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Suretyholder2Adhar")
+                        .HasColumnType("text");
+
+                    b.Property<string>("VehicleNo")
+                        .HasColumnType("text");
+
+                    b.Property<string>("VoterId")
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 

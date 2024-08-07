@@ -47,6 +47,24 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Loan.Portal", "WebApps\Loan
 		Release.AspNetCompiler.FixedNames = "false"
 		Release.AspNetCompiler.Debug = "False"
 		VWDPort = "55111"
+	EndProjectSection
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.8"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_55111"
+		Debug.AspNetCompiler.PhysicalPath = "WebApps\Loan.Portal\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55111\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_55111"
+		Release.AspNetCompiler.PhysicalPath = "WebApps\Loan.Portal\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_55111\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "55111"
 		SlnRelativePath = "WebApps\Loan.Portal\"
 	EndProjectSection
 EndProject

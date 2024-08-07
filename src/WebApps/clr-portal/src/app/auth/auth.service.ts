@@ -7,7 +7,7 @@ import { environment } from "../../environments/environment";
 
 @Injectable()
 export class AuthService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   LOGINQUERY = `query Login($loginRequest: LoginRequestInput!) {
     login(loginRequestInput: $loginRequest) {
@@ -18,6 +18,7 @@ export class AuthService {
       token
       organizationId
       organizationCode
+      organizationName
       logoPath
       roleId
       roleName

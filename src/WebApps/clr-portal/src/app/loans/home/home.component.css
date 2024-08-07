@@ -1,52 +1,47 @@
+.content{
+  display:flex;
+  justify-content:space-between;
+  margin-left: 4%;
+  margin-right: 2%;
+  margin-top: 7%;
+  
+  button{
+    margin:11px;
+  }
+ }
 
-
-.title {
-    text-align: center;
-    margin-right: 15px;
-
-}
-
-.courses-panel {
-    max-width: 350px;
-    margin: 0 auto;
-}
-
-
-.counters {
-    display: flex;
-}
-
-.filler {
-    flex: 1 1 auto;
-}
-
-h2 {
-  font-family: "Roboto";
-}
-
-.header {
+ .lead:hover{
+ background-color: white;
+ color:#238ef8;
+ font-size: 14.2px;
+ text-shadow: 0.5px 0px #238ef8;
+ /* border: #238ef8 solid 1px; */
+ outline:#238ef8 solid 1px;
+ transition: background-color 0.3s ease-out;
+ box-shadow: 1px 1px 5px 0.1px #238ef8;
+ }
+ 
+ .spinner-container {
+  position: absolute;
+  top: 30%;
+  left: 36%;
+  /* right: 40; */
+  bottom: 50;
   display: flex;
   justify-content: center;
   align-items: center;
-
+  background: transparent;
+  text-align: center;
+  z-index: 10;
 }
 
-
-
-.spinner-container {
-  margin-top: 100px;
-}
-
-
-form{
-  display:flex;
-  justify-content: center;
-  > div:not(:last-child) {
-    margin-left: 20px; /* Adjust as needed */
-    margin-right: 20px; /* Adjust as needed */
-    display:flex;
+@media print{
+  .content{
+    visibility:hidden;
+    display: none;
   }
-  button{
-    margin-top:10px;
+  .leadhide{
+    visibility:hidden;
+    display: none;
   }
 }

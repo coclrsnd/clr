@@ -28,25 +28,27 @@ services:
 
   user.api:
     image: ${DOCKER_REGISTRY-}userapi
+    container_name: user.api
     build:
       context: .
-      dockerfile: Services/User/User.API/Dockerfile
+      dockerfile: Services/User/User.API/Dockerfile    
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - "ConnectionStrings:UserDBConnection=Server=userdb;Port=5432;Database=userdb;User Id=admin;Password=admin1234;" 
     ports:
-      - "80"
+      - "8001:80"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
 
-  angular-app:
+  clr-portal:
+    container_name: clr-portal
     build:
       context: ./WebApps/clr-portal
       dockerfile: Dockerfile
     ports:
-      - '80:80'
+      - "8002:80"
     volumes:
       - './src:/app/src' 
 

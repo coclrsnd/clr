@@ -1,4 +1,4 @@
 export interface UploadFileRequest {
-  file: File
-  OrgCode: string
+  file: File;
+  OrgCode: string;
 }

@@ -1,11 +1,16 @@
 .form-container {
-  margin: 0 auto; /* Center the form horizontally */
-  max-width: 800px; /* Adjust the maximum width of the form container */
+  margin: 0 auto;
+  /* Center the form horizontally */
+  max-width: 800px;
+  /* Adjust the maximum width of the form container */
+  margin-top: 8%;
 }
 
 .grid-form {
   display: flex;
   flex-direction: column;
+  margin-bottom: 10px;
+  ;
 }
 
 .grid-form-row {
@@ -14,10 +19,12 @@
 }
 
 .grid-form-field {
-  margin-right: 10px; /* Adjust spacing between fields */
-  flex-grow: 1; /* Allow fields to grow to fill available space */
+  margin-right: 10px;
+  /* Adjust spacing between fields */
+  flex-grow: 1;
+  /* Allow fields to grow to fill available space */
 }
 
-.error-message{
+.error-message {
   color: red;
 }
