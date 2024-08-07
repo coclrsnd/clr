@@ -68,6 +68,7 @@ export class EditLoanDialogComponent implements OnInit {
   vehicalfield: boolean = false;
   pancardNumber: string = "";
   // voterId: string = "";
+  todayDate: string;
   voterId = new FormControl('');
   constructor(
     private fb: FormBuilder,
@@ -142,6 +143,7 @@ export class EditLoanDialogComponent implements OnInit {
     });
 
     if (this.mode === "update") {
+      
       const statusdata = { status: "Active" };
       this.loanForm.patchValue({ ...data.Loan, ...statusdata });
       this.loanForm.get("adharNumber").disable();
@@ -166,6 +168,8 @@ export class EditLoanDialogComponent implements OnInit {
     } else {
       this.loanForm.get("status").disable();
     }
+    const today = new Date();
+      this.todayDate = today.toISOString().split('T')[0];
   }
 
   numericOnly(event): boolean {
@@ -231,6 +235,7 @@ export class EditLoanDialogComponent implements OnInit {
   // Initialize form and field visibility directly in the constructor
   initializeForm(loanData: Loan) {
     this.loanForm = this.fb.group({
+      loanDate: [this.todayDate, Validators.required],
       loanType: [loanData?.loanType || "", Validators.required],
       // Set up additional form controls here
     });
