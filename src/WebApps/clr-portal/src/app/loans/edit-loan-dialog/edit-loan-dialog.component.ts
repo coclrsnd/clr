@@ -33,6 +33,9 @@ import {
   MatSnackBarRef,
 } from "@angular/material/snack-bar";
 import { ToastrService } from "ngx-toastr";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+
+
 
 @Component({
   selector: "Loan-dialog",
@@ -79,7 +82,9 @@ export class EditLoanDialogComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private toastr: ToastrService,
     private cdr: ChangeDetectorRef,
+    private dateAdapter: DateAdapter<Date>,
   ) {
+    this.dateAdapter.setLocale('en-GB');
     this.dialogTitle = data.dialogTitle;
     this.loan = data.Loan;
     this.mode = data.mode;
@@ -108,26 +113,26 @@ export class EditLoanDialogComponent implements OnInit {
       suretyholder1: [
         "",
         [
-          Validators.required,
+          
           Validators.pattern(/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/),
           Validators.maxLength(30),
         ],
       ],
       suretyholder1Adhar: [
         { value: "", disabled: this.disableAdhar },
-        [Validators.required, Validators.pattern(/^[0-9]{12}$/)],
+        [Validators.pattern(/^[0-9]{12}$/)],
       ],
       suretyholder2: [
         "",
         [
-          Validators.required,
+          
           Validators.pattern(/^(?=.{1,}$)[A-Za-z]+(?:[ .][A-Za-z]+)*$/),
           Validators.maxLength(30),
         ],
       ],
       suretyholder2Adhar: [
         { value: "", disabled: this.disableAdhar },
-        [Validators.required, Validators.pattern(/^[0-9]{12}$/)],
+        [Validators.pattern(/^[0-9]{12}$/)],
       ],
       loanType: ["", Validators.required],
       repaymentStatus: [""],
@@ -138,14 +143,14 @@ export class EditLoanDialogComponent implements OnInit {
       panCardNumber: ["", Validators.pattern(/^[A-Z0-9]{10}$/)],
       voterId: [
         "",
-        [Validators.required, Validators.pattern(/^[0-9A-Z]{10}$/)],
+        [Validators.pattern(/^[0-9A-Z]{10}$/)],
       ],
     });
 
     if (this.mode === "update") {
       
-      const statusdata = { status: "Active" };
-      this.loanForm.patchValue({ ...data.Loan, ...statusdata });
+      // const statusdata = { status: "Active" };
+      // this.loanForm.patchValue({ ...data.Loan, ...statusdata });
       this.loanForm.get("adharNumber").disable();
       if (
         data.Loan.suretyholder1Adhar &&
@@ -164,9 +169,9 @@ export class EditLoanDialogComponent implements OnInit {
         this.loanForm.get("suretyholder2Adhar").enable(); // Enable if empty
       }
 
-      this.loanForm.get("status").enable();
+      // this.loanForm.get("status").enable();
     } else {
-      this.loanForm.get("status").disable();
+      // this.loanForm.get("status").disable();
     }
     const today = new Date();
       this.todayDate = today.toISOString().split('T')[0];
@@ -218,7 +223,7 @@ export class EditLoanDialogComponent implements OnInit {
       );
     } else if (this.mode == "create") {
       this.btnname = "save";
-      loan.status = "Active";
+      // loan.status = "Active";
       loan.loanDate = new Date(loan.loanDate).toISOString();
       this.loansService.add(loan).subscribe((newLoan) => {
         console.log("New Loan", newLoan);

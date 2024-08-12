@@ -28,7 +28,7 @@ import { User } from "../../auth/model/user.model";
 import { AppState } from "../../reducers";
 import { Store, UPDATE } from "@ngrx/store";
 import { selectUserDetails } from "../../auth/auth.selectors";
-import { ErrorStateMatcher } from "@angular/material/core";
+import { DateAdapter, ErrorStateMatcher } from "@angular/material/core";
 import { of } from "rxjs";
 import {
   MatSnackBar,
@@ -90,7 +90,9 @@ export class LeadsformComponent implements OnInit {
     private toastr: ToastrService,
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
+    private dateAdapter: DateAdapter<Date>,
   ) {
+    this.dateAdapter.setLocale('en-GB');
     this.dialogTitle = data.dialogTitle;
     this.loanlead = data.LoanLead;
     this.mode = data.mode;
