@@ -95,7 +95,7 @@ export class EditLoanDialogComponent implements OnInit {
     this.loanForm = this.fb.group({
       id: [0],
       amount: ["", [Validators.required, Validators.pattern(/^[0-9]{1,8}$/)]],
-      status: ["", Validators.required],
+      status: [],
       organizationCode: ["", Validators.required],
       adharNumber: [
         { value: "", disabled: this.disableAdhar },
@@ -135,7 +135,7 @@ export class EditLoanDialogComponent implements OnInit {
         [Validators.pattern(/^[0-9]{12}$/)],
       ],
       loanType: ["", Validators.required],
-      repaymentStatus: [""],
+      repaymentStatus: [this.loan?.repaymentStatus || ''],
       remarks: [""],
       securityReports: [""],
       vehicleNo: [""],
@@ -145,6 +145,13 @@ export class EditLoanDialogComponent implements OnInit {
         "",
         [Validators.pattern(/^[0-9A-Z]{10}$/)],
       ],
+    });
+
+    this.loanForm.get('status').valueChanges.subscribe(status => {
+      if (this.mode === 'create') {
+        const repaymentStatus = status === 'Active' ? 'Healthy' : 'Poor';
+        this.loanForm.get('repaymentStatus').setValue(repaymentStatus);
+      }
     });
 
     if (this.mode === "update") {
@@ -192,8 +199,10 @@ export class EditLoanDialogComponent implements OnInit {
     this.store.select(selectUserDetails).subscribe((user) => {
       this.loanForm.get("organizationCode").patchValue(user.organizationCode);
     });
-  }
 
+    
+  }
+  
   onClose() {
     this.dialogRef.close();
   }
@@ -203,6 +212,7 @@ export class EditLoanDialogComponent implements OnInit {
       ...this.loan,
       ...this.loanForm.value,
     };
+    
 
     if (this.mode == "update") {
       this.loansService.update(loan).subscribe(
@@ -223,14 +233,23 @@ export class EditLoanDialogComponent implements OnInit {
       );
     } else if (this.mode == "create") {
       this.btnname = "save";
-      // loan.status = "Active";
+      loan.status = loan.status||"Active";
+      this.loanForm.get('repaymentStatus').setValue(this.loan?.status === 'Active' ? 'Healthy' : 'Poor');
       loan.loanDate = new Date(loan.loanDate).toISOString();
       this.loansService.add(loan).subscribe((newLoan) => {
         console.log("New Loan", newLoan);
         this.result = "Created successfully!";
         this.dialogSaveStatus$ = of(true); // Update save status to true
+        
+        // if (loan.status === "Active") {
+          // this.loanrepaymentstatus = ["Healthy"]; // Assign as an array
+        // } else {
+          // this.loanrepaymentstatus = ["Poor"]; // Assign as an array
+        // }       
+
         this.dialogRef.close();
       });
+      
     }
   }
   toastrclick() {
