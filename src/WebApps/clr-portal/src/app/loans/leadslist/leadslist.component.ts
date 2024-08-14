@@ -143,7 +143,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     //     this.dataSource.sort = this.sort;
     //   })
     // );
-    this.loanleadService.getAll();
+   
   }
 
   ngOnDestroy() {
