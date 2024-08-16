@@ -157,7 +157,7 @@ export class EditLoanDialogComponent implements OnInit {
     if (this.mode === "update") {
       
       // const statusdata = { status: "Active" };
-      // this.loanForm.patchValue({ ...data.Loan, ...statusdata });
+      this.loanForm.patchValue({ ...data.Loan });
       this.loanForm.get("adharNumber").disable();
       if (
         data.Loan.suretyholder1Adhar &&
