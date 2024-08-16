@@ -238,7 +238,8 @@ font-size: medium;
  
   table {
     margin: 1px;
-    display: flex;
+    /* display: flex; */
+    /* flex-direction: column; */
     justify-content: center;
     border-spacing: 0;
     border-collapse: collapse;
