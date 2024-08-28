@@ -145,6 +145,7 @@ export class LeadsformComponent implements OnInit {
           this.dialogSaveStatus$ = of(true);
           this.dialogRef.close();
           this.toastr.success("Updated Successfully!", "Success");
+          window.location.reload(); 
         },
         (error) => {
           this.result = "Update failed!";
@@ -167,6 +168,7 @@ export class LeadsformComponent implements OnInit {
           this.dialogSaveStatus$ = of(true);
           this.dialogRef.close();
           this.toastr.success("Created Successfully!", "Success");
+          window.location.reload(); 
           
         },
         (error) => {
