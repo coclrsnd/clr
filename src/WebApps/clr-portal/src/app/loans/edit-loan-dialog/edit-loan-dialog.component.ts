@@ -59,6 +59,7 @@ export class EditLoanDialogComponent implements OnInit {
     "Pledge Loan",
     "Housing Loan",
     "Gold Purchase Loan",
+    "Group Loan",
   ];
   loanStatuType: string[] = ["Active", "In-Active", "Closed", "OTS"];
   userDetails$: Observable<User>;
