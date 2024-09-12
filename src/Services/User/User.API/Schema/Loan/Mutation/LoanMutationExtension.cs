@@ -1,4 +1,4 @@
-﻿using AutoMapper;
+using AutoMapper;
 using CsvHelper.Configuration;
 using CsvHelper;
 using HotChocolate;
@@ -95,6 +95,7 @@ namespace User.GraphQL.Schema.Loan.Mutation
                     {
                         var loan = _mapper.Map<Loans>(loanLeadRequestInput);
                         loan.LoanDate = DateTime.UtcNow;
+                        
                         loan.OrganizationName = orgName;
                         loan.Status = "Active";
                         context.Loans.Add(loan);
