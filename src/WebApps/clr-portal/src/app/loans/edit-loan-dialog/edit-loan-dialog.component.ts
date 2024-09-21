@@ -101,7 +101,7 @@ export class EditLoanDialogComponent implements OnInit {
       organizationCode: ["", Validators.required],
       adharNumber: [
         { value: "", disabled: this.disableAdhar },
-        [Validators.required, Validators.pattern(/^[0-9]{12}$/)],
+        [ Validators.pattern(/^[0-9]{12}$/)],
       ],
       loanDate: ["", Validators.required],
       loanBorrower: [
