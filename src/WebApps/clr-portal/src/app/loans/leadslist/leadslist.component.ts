@@ -67,7 +67,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     "adharNumber",
     "organizationName",
     "loanType",
-    
+    "amount",
     "leadStatus",
     "leadStatusRemarks",
     "actions",

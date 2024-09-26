@@ -218,6 +218,7 @@ font-size: medium;
   }
   @page {
     margin: 10mm;
+    size: landscape; /* Better for wide tables */
   }
 
 .table-responsive{
@@ -247,13 +248,19 @@ font-size: medium;
     border-collapse: collapse;
     overflow: visible;
     max-width: none;
+    width: 100%;
+    table-layout: auto;
   }
 
   th, td {
-        padding: 8px;
-        overflow: hidden; /* Prevent content from overflowing the cell boundaries */
-        white-space: nowrap; 
+        padding: 4px;
+        overflow:visible;
+        white-space:normal; 
         text-overflow: ellipsis; /* Adds an ellipsis if the text is too long */
+        font-size: 14px;
+        word-wrap: break-word;
+        letter-spacing:0.08em;
+        
   }
   .action, .borrower, .adhar, mat-icon{
     visibility: hidden;
@@ -262,6 +269,14 @@ font-size: medium;
 .table-responsive {
   overflow: visible;
 }
+
+  body {
+    transform: scale(1);
+    transform-origin: top left;
+  }
+ 
 }
+
+
 
 

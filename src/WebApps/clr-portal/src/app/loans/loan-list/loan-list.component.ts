@@ -103,6 +103,10 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "amount",
     "status",
     "repaymentStatus",
+    "suretyholder1",
+    "suretyholder1Adhar",
+    "suretyholder2",
+    "suretyholder2Adhar",
     "actions",
   ];
   columns = new FormControl([]);
