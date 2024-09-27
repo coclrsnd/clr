@@ -4,7 +4,7 @@
       <button class="menu-button" mat-icon-button (click)="sidenav.toggle()">
         <mat-icon>menu</mat-icon>
       </button>
-      <p1 *ngIf="userDetails$ | async as userDetails"
+      <p1 *ngIf="userDetails$ | async as userDetails" [ngStyle]="{'font-size': fontSize}" id="dynamicFontSize"
         >{{
           userDetails.organizationName
             ? userDetails.organizationName

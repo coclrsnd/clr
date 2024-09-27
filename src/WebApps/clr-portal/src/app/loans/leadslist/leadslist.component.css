@@ -156,23 +156,26 @@
      
       table {
         margin: 1px;
-        /* display: flex;
-        justify-content: center; */
+        /* display: flex; */
+        /* flex-direction: column; */
+        justify-content: center;
         border-spacing: 0;
         border-collapse: collapse;
         overflow: visible;
-        width:max-content;
         max-width: none;
+        width: 100%;
+        table-layout: auto;
       }
     
       th, td {
-        padding: 2px;
-        overflow: visible; /* Prevent content from overflowing the cell boundaries */
-        white-space:normal; 
-        text-overflow: ellipsis; /* Adds an ellipsis if the text is too long */
-        font-size: 12px;
-        word-wrap: break-word;
-        letter-spacing: normal;
+            padding: 4px;
+            overflow:visible;
+            white-space:normal; 
+            /* text-overflow: ellipsis;  */
+            font-size: 14px;
+            word-wrap: break-word;
+            letter-spacing:0.08em;
+            
       }
       .action, .borrower, .adhar, mat-icon{
         visibility: hidden;
@@ -185,6 +188,15 @@
       transform: scale(1);
       transform-origin: top left;
     }
+    .long-text {
+      width: 250px; /* or any other width */
+      white-space: normal; /* Allows the text to wrap */
+      word-wrap: break-word; /* Ensures long words do not overflow */
+  }
+  .ENQUIRIES{
+    display: block;
+    visibility: visible;
+  }
     }
     
     

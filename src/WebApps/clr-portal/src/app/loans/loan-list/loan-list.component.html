@@ -43,7 +43,7 @@
         : {{ currentDate | date: "mediumDate" }}
       </p>
     </div> -->
-    <h2 style="color:#238ef8">LOANS</h2>
+    <h2 style="color:#238ef8" class="LOANS">LOANS</h2>
     <div
       class="tablestylesclass mat-elevation-z8"
       matSort
@@ -119,7 +119,7 @@
         <!-- Repayment -->
         <ng-container matColumnDef="repaymentStatus">
           <th mat-header-cell *matHeaderCellDef>Repayment</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element" class="repayments">
             <div
               [ngStyle]="{
                 color:
@@ -175,7 +175,7 @@
         <!-- loantype -->
         <ng-container matColumnDef="loanType">
           <th mat-header-cell *matHeaderCellDef>Type</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element" class="long-text">
             <div
               [ngStyle]="{
                 'font-size': 'medium',
@@ -212,7 +212,7 @@
         <!-- ORG -->
         <ng-container matColumnDef="organizationName">
           <th mat-header-cell *matHeaderCellDef>Society</th>
-          <td mat-cell *matCellDef="let element">
+          <td mat-cell *matCellDef="let element" class="long-text">
             {{ element.organizationName }}
           </td>
         </ng-container>

@@ -211,7 +211,6 @@ font-size: medium;
   visibility: hidden;
 }
 
-
 @media print {
   .tableprint {
     visibility: hidden;
@@ -256,13 +255,13 @@ font-size: medium;
         padding: 4px;
         overflow:visible;
         white-space:normal; 
-        text-overflow: ellipsis; /* Adds an ellipsis if the text is too long */
+        /* text-overflow: ellipsis;  */
         font-size: 14px;
         word-wrap: break-word;
         letter-spacing:0.08em;
         
   }
-  .action, .borrower, .adhar, mat-icon{
+  .action,  mat-icon{
     visibility: hidden;
     display: none;
   }
@@ -274,6 +273,26 @@ font-size: medium;
     transform: scale(1);
     transform-origin: top left;
   }
+
+  .long-text {
+    width: 250px; /* or any other width */
+    white-space: normal; /* Allows the text to wrap */
+    word-wrap: break-word; /* Ensures long words do not overflow */
+}
+.active, .inactive, .ots, .closed, .repayments{
+  padding: 4px;
+  overflow:visible;
+  white-space:normal; 
+  /* text-overflow: ellipsis;  */
+  font-size: 14px;
+  word-wrap: break-word;
+  letter-spacing:0.08em;
+  text-transform: uppercase;
+}
+.LOANS{
+  display: block;
+  visibility: visible;
+}
  
 }
 

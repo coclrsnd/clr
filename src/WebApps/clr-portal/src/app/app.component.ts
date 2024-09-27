@@ -21,6 +21,9 @@ import { FormBuilder } from "@angular/forms";
 import { NavigationExtras } from "@angular/router";
 import { EventbusService } from "./eventbus.service";
 import { MatSidenav } from "@angular/material/sidenav";
+
+
+
 @Component({
   selector: "app-root",
   templateUrl: "./app.component.html",
@@ -35,15 +38,18 @@ export class AppComponent implements OnInit {
   isLoggedOut$: Observable<boolean>;
   userDetails$: Observable<User>;
   currentRoute: string;
+  fontSize: string = '20px';  // Default font size
 
   constructor(
     private router: Router,
     private store: Store<AppState>,
     private eventBus: EventbusService,
+    
   ) {
     this.eventBus.sidenavClose.subscribe(() => {
       this.sidenav.close();
     });
+    
   }
 
   ngOnInit() {
@@ -71,8 +77,18 @@ export class AppComponent implements OnInit {
     });
 
     this.isLoggedIn$ = this.store.pipe(select(isLoggedIn));
-    this.userDetails$ = this.store.pipe(select(selectUserDetails));
+    // this.userDetails$ = this.store.pipe(select(selectUserDetails));
     this.isLoggedOut$ = this.store.pipe(select(isLoggedOut));
+
+    this.userDetails$ = this.store.pipe(
+      select(selectUserDetails),
+      map(userDetails => {
+        if (userDetails) {
+          this.adjustFontSize(userDetails.organizationName || "");
+        }
+        return userDetails;
+      })
+    );
   }
 
   logout() {
@@ -82,4 +98,15 @@ export class AppComponent implements OnInit {
   refreshData() {
     location.reload();
   }
+  adjustFontSize(organizationName: string): void {
+    const length = organizationName.length;
+    if (length > 20) {
+      this.fontSize = '24px';  // Smaller font size for longer names
+    } else if (length > 15) {
+      this.fontSize = '28px';  // Medium font size
+    } else {
+      this.fontSize = '20px';  // Default font size
+    }
+  }
+  
 }
