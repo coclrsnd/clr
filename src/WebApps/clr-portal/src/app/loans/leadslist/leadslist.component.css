@@ -38,7 +38,7 @@
       position: relative;
       border-collapse: collapse;
       border: 1px solid #14a9ee;
-      overflow-x: auto;
+      overflow-x: scroll;
     }
     
     tr th{
