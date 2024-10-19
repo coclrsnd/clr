@@ -22,19 +22,23 @@
     >
       Search
     </button>
+    <!-- spinner -->
     <div class="spinner-container" *ngIf="loading">
       <mat-spinner class="back-spinner" diameter="100"></mat-spinner>
     </div>
+    <!-- print button -->
     <ng-container *ngIf="printbtn">
       <button mat-icon-button (click)="printTable()" class="printbutton">
         <mat-icon>print</mat-icon>
       </button>
     </ng-container>
+    <!--loans export to excel button -->
     <ng-container>
       <button mat-raised-button color="primary" (click)="exportloans()" class="exportloan">Export</button>
     </ng-container>
-   
+    
   </div>
+  <!-- lead button -->
   <div>
     <button class="lead" mat-raised-button color="primary" (click)="addlead()">
       New Lead
@@ -42,14 +46,16 @@
   </div>
 </div>
 
-
-  
+<!-- loans table -->
 <div id="excelloans">
   <loan-list [adharNumber]="adharNumber"></loan-list>
 </div>
+ <!--leads export to excel button -->
 <ng-container>
   <button mat-raised-button color="primary" (click)="exportleads()" class="exportlead">Export</button>
 </ng-container>
+
+<!-- leads table -->
 <div id="excelleads">
       <leadslist [adharNumber]="adharNumber"></leadslist>
 </div>
