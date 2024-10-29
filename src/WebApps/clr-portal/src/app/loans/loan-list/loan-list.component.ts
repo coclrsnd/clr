@@ -69,6 +69,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   fromDate = new FormControl("");
   toDate = new FormControl("");
   displayedColumns: string[] = [
+    "actions",
     "loanDate",
     "loanBorrower",
     "adharNumber",
@@ -83,7 +84,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "suretyholder2Adhar",
     "voterId",
     "panCardNumber",
-    "actions",
+    
   ];
   userDetails$: Observable<User>;
   showCurrentOrgsLoans: boolean = true;
@@ -95,6 +96,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
   currentDate = new Date();
 
   defaultColumns: string[] = [
+    "actions",
     "loanDate",
     "loanBorrower",
     "adharNumber",
@@ -107,10 +109,11 @@ export class LoanListComponent implements OnInit, OnDestroy {
     "suretyholder1Adhar",
     "suretyholder2",
     "suretyholder2Adhar",
-    "actions",
+    
   ];
   columns = new FormControl([]);
   columnsList: TableColumn[] = [
+    { key: "actions", displayName: "Actions" },
     { key: "loanDate", displayName: "Loan Date" },
     { key: "loanBorrower", displayName: "Borrower" },
     { key: "adharNumber", displayName: "Adhar Number" },
@@ -125,7 +128,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
     { key: "suretyholder2Adhar", displayName: "2nd Surety Adhar" },
     { key: "voterId", displayName: "Voter Id" },
     { key: "panCardNumber", displayName: "Pancard Number" },
-    { key: "actions", displayName: "Actions" },
+    
   ];
   // displayedColumns: string[] = [];
   columnsToDisplay: string[] = [];
