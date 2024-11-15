@@ -172,6 +172,26 @@ font-size: medium;
  text-wrap: nowrap;
  /* font-weight: 600; */
 }
+.defaulter{
+  font-size: medium;
+   background-color: #e7d2fa !important;
+   color: #b84632 !important;
+   border-color: #b84632;
+   text-wrap: nowrap;
+   font-weight: 600;
+   border-radius: 5px;
+   padding: 5px;
+  }
+  .suite-filed{
+    font-size: medium;
+     background-color: #e7d2fa !important;
+     color: #fa4848 !important;
+     border-color: #fa4848;
+     text-wrap: nowrap;
+     font-weight: 600;
+     border-radius: 5px;
+     padding: 5px;
+    }
  .mat-mdc-header-row {
   background-color: #03a4ed;
   position: sticky;
