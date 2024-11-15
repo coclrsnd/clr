@@ -62,7 +62,7 @@ export class EditLoanDialogComponent implements OnInit {
     "Group Loan",
     "Crop Loan",
   ];
-  loanStatuType: string[] = ["Active", "In-Active", "Closed", "OTS","Defaulter","Suite Filed"];
+  loanStatuType: string[] = ["Active", "In-Active", "Closed", "OTS","Defaulter","LegalDispute"];
   userDetails$: Observable<User>;
   loanrepaymentstatus: string[] = ["Poor", "Healthy"];
   dialogSaveStatus$: Observable<boolean>;
