@@ -62,6 +62,8 @@ export class EditLoanDialogComponent implements OnInit {
     "Group Loan",
     "Crop Loan",
     "Overdraft Loan",
+    "Salary Loan",
+    "Consumption Loan",
   ];
   loanStatuType: string[] = ["Active", "In-Active", "Closed", "OTS","Defaulter","LegalDispute"];
   userDetails$: Observable<User>;
