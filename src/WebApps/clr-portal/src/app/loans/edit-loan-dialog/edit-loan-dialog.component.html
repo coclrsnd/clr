@@ -56,7 +56,7 @@
     <!-- borrower -->
     <div class="form-control">
       <mat-form-field appearance="outline">
-        <mat-label>Borrower</mat-label>
+        <mat-label>Borrower Name</mat-label>
         <input matInput formControlName="loanBorrower" />
       </mat-form-field>
       <div
@@ -209,7 +209,7 @@
     <!-- type -->
     <div class="form-control">
       <mat-form-field appearance="outline">
-        <mat-label>Type</mat-label>
+        <mat-label>Loan Type</mat-label>
         <mat-select
           formControlName="loanType"
           (selectionChange)="onStatusChange($event.value)"
@@ -317,7 +317,7 @@
     <ng-container>
       <div class="form-control">
         <mat-form-field appearance="outline">
-          <mat-label>Surety holder1</mat-label>
+          <mat-label>1st Surety holder Name</mat-label>
           <input matInput formControlName="suretyholder1" />
         </mat-form-field>
         <div
@@ -391,7 +391,7 @@
     <ng-container>
       <div class="form-control">
         <mat-form-field appearance="outline">
-          <mat-label>Surety holder2</mat-label>
+          <mat-label>2nd Surety holder Name</mat-label>
           <input matInput formControlName="suretyholder2" />
         </mat-form-field>
         <div
