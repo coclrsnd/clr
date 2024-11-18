@@ -38,13 +38,14 @@
 position: relative;
 z-index: 11;
 top: 225%;
-left: 135%;
+left: 195%;
 }
 .exportlead{
   position: relative;
   z-index: 12;
-  margin-bottom: -8%;
-  left: 83%;
+  margin-bottom: -5%;
+  left: 81%;
+  
 }
 .pdflead{
   position: relative;
