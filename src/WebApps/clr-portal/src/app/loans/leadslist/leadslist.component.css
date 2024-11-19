@@ -126,7 +126,9 @@
       display: none;
       visibility: hidden;
     }
-    
+   .action{
+    max-width: 2%;
+   }
     
     @media print {
       .tableprint {
