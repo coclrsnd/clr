@@ -62,6 +62,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
   fromDate = new FormControl("");
   toDate = new FormControl("");
   displayedColumns: string[] = [
+    "actions",
     "loanDate",
     "loanBorrower",
     "adharNumber",
@@ -70,7 +71,7 @@ export class LeadslistComponent implements OnInit, OnDestroy {
     "amount",
     "leadStatus",
     "leadStatusRemarks",
-    "actions",
+    
   ];
   userDetails$: Observable<User>;
   showCurrentOrgsLeads: boolean = true;
