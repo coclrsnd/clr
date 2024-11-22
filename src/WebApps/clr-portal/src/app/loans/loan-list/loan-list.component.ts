@@ -279,8 +279,10 @@ export class LoanListComponent implements OnInit, OnDestroy {
         return "ots";
       case "Defaulter":
         return "defaulter";
-        case "LegalDispute":
-          return "LegalDispute";
+      case "LegalDispute":
+          return "LegalDispute"; 
+      case "Overdue":
+          return "Overdue";
       default:
         return "";
     }

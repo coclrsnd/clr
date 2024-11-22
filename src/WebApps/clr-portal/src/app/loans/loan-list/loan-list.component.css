@@ -192,6 +192,17 @@ font-size: medium;
      border-radius: 5px;
      padding: 5px;
     }
+  .Overdue{
+    font-size: medium;
+     background-color: #e7d2fa !important;
+     color: #f52aa0 !important;
+     border-color: #f52aa0;
+     text-wrap: nowrap;
+     font-weight: 600;
+     border-radius: 5px;
+     padding: 5px;
+  }
+
  .mat-mdc-header-row {
   background-color: #03a4ed;
   position: sticky;
