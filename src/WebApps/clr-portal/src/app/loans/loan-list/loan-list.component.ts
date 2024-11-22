@@ -271,8 +271,8 @@ export class LoanListComponent implements OnInit, OnDestroy {
 
       case "In-Active":
         return "inactive";
-      case "In-active":
-        return "inactive";
+      case "Overdue":
+        return "Overdue";
       case "Closed":
         return "closed";
       case "OTS":
@@ -281,8 +281,7 @@ export class LoanListComponent implements OnInit, OnDestroy {
         return "defaulter";
       case "LegalDispute":
           return "LegalDispute"; 
-      case "Overdue":
-          return "Overdue";
+      
       default:
         return "";
     }
