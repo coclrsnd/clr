@@ -57,7 +57,7 @@ export class LeadsformComponent implements OnInit {
   loading$: Observable<boolean>;
   loanleadForm: FormGroup;
   loanTypes: string[] = [
-    "Surety Loan",
+   "Surety Loan",
     "Mortgage Loan",
     "Business Loan",
     "Vehicle Loan",
@@ -66,8 +66,13 @@ export class LeadsformComponent implements OnInit {
     "Pledge Loan",
     "Housing Loan",
     "Gold Purchase Loan",
+    "Group Loan",
+    "Crop Loan",
+    "Overdraft Loan",
+    "Salary Loan",
+    "Consumption Loan",
   ];
-  loanStatuType: string[] = ["Active", "In-Active", "Closed", "OTS"];
+  loanStatuType: string[] = ["Active", "Overdue", "Closed", "OTS","Defaulter","LegalDispute"];
   userDetails$: Observable<User>;
   loanrepaymentstatus: string[] = ["Poor", "Healthy"];
   dialogSaveStatus$: Observable<boolean>;
