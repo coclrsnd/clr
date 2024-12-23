@@ -30,14 +30,9 @@
     [fixedTopGap]="65"
   >
     <mat-nav-list *ngIf="isLoggedIn$ | async">
-      <!-- <a mat-list-item routerLink="/loans">
-        <div class="list-item-content">
-          <mat-icon>dashboard</mat-icon>
-          <span>Dashboard</span>
-        </div>
-      </a> -->
-
-      <a mat-list-item routerLink="/loans">
+     
+      <!-- <a mat-list-item routerLink="/loans"> -->
+        <a mat-list-item (click)="reloadDashboard()">
         <div class="list-item-content">
           <mat-icon>dashboard</mat-icon>
           <span>Dashboard</span>

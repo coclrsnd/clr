@@ -108,5 +108,10 @@ export class AppComponent implements OnInit {
       this.fontSize = '20px';  // Default font size
     }
   }
-  
+
+  reloadDashboard() {
+    this.router.navigate(['/loans']).then(() => {
+      window.location.reload();
+    });
+  }
 }
