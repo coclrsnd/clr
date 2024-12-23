@@ -72,7 +72,9 @@ export class LeadsformComponent implements OnInit {
     "Salary Loan",
     "Consumption Loan",
     "Personal Loan",
-    "Property Loan"
+    "Property Loan",
+    "Gold Loan",
+    "Loan on Deposit",
   ];
   loanStatuType: string[] = ["Active", "Overdue", "Closed", "OTS","Defaulter","LegalDispute"];
   userDetails$: Observable<User>;
