@@ -109,6 +109,7 @@ export class AppComponent implements OnInit {
     }
   }
 
+  //reloads dashboard when clicked
   reloadDashboard() {
     this.router.navigate(['/loans']).then(() => {
       window.location.reload();

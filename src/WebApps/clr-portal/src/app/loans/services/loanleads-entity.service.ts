@@ -22,7 +22,7 @@ export class LoanLeadEntityService extends EntityCollectionServiceBase<LoanLead>
   loanLeads(
     where: {
       and: [
-        { organizationCode: { contains: $organizationCode } }
+        { organizationCode: { eq: $organizationCode } }
         {
           or: [
             { leadStatus: { eq: "Pending" } }

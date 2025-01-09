@@ -55,7 +55,7 @@ export class LoanEntityService extends EntityCollectionServiceBase<Loan> {
     loans(
       where: {
         or: [
-          { organizationCode: { contains: $organizationCode } }
+          { organizationCode: { eq: $organizationCode } }
         ]
       }
     ) {
