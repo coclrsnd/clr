@@ -172,7 +172,7 @@ export class EditLoanDialogComponent implements OnInit {
         data.Loan.suretyholder1Adhar &&
         data.Loan.suretyholder1Adhar.trim() !== ""
       ) {
-        this.loanForm.get("suretyholder1Adhar").disable();
+        this.loanForm.get("suretyholder1Adhar").enable();
       } else {
         this.loanForm.get("suretyholder1Adhar").enable(); // Enable if empty
       }
@@ -180,7 +180,7 @@ export class EditLoanDialogComponent implements OnInit {
         data.Loan.suretyholder2Adhar &&
         data.Loan.suretyholder2Adhar.trim() !== ""
       ) {
-        this.loanForm.get("suretyholder2Adhar").disable();
+        this.loanForm.get("suretyholder2Adhar").enable();
       } else {
         this.loanForm.get("suretyholder2Adhar").enable(); // Enable if empty
       }
